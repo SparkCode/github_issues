@@ -1,0 +1,30 @@
+.issue {
+  padding: 8px;
+  list-style:none;
+  border-top: 1px solid $athens-gray;
+
+  &:last-child {
+    border-bottom: 1px solid $athens-gray;
+  }
+
+  &:hover {
+    background-color: $seashell;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: $shark;
+  }
+
+  &__body {
+    display: flex;
+    font-size: 12px;
+    margin-top: 4px;
+    color: $shuttle-gray;
+  }
+
+  &__number {
+    margin-right: 5px;
+  }
+}

@@ -1,0 +1,22 @@
+.search {
+  display: flex;
+  flex-direction: column;
+
+
+  @include respond-to("small") {
+    justify-content: center;
+    flex-direction: row;
+  }
+
+  &__user-name {
+    margin: 0 10px 10px 0;
+
+  }
+  &__repo-name {
+    margin: 0 10px 10px 0;
+  }
+
+  &__submit {
+    height: 34px;
+  }
+}
