@@ -1,15 +1,17 @@
 @import "abstracts/variables";
 @import "abstracts/mixins";
 
-@import "pages/_home";
+@import "pages/home";
 
 @import "components/issue";
 @import "components/search";
 @import "components/issues";
 @import "components/formControl";
 @import "components/button";
+@import "components/dropDownList";
+@import "components/paging";
 
-//@import "normalize-scss/sass/normalize";
+//todo imprort normalize
 
 html {
   overflow-y: scroll;

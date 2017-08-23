@@ -1,6 +1,6 @@
-import {fetchIssuesIfNeeded} from "../../actionCreators/actionCreators";
-import Issues from "../../components/HomePage/Issues";
 import {connect} from "react-redux";
+import {fetchIssuesIfNeeded} from "../../actionCreators";
+import Issues from "../../components/HomePage/Issues";
 
 const mapStateToProps = (state) => {
     return {
@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        fetchIssuesIfNeeded: () => dispatch(fetchIssuesIfNeeded(ownProps.location))
+        fetchIssuesIfNeeded: () => dispatch(fetchIssuesIfNeeded(ownProps.query))
     }
 };
 

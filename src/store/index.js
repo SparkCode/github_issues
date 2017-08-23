@@ -1,5 +1,5 @@
 import {applyMiddleware, createStore} from "redux";
-import rootReducer from "../reducers/reducer";
+import rootReducer from "../reducers/index";
 import {browserHistory} from "react-router";
 import {routerMiddleware} from "react-router-redux";
 import {composeWithDevTools} from "redux-devtools-extension";
