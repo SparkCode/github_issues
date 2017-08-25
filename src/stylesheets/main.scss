@@ -6,12 +6,13 @@
 @import "components/issue";
 @import "components/search";
 @import "components/issues";
-@import "components/formControl";
+@import "components/_input";
 @import "components/button";
-@import "components/dropDownList";
+@import "components/_select";
 @import "components/paging";
+@import "components/_drop-down-list";
 
-//todo imprort normalize
+@import "vendor/normalize";
 
 html {
   overflow-y: scroll;

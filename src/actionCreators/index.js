@@ -1,6 +1,15 @@
 export {
     searchIssues,
     fetchIssuesIfNeeded,
-    fetchIssues
-} from "./actionCreators"
+    fetchIssues,
+    loadUserRepositories,
+    InvalidateUserRepos
+} from "./actionCreators";
+
+export {
+    RECEIVE_ISSUES,
+    INVALIDATE_ISSUES,
+    RECEIVE_USER_REPOSITORIES,
+    INVALIDATE_USER_REPOSITORIES
+} from "./constants"
 

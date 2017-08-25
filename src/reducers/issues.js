@@ -1,4 +1,4 @@
-import {INVALIDATE_ISSUES, RECEIVE_ISSUES} from "../actionCreators/constants";
+import {INVALIDATE_ISSUES, RECEIVE_ISSUES} from "../actionCreators";
 
 const data = (state, action) => {
     switch (action.type) {

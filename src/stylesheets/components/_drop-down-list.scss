@@ -1,0 +1,30 @@
+.drop-down-list {
+  position: relative;
+  &__options{
+    padding-left: 0;
+    background-color: $seashell;
+    color: $grey;
+    margin: 1px 0 0;
+    position: absolute;
+    max-height: 400px;
+    overflow-y:auto;
+    left: 0;
+    right: 0;
+    &_unseen {
+      display: none;
+    }
+  }
+
+  &__control {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  &__option{
+    list-style:none;
+    padding: 10px;
+    font-size: 13px;
+    cursor: pointer;
+
+  }
+}
