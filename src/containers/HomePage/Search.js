@@ -1,7 +1,7 @@
 import {searchIssues} from "../../actionCreators"
 import {connect} from "react-redux";
 import Search from "../../components/HomePage/Search";
-import {loadUserRepositories, InvalidateUserRepos} from "../../actionCreators";
+import {loadUserRepositories} from "../../actionCreators";
 
 const mapStateToProps = (state, ownProps) => {
     const {issuesCountOptions} = state.issues.paging;

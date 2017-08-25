@@ -1,5 +1,6 @@
 import {INVALIDATE_ISSUES, INVALIDATE_USER_REPOSITORIES, RECEIVE_ISSUES, RECEIVE_USER_REPOSITORIES} from "./constants"
 import { push } from 'react-router-redux'
+import logError from "../utils"
 
 const invalidateIssues = () => {
     return {
@@ -88,15 +89,16 @@ export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (d
             const data = array.reduce((acc, value) => { return {...acc, ...value}} , {});
             dispatch(ReceiveIssues(data));
         })
-        .catch(e => console.log(e))
+        .catch(logError)
 };
 
-export const loadUserRepositories = (userName, searchString="") => (dispatch) => { //todo: should debounce
-    if (!userName.length)
-        return;
-    if (!searchString)
-        dispatch(InvalidateUserRepos());
-    const url = getUserReposRequestURL(searchString.trim(), userName.trim());
+export const loadUserRepositories = (userName, searchString="") =>  {
+    const thunk = (dispatch) => { //todo: should debounce
+        if (!userName.length)
+            return;
+        if (!searchString)
+            dispatch(InvalidateUserRepos());
+        const url = getUserReposRequestURL(searchString.trim(), userName.trim());
         fetch(url)
             .then(response => {
                 if (response.ok)
@@ -105,8 +107,21 @@ export const loadUserRepositories = (userName, searchString="") => (dispatch) =>
             })
             .then(data => data.items.map(repo => repo.name))
             .then(repos => dispatch(ReceiveUserRepos(repos)))
-            .catch(e => console.log(e))
+            .catch(logError)
+    };
+
+    thunk.meta = {
+        debounce: {
+            time: 500,
+            immediate: true,
+            key: 'LOAD_USER_REPOS'
+        }
+    };
+
+
+    return thunk;
 };
+
 
 
 
