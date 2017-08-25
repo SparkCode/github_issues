@@ -7,9 +7,9 @@ const isIssuesCountValid = (issuesCount, issuesCountOptions) => {
 };
 
 const isPageNumberValid = (pageNumber, issuesPagesCount) => {
-    if (!pageNumber || !issuesPagesCount)
-        return false;
-    return issuesPagesCount && pageNumber <= issuesPagesCount;
+     if (!pageNumber)
+         return false;
+    return issuesPagesCount && pageNumber <= issuesPagesCount || !issuesPagesCount;
 };
 
 const isUserNameValid = (userName, repoName) => {
