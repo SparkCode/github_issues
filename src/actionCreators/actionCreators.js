@@ -98,6 +98,7 @@ export const loadUserRepositories = (userName, searchString="") =>  {
             return;
         if (!searchString)
             dispatch(InvalidateUserRepos());
+
         const url = getUserReposRequestURL(searchString.trim(), userName.trim());
         fetch(url)
             .then(response => {
@@ -112,7 +113,7 @@ export const loadUserRepositories = (userName, searchString="") =>  {
 
     thunk.meta = {
         debounce: {
-            time: 500,
+            time: searchString.length ? 700 : 0,
             immediate: true,
             key: 'LOAD_USER_REPOS'
         }
