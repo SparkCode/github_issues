@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Issue from "./Issue";
 import block from "bem-cn";
 
-//todo: noItemsMessage should show only when data be loaded
 class Issues extends PureComponent {
     componentDidMount() {
         const {fetchIssuesIfNeeded} = this.props;
