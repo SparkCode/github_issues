@@ -1,7 +1,6 @@
 import HomePage from "../../components/HomePage/HomePage";
 import {connect} from "react-redux";
 
-
 const isIssuesCountValid = (issuesCount, issuesCountOptions) => {
     return issuesCountOptions.indexOf(issuesCount) !== -1;
 };

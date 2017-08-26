@@ -26,5 +26,8 @@
     font-size: 13px;
     cursor: pointer;
 
+    &:hover, &_active {
+      background-color: $athens-gray;
+    }
   }
 }

@@ -2,8 +2,6 @@ import {searchIssues} from "../../actionCreators";
 import {connect} from "react-redux";
 import Paging from "../../components/HomePage/Paging";
 
-
-
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         gotoNewPage: (pageNumber) => {

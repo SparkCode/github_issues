@@ -1,43 +1,32 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
+import * as cn from "classnames"
 
-const Select = ({className, options, value, onOptionSelected}) => {
-    const b = block("select");
-    const mix = className ? className.mix(b) : b;
-
-    return (
-        <select className={mix} value={value} onChange={onOptionSelected}>
-            {options.map((option, i) =>
-                <option className={b("option")} key={i}>{option}</option>)}
-        </select>
-    );
-};
-
-Select.propTypes = {
-    className: PropTypes.func,
-    options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    value: PropTypes.string.isRequired
-};
-
-Select.defaultProps = {};
-
-export class FormSelect extends Component {
+class Select extends PureComponent {
     onChange = (e) => {
         const value = e.target.value;
         this.props.onValueChange(value);
     };
 
     render() {
-        return (<Select {...this.props} onOptionSelected={this.onChange}/>)
+        const {className, options, value} = this.props;
+        const b = block("select");
+
+        return (
+            <select className={cn(className, b())} value={value} onChange={this.onChange}>
+                {options.map((option, i) =>
+                    <option className={b("option")} key={i}>{option}</option>)}
+            </select>
+        );
     }
 }
 
-FormSelect.propTypes = {
-    onValueChange: PropTypes.func.isRequired,
+Select.propTypes = {
+    className: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
     value: PropTypes.string.isRequired
 };
-
 
 export default Select;
 

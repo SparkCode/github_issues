@@ -1,4 +1,7 @@
-import {INVALIDATE_ISSUES, INVALIDATE_USER_REPOSITORIES, RECEIVE_ISSUES, RECEIVE_USER_REPOSITORIES} from "./constants"
+import {
+    INVALIDATE_ISSUES, INVALIDATE_USER_REPOSITORIES, RECEIVE_ISSUES, RECEIVE_ISSUES_ERROR,
+    RECEIVE_USER_REPOSITORIES
+} from "./constants"
 import { push } from 'react-router-redux'
 import logError from "../utils"
 
@@ -13,6 +16,12 @@ const ReceiveIssues = ({issues, issuesPagesCount}) => {
         type: RECEIVE_ISSUES,
         issues,
         issuesPagesCount
+    }
+};
+
+const ReceiveIssuesError = () => {
+    return {
+        type: RECEIVE_ISSUES_ERROR
     }
 };
 
@@ -36,6 +45,7 @@ export const searchIssues = ({userName, repoName, issuesCount, pageNumber}) => (
         })
     );
     dispatch(invalidateIssues());
+    dispatch(InvalidateUserRepos());
 };
 
 const shouldUpdateIssues = (state, userName, repoName) => {
@@ -89,11 +99,14 @@ export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (d
             const data = array.reduce((acc, value) => { return {...acc, ...value}} , {});
             dispatch(ReceiveIssues(data));
         })
-        .catch(logError)
+        .catch((e) => {
+            dispatch(ReceiveIssuesError());
+            logError(e);
+        })
 };
 
 export const loadUserRepositories = (userName, searchString="") =>  {
-    const thunk = (dispatch) => { //todo: should debounce
+    const thunk = (dispatch) => {
         if (!userName.length)
             return;
         if (!searchString)
@@ -108,17 +121,16 @@ export const loadUserRepositories = (userName, searchString="") =>  {
             })
             .then(data => data.items.map(repo => repo.name))
             .then(repos => dispatch(ReceiveUserRepos(repos)))
-            .catch(logError)
+            .catch(e => logError(e));
     };
 
     thunk.meta = {
         debounce: {
-            time: searchString.length ? 700 : 0,
+            time: searchString.length ? 700 : 0, //todo: should not be debounce, when the first time request & searchString be provided
             immediate: true,
             key: 'LOAD_USER_REPOS'
         }
     };
-
 
     return thunk;
 };

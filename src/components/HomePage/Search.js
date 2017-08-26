@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn'
-import {FormControl} from "./Input";
+import * as cn from "classnames"
+import Input from "./Input";
 import Button from "./Button";
-import {FormSelect} from "./Select";
-import DropDownList from "./DropDownList";
+import AutoComplete from "./Autocomplete";
+import Select from "./Select";
 
-class Search extends Component {
+
+class Search extends PureComponent {
     constructor(props) {
         super(props);
         const {defaultUserName, defaultRepoName, defaultIssuesCount} = this.props;
@@ -15,14 +17,19 @@ class Search extends Component {
                      issuesCount: defaultIssuesCount};
     }
 
-    onValueChange = (propertyName) => (value) => {
+    onValueChange = (propertyName, value) => {
         this.setState({[propertyName]: value});
-        const {userName} = this.state;
-        if (propertyName === "repoName") {
-            const {loadReposByUserName} = this.props;
-            loadReposByUserName(userName, value);
-        }
     };
+
+    onUserNameChange = (value) => this.onValueChange("userName", value);
+
+    onRepoNameChange = (value) => {
+        this.onValueChange("repoName", value);
+        const {userName} = this.state;
+        const {loadReposByUserName} = this.props;
+        loadReposByUserName(userName, value);
+    };
+    onIssueCountChange = (value) => this.onValueChange("issuesCount", value);
 
     onRepoSelected = (repoName) => {
         const {onSearch} = this.props;
@@ -47,31 +54,29 @@ class Search extends Component {
         const b = block("search");
         const {userName, repoName, issuesCount} = this.state;
         const {className, issuesCountOptions, userRepositories} = this.props;
-
-        const mix = className ? className.mix(b) : b;
         return (
-            <form className={mix} onSubmit={this.onSubmit}>
-                <FormControl
+            <form className={cn(b(), className)} onSubmit={this.onSubmit}>
+                <Input
                     value={userName}
-                    className={b("user-name")}
-                    onValueChange={this.onValueChange("userName")}
+                    className={b("user-name")()}
+                    onValueChange={this.onUserNameChange}
                     placeholder="User name"
                     onBlur={this.onUserNameFieldBlur}
                     required/>
-                <DropDownList
-                    className={b("repo-name")}
+                <AutoComplete
+                    className={b("repo-name")()}
                     value={repoName}
                     options={userRepositories}
-                    onValueChange={this.onValueChange("repoName")}
+                    onValueChange={this.onRepoNameChange}
                     onOptionClicked={this.onRepoSelected}
                     placeholder="Repository name"
                     required/>
-                <FormSelect
-                    className={b("select")}
+                <Select
+                    className={b("select")()}
                     value={issuesCount.toString()}
                     options={issuesCountOptions}
-                    onValueChange={this.onValueChange("issuesCount")}/>
-                <Button className={b("submit")} type="submit">Search</Button>
+                    onValueChange={this.onIssueCountChange}/>
+                <Button className={b("submit")()} type="submit">Search</Button>
             </form>
         );
     }
@@ -81,7 +86,7 @@ Search.propTypes = {
     defaultUserName: PropTypes.string,
     defaultRepoName: PropTypes.string,
     defaultIssuesCount: PropTypes.string,
-    className: PropTypes.func,
+    className: PropTypes.string,
     onSearch: PropTypes.func.isRequired,
     issuesCountOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
     loadReposByUserName: PropTypes.func.isRequired,

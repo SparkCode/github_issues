@@ -1,4 +1,4 @@
-import {INVALIDATE_ISSUES, RECEIVE_ISSUES} from "../actionCreators";
+import {INVALIDATE_ISSUES, RECEIVE_ISSUES, RECEIVE_ISSUES_ERROR} from "../actionCreators";
 
 const data = (state, action) => {
     switch (action.type) {
@@ -37,7 +37,9 @@ const issues = (state= {didInvalidate: true,
         case INVALIDATE_ISSUES: {
             return {...state, didInvalidate: true, data: data(state.data, action), paging: paging(state.paging, action)};
         }
-        case RECEIVE_ISSUES: {
+        case RECEIVE_ISSUES:
+        case RECEIVE_ISSUES_ERROR:
+            {
             return {...state, didInvalidate: false, data: data(state.data, action), paging: paging(state.paging, action)};
         }
         default:

@@ -1,18 +1,20 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import block from "bem-cn";
 import PropTypes from "prop-types"
+import * as cn from "classnames"
 
-const Button = ({children, className, ...otherProps}) => {
-    const b = block("button");
-    const mix = className ? className.mix(b) : b;
-
-    return (
-        <button className={mix} {...otherProps}>{children}</button>
-    );
-};
+class Button extends PureComponent {
+    render() {
+        const {children, className, ...otherProps} = this.props;
+        const b = block("button");
+        return (
+            <button className={cn(className, b())} {...otherProps}>{children}</button>
+        );
+    }
+}
 
 Button.propTypes = {
-    className: PropTypes.func,
+    className: PropTypes.string,
     children: PropTypes.string
 };
 

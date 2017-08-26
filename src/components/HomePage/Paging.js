@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn";
 
@@ -11,7 +11,7 @@ const PageButton = ({className, name, active, ...props}) => {
       );
 };
 
-class Paging extends Component {
+class Paging extends PureComponent {
     constructor(props) {
         super(props);
         const {currentPage} = this.props;
@@ -24,7 +24,7 @@ class Paging extends Component {
         gotoNewPage(page);
     };
 
-    getButtonsConfigure(pagesNumber, currentPage, start, finish, className) {
+    _getButtonsConfigure(pagesNumber, currentPage, start, finish, className) {
         let configures = [];
         if (start > 1) {
             configures.push({name: "1", value: 1, key: "1"});
@@ -50,7 +50,7 @@ class Paging extends Component {
         const startVisiblePage = Math.max(currentPage - maxVisiblePagesFromEachSide, 1);
         const finishVisiblePage = Math.min(currentPage + maxVisiblePagesFromEachSide, pagesNumber);
         const buttonsConfigure =
-            this.getButtonsConfigure(pagesNumber, currentPage, startVisiblePage, finishVisiblePage, b("page-link"));
+            this._getButtonsConfigure(pagesNumber, currentPage, startVisiblePage, finishVisiblePage, b("page-link"));
         const buttons = buttonsConfigure.map(c => (<PageButton onClick={this.onClick(c.value)} {...c}/>));
         return (
             <div className={b}>
