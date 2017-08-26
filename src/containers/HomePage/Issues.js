@@ -4,7 +4,8 @@ import Issues from "../../components/HomePage/Issues";
 
 const mapStateToProps = (state) => {
     return {
-        issues: state.issues.data
+        issues: state.issues.data,
+        issuesBeLoaded: !state.issues.didInvalidate
     }
 };
 

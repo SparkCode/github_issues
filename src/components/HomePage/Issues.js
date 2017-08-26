@@ -16,7 +16,7 @@ class Issues extends PureComponent {
     }
 
     render() {
-        const {issues, noItemsMessage="There's nothing to show"} = this.props;
+        const {issues, issuesBeLoaded, noItemsMessage="There's nothing to show"} = this.props;
         const b = block("issues");
         if (!issues.length) {
 
@@ -24,7 +24,7 @@ class Issues extends PureComponent {
         return (
             <div className={b}>
                 <div className={b("no-items-message")}>
-                    {!issues.length && <div>{noItemsMessage}</div>}
+                    {!issues.length && issuesBeLoaded && <div>{noItemsMessage}</div>}
 
                 </div>
                 <ul className={b("list")}>
@@ -39,7 +39,8 @@ Issues.propTypes = {
     issues: PropTypes.arrayOf(
         PropTypes.shape({id: PropTypes.number.isRequired})
     ).isRequired,
-    fetchIssuesIfNeeded: PropTypes.func.isRequired
+    fetchIssuesIfNeeded: PropTypes.func.isRequired,
+    issuesBeLoaded: PropTypes.bool.isRequired
 };
 Issues.defaultProps = {};
 
