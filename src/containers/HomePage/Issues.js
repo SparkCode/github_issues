@@ -3,9 +3,10 @@ import {fetchIssuesIfNeeded} from "../../actionCreators";
 import Issues from "../../components/HomePage/Issues";
 
 const mapStateToProps = (state) => {
+    const {data, didInvalidate, isFething} = state.issues;
     return {
-        issues: state.issues.data,
-        issuesBeLoaded: !state.issues.didInvalidate
+        issues: data,
+        issuesBeLoaded: !didInvalidate && !isFething
     }
 };
 

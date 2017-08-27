@@ -6,7 +6,7 @@ import Input from "./Input";
 import Button from "./Button";
 import AutoComplete from "./Autocomplete";
 import Select from "./Select";
-
+import {debounce} from "lodash";
 
 class Search extends PureComponent {
     constructor(props) {
@@ -14,11 +14,22 @@ class Search extends PureComponent {
         const {defaultUserName, defaultRepoName, defaultIssuesCount} = this.props;
         this.state = {userName: defaultUserName,
                      repoName: defaultRepoName,
-                     issuesCount: defaultIssuesCount};
+                     issuesCount: defaultIssuesCount,
+                     isUserNameInputFocused: false};
     }
+
+    _loadReposByUserName = (userName, repoName) => {
+        if (!userName.length)
+            return;
+        const {loadReposByUserName} = this.props;
+        loadReposByUserName(userName, repoName);
+    };
+
+    _debouncedLoadReposByUserName = debounce(this._loadReposByUserName, 500);
 
     onValueChange = (propertyName, value) => {
         this.setState({[propertyName]: value});
+
     };
 
     onUserNameChange = (value) => this.onValueChange("userName", value);
@@ -26,9 +37,9 @@ class Search extends PureComponent {
     onRepoNameChange = (value) => {
         this.onValueChange("repoName", value);
         const {userName} = this.state;
-        const {loadReposByUserName} = this.props;
-        loadReposByUserName(userName, value);
+        this._debouncedLoadReposByUserName(userName, value);
     };
+
     onIssueCountChange = (value) => this.onValueChange("issuesCount", value);
 
     onRepoSelected = (repoName) => {
@@ -46,8 +57,7 @@ class Search extends PureComponent {
 
     onUserNameFieldBlur = () => {
         const {userName} = this.state;
-        const {loadReposByUserName} = this.props;
-        loadReposByUserName(userName);
+        this._loadReposByUserName(userName);
     };
 
     render() {

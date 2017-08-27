@@ -1,4 +1,5 @@
-import {INVALIDATE_ISSUES, RECEIVE_ISSUES, RECEIVE_ISSUES_ERROR} from "../actionCreators";
+import {INVALIDATE_ISSUES, RECEIVE_ISSUES, RECEIVE_ISSUES_ERROR, RECEIVE_ISSUES_PAGES_COUNT, REQUEST_ISSUES}
+    from "../actionCreators";
 
 const data = (state, action) => {
     switch (action.type) {
@@ -14,7 +15,7 @@ const data = (state, action) => {
 
 const paging =  (state, action) => {
     switch (action.type) {
-        case RECEIVE_ISSUES: {
+        case RECEIVE_ISSUES_PAGES_COUNT: {
             return {...state, issuesPagesCount: action.issuesPagesCount};
         }
 
@@ -27,6 +28,7 @@ const paging =  (state, action) => {
 };
 
 const issues = (state= {didInvalidate: true,
+                        isFething:false,
                         data: [],
                         paging:{
                             issuesCountOptions: ["10", "20", "30", "50", "100"],
@@ -37,10 +39,17 @@ const issues = (state= {didInvalidate: true,
         case INVALIDATE_ISSUES: {
             return {...state, didInvalidate: true, data: data(state.data, action), paging: paging(state.paging, action)};
         }
+
+        case REQUEST_ISSUES: {
+            return {...state, didInvalidate: false, isFething: true};
+        }
+
         case RECEIVE_ISSUES:
-        case RECEIVE_ISSUES_ERROR:
-            {
-            return {...state, didInvalidate: false, data: data(state.data, action), paging: paging(state.paging, action)};
+        case RECEIVE_ISSUES_ERROR: {
+            return {...state, isFething: false, data: data(state.data, action), paging: paging(state.paging, action)};
+        }
+        case RECEIVE_ISSUES_PAGES_COUNT: {
+            return {...state, paging: paging(state.paging, action)}
         }
         default:
             return state;

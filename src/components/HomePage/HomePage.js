@@ -7,14 +7,13 @@ import Paging from "../../containers/HomePage/Paging";
 
 class HomePage extends PureComponent {
     render() {
-        const {validatedQuery, issuesPagesCount} = this.props;
+        const {validatedQuery, shouldShowPaging} = this.props;
         const b = block("home-page");
         return (
             <div className={b}>
                 <Search className={b("search")()} query={validatedQuery}/>
                 <Issues query={validatedQuery}/>
-                {issuesPagesCount > 1
-                && <Paging pagesNumber={issuesPagesCount} currentPage={+validatedQuery.pageNumber} query={validatedQuery}/>}
+                {shouldShowPaging && <Paging currentPage={+validatedQuery.pageNumber} query={validatedQuery}/>}
             </div>
         );
     }
@@ -22,7 +21,7 @@ class HomePage extends PureComponent {
 
 HomePage.propTypes = {
     validatedQuery: PropTypes.object.isRequired,
-    issuesPagesCount: PropTypes.number.isRequired
+    shouldShowPaging: PropTypes.bool.isRequired
 };
 HomePage.defaultProps = {};
 

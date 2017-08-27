@@ -6,9 +6,9 @@ const isIssuesCountValid = (issuesCount, issuesCountOptions) => {
 };
 
 const isPageNumberValid = (pageNumber, issuesPagesCount) => {
-     if (!pageNumber)
+     if (!Number.isInteger(pageNumber))
          return false;
-    return issuesPagesCount && pageNumber <= issuesPagesCount || !issuesPagesCount;
+    return (issuesPagesCount && pageNumber <= issuesPagesCount && pageNumber > 0) || !issuesPagesCount;
 };
 
 const isUserNameValid = (userName, repoName) => {
@@ -20,7 +20,9 @@ const isRepoNameValid = (userName, repoName) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+
     const {issuesCountOptions, defaultIssuesCountOption, issuesPagesCount} = state.issues.paging;
+    const issues = state.issues.data;
     const {issuesCount, pageNumber, userName, repoName, ...props} = ownProps.location.query;
     return {
         validatedQuery: {
@@ -29,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
             userName: isUserNameValid(userName, repoName) ? userName : undefined,
             repoName: isRepoNameValid(userName, repoName) ? repoName : undefined,
             ...props},
-        issuesPagesCount: +issuesPagesCount
+        shouldShowPaging: Number.isInteger(issuesPagesCount) && issuesPagesCount > 1 && issues.length > 1
     }
 };
 
