@@ -6,7 +6,7 @@ const isIssuesCountValid = (issuesCount, issuesCountOptions) => {
 };
 
 const isPageNumberValid = (pageNumber, issuesPagesCount) => {
-     if (!Number.isInteger(pageNumber))
+     if (!Number.isInteger(+pageNumber))
          return false;
     return (issuesPagesCount && pageNumber <= issuesPagesCount && pageNumber > 0) || !issuesPagesCount;
 };
