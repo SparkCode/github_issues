@@ -1,29 +1,35 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn";
+import * as cn from "classnames";
 
-const PageButton = ({className, name, active, ...props}) => {
-    const b = block("page-button");
-    const m = b({active});
-    const mix = className ? className.mix(m) : m;
-      return (
-          <button className={mix} {...props}>{name}</button>
-      );
-};
-
-class Paging extends PureComponent {
-    constructor(props) {
-        super(props);
-        const {currentPage} = this.props;
-        this.state = {currentPage};
-    }
-
-    onClick = (page) => () => {
-        this.setState({currentPage: page});
-        const {gotoNewPage} = this.props;
-        gotoNewPage(page);
+class PageButton extends PureComponent {
+    onClick = () => {
+        const {gotoNewPage, name} = this.props;
+        gotoNewPage(name);
     };
 
+    render() {
+        const {className, name, active, gotoNewPage, ...props} = this.props;
+        const element = block("page-button")({active});
+        return (
+            <button className={cn(className, element())} onClick={this.onClick} {...props}>{name}</button>
+        );
+    }
+}
+
+PageButton.propTypes = {
+    gotoNewPage: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    className: PropTypes.string,
+    active: PropTypes.bool
+};
+PageButton.defaultProps = {
+    active: false
+};
+
+
+class Paging extends PureComponent {
     _getButtonsConfigure(pagesNumber, currentPage, start, finish, className) {
         let configures = [];
         if (start > 1) {
@@ -44,14 +50,13 @@ class Paging extends PureComponent {
     };
 
     render() {
-        const {pagesNumber, maxVisiblePagesFromEachSide=2} = this.props;
-        const {currentPage} = this.state;
+        const {pagesNumber, currentPage, gotoNewPage, maxVisiblePagesFromEachSide=2} = this.props;
         const b = block("paging");
         const startVisiblePage = Math.max(currentPage - maxVisiblePagesFromEachSide, 1);
         const finishVisiblePage = Math.min(currentPage + maxVisiblePagesFromEachSide, pagesNumber);
         const buttonsConfigure =
-            this._getButtonsConfigure(pagesNumber, currentPage, startVisiblePage, finishVisiblePage, b("page-link"));
-        const buttons = buttonsConfigure.map(c => (<PageButton onClick={this.onClick(c.value)} {...c}/>));
+            this._getButtonsConfigure(pagesNumber, currentPage, startVisiblePage, finishVisiblePage, b("page-link")());
+        const buttons = buttonsConfigure.map(c => (<PageButton gotoNewPage={gotoNewPage}  {...c}/>));
         return (
             <div className={b}>
                 {buttons}
@@ -63,6 +68,7 @@ class Paging extends PureComponent {
 Paging.propTypes = {
     gotoNewPage: PropTypes.func.isRequired,
     pagesNumber: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
     maxVisiblePagesFromEachSide: PropTypes.number
 };
 Paging.defaultProps = {};
