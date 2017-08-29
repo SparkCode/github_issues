@@ -4,7 +4,7 @@ import block from "bem-cn";
 import * as cn from "classnames";
 import "./Paging.css"
 
-class PageButton extends PureComponent {
+class PageButton extends PureComponent { //todo в отдельный файл
     onClick = () => {
         const {gotoNewPage, name} = this.props;
         gotoNewPage(name);

@@ -1,5 +1,6 @@
-import HomePage from "../../components/HomePage";
+import HomePage from "../../pages/HomePage";
 import {connect} from "react-redux";
+import {fetchIssuesIfNeeded} from "../../actionCreators/actionCreators";
 
 const isIssuesCountValid = (issuesCount, issuesCountOptions) => {
     return issuesCountOptions.indexOf(issuesCount) !== -1;
@@ -24,6 +25,7 @@ const mapStateToProps = (state, ownProps) => {
     const {issuesCountOptions, defaultIssuesCountOption, issuesPagesCount} = state.issues.paging;
     const issues = state.issues.data;
     const {issuesCount, pageNumber, userName, repoName, ...props} = ownProps.location.query;
+    const {data, didInvalidate, isFething} = state.issues;
     return {
         validatedQuery: {
             issuesCount: isIssuesCountValid(issuesCount, issuesCountOptions) ? issuesCount : defaultIssuesCountOption,
@@ -31,8 +33,16 @@ const mapStateToProps = (state, ownProps) => {
             userName: isUserNameValid(userName, repoName) ? userName : undefined,
             repoName: isRepoNameValid(userName, repoName) ? repoName : undefined,
             ...props},
-        shouldShowPaging: Number.isInteger(issuesPagesCount) && issuesPagesCount > 1 && issues.length > 1
+        shouldShowPaging: Number.isInteger(issuesPagesCount) && issuesPagesCount > 1 && issues.length > 1,
+        issues: data,
+        issuesBeReceived: !didInvalidate && !isFething
     }
 };
 
-export default connect(mapStateToProps)(HomePage);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchIssuesIfNeeded: (query) => dispatch(fetchIssuesIfNeeded(query))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

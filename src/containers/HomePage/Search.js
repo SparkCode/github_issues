@@ -1,6 +1,6 @@
 import {searchIssues} from "../../actionCreators"
 import {connect} from "react-redux";
-import Search from "../../components/HomePage/Search";
+import Search from "../../components/SearchIssues";
 import {loadUserRepositories} from "../../actionCreators";
 
 const mapStateToProps = (state, ownProps) => {
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onSearch: (userName, repoName, issuesCount) => {
             dispatch(searchIssues({...ownProps.query, userName, repoName, issuesCount, pageNumber: 1}));
         },
-        loadReposByUserName: (userName, queryString) => {
+        searchReposByUserName: (userName, queryString) => {
             dispatch(loadUserRepositories(userName, queryString));
 
         }

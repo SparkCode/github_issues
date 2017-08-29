@@ -2,14 +2,14 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn'
 import * as cn from "classnames"
-import Input from "../../Shared/Input";
-import Button from "../../Shared/Button";
-import AutoComplete from "../../Shared/Autocomplete";
-import Select from "../../Shared/Select";
+import Input from "../Input";
+import Button from "../Button";
+import AutoComplete from "../Autocomplete";
+import Select from "../Select";
 import {debounce} from "lodash";
-import "./Search.css"
+import "./SearchIssues.css"
 
-class Search extends PureComponent {
+class SearchIssues extends PureComponent {
     constructor(props) {
         super(props);
         const {defaultUserName, defaultRepoName, defaultIssuesCount} = this.props;
@@ -19,14 +19,14 @@ class Search extends PureComponent {
                      isUserNameInputFocused: false};
     }
 
-    _loadReposByUserName = (userName, repoName) => {
+    _searchReposByUserName = (userName, repoName) => {
         if (!userName.length)
             return;
-        const {loadReposByUserName} = this.props;
-        loadReposByUserName(userName, repoName);
+        const {searchReposByUserName} = this.props;
+        searchReposByUserName(userName, repoName);
     };
 
-    _debouncedLoadReposByUserName = debounce(this._loadReposByUserName, 500);
+    _debouncedSearchReposByUserName = debounce(this._searchReposByUserName, 500);
 
     onValueChange = (propertyName, value) => {
         this.setState({[propertyName]: value});
@@ -38,7 +38,7 @@ class Search extends PureComponent {
     onRepoNameChange = (value) => {
         this.onValueChange("repoName", value);
         const {userName} = this.state;
-        this._debouncedLoadReposByUserName(userName, value);
+        this._debouncedSearchReposByUserName(userName, value);
     };
 
     onIssueCountChange = (value) => this.onValueChange("issuesCount", value);
@@ -58,7 +58,7 @@ class Search extends PureComponent {
 
     onUserNameFieldBlur = () => {
         const {userName} = this.state;
-        this._loadReposByUserName(userName);
+        this._searchReposByUserName(userName);
     };
 
     render() {
@@ -93,20 +93,20 @@ class Search extends PureComponent {
     }
 }
 
-Search.propTypes = {
+SearchIssues.propTypes = {
     defaultUserName: PropTypes.string,
     defaultRepoName: PropTypes.string,
     defaultIssuesCount: PropTypes.string,
     className: PropTypes.string,
     onSearch: PropTypes.func.isRequired,
     issuesCountOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    loadReposByUserName: PropTypes.func.isRequired,
+    searchReposByUserName: PropTypes.func.isRequired,
     userRepositories: PropTypes.arrayOf(PropTypes.string).isRequired
 };
-Search.defaultProps = {
+SearchIssues.defaultProps = {
     defaultRepoName: "",
     defaultUserName: "",
     defaultIssuesCount: ""
 };
 
-export default Search;
+export default SearchIssues;

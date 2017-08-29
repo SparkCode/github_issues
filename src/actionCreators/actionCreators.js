@@ -80,6 +80,7 @@ export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (d
     let url = getIssuesRequestURL(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber.trim());
     fetch(url)
         .then(response => {
+            debugger;
             if (response.ok)
                 return response.json();
             else throw new Error(`Request error`)
@@ -87,6 +88,7 @@ export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (d
         .then(data => data.map(x => {return {id: x.id, number: x.number, title: x.title, created_at: x.created_at}}))
         .then(issues => dispatch(ReceiveIssues(issues)))
         .catch((e) => {
+            debugger;
             dispatch(ReceiveIssuesError());
             logError(e);
         });
@@ -96,6 +98,7 @@ export const fetchIssuesPagesCount = ({userName, repoName, issuesCount}) => (dis
     const url = getReposInformationRequestURL(userName.trim(), repoName.trim());
     fetch(url)
         .then(response => {
+            debugger;
             if (response.ok)
                 return response.json();
             else throw new Error(`Request error`)
