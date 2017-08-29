@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn";
 import * as cn from "classnames";
+import "./Paging.css"
 
 class PageButton extends PureComponent {
     onClick = () => {

@@ -4,6 +4,7 @@ import Search from "../../containers/HomePage/Search";
 import Issues from "../../containers/HomePage/Issues";
 import block from "bem-cn";
 import Paging from "../../containers/HomePage/Paging";
+import "./HomePage.css"
 
 class HomePage extends PureComponent {
     render() {

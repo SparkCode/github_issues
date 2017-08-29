@@ -2,8 +2,9 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn";
 import * as cn from "classnames";
-import Input from "./Input";
-import KeyCodes from "../../utils/keyCodes"
+import Input from "./../Input";
+import KeyCodes from "../../../utils/keyCodes"
+import "./Autocomplete.css"
 
 
 class AutoComplete extends PureComponent {

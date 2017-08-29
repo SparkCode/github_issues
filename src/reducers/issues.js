@@ -27,14 +27,17 @@ const paging =  (state, action) => {
     }
 };
 
-const issues = (state= {didInvalidate: true,
-                        isFething:false,
-                        data: [],
-                        paging:{
-                            issuesCountOptions: ["10", "20", "30", "50", "100"],
-                            defaultIssuesCountOption: "20"
-                        }},
-                action) => {
+const defaultIssuesState = {
+    didInvalidate: true,
+    isFething:false,
+    data: [],
+    paging:{
+        issuesCountOptions: ["10", "20", "30", "50", "100"],
+        defaultIssuesCountOption: "20"
+    }
+};
+
+const issues = (state=defaultIssuesState, action) => {
     switch  (action.type) {
         case INVALIDATE_ISSUES: {
             return {...state, didInvalidate: true, data: data(state.data, action), paging: paging(state.paging, action)};

@@ -1,6 +1,6 @@
 import {searchIssues} from "../../actionCreators";
 import {connect} from "react-redux";
-import Paging from "../../components/HomePage/Paging";
+import Paging from "../../components/Shared/Paging";
 
 const mapStateToProps = (state) => {
     return {

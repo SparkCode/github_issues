@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn";
+import "./Issue.css"
 
 class Issue extends PureComponent {
     render() {

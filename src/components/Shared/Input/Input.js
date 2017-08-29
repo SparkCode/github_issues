@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import block from "bem-cn";
 import PropTypes from "prop-types"
 import * as cn from "classnames";
+import "./Input.css"
 
 class Input extends PureComponent {
     onChange = (e) => {

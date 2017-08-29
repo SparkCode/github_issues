@@ -2,11 +2,12 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn'
 import * as cn from "classnames"
-import Input from "./Input";
-import Button from "./Button";
-import AutoComplete from "./Autocomplete";
-import Select from "./Select";
+import Input from "../../Shared/Input";
+import Button from "../../Shared/Button";
+import AutoComplete from "../../Shared/Autocomplete";
+import Select from "../../Shared/Select";
 import {debounce} from "lodash";
+import "./Search.css"
 
 class Search extends PureComponent {
     constructor(props) {
