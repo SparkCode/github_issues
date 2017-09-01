@@ -25,7 +25,7 @@ const mapStateToProps = (state, ownProps) => {
     const {issuesCountOptions, defaultIssuesCountOption, issuesPagesCount} = state.issues.paging;
     const issues = state.issues.data;
     const {issuesCount, pageNumber, userName, repoName, ...props} = ownProps.location.query;
-    const {data, didInvalidate, isFething} = state.issues;
+    const {data, didInvalidate, isFething, isRequestFailed, errorMessage} = state.issues;
     return {
         validatedQuery: {
             issuesCount: isIssuesCountValid(issuesCount, issuesCountOptions) ? issuesCount : defaultIssuesCountOption,
@@ -35,7 +35,10 @@ const mapStateToProps = (state, ownProps) => {
             ...props},
         shouldShowPaging: Number.isInteger(issuesPagesCount) && issuesPagesCount > 1 && issues.length > 1,
         issues: data,
-        issuesBeReceived: !didInvalidate && !isFething
+        issuesBeReceived: !didInvalidate && !isFething,
+        issuesIsLoading: isFething,
+        isRequestFailed,
+        errorMessage
     }
 };
 

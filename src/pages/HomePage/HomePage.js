@@ -18,12 +18,25 @@ class HomePage extends PureComponent {
     }
 
     render() {
-        const {validatedQuery, shouldShowPaging, issues, issuesBeReceived} = this.props;
+        const {
+            validatedQuery,
+            shouldShowPaging,
+            issues,
+            issuesBeReceived,
+            issuesIsLoading,
+            isRequestFailed,
+            errorMessage} = this.props;
         const b = block("home-page");
-        const issuesListConfiguration = issuesBeReceived
-            ? {shouldShowNoItemsMessageIfNeed: true,
+        const issuesListConfiguration =
+            isRequestFailed ? {
+                shouldShowNoItemsMessageIfNeed: true,
+                noItemsMessage: errorMessage}
+            : issuesBeReceived ? {
+                shouldShowNoItemsMessageIfNeed: true,
                 noItemsMessage: "No issues be found in this repository"}
-            : {};
+            : issuesIsLoading ? {
+                    shouldShowNoItemsMessageIfNeed: true,
+                    noItemsMessage: "Data is loading..."} : {};
 
         return (
             <div className={b}>
@@ -39,8 +52,11 @@ HomePage.propTypes = {
     validatedQuery: PropTypes.object.isRequired,
     shouldShowPaging: PropTypes.bool.isRequired,
     fetchIssuesIfNeeded: PropTypes.func.isRequired,
-    issuesBeReceived: PropTypes.bool.isRequired
-    //todo: issues
+    issuesBeReceived: PropTypes.bool.isRequired,
+    issuesIsLoading: PropTypes.bool.isRequired,
+    isRequestFailed: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string.isRequired,
+    issues: PropTypes.array.isRequired
 };
 HomePage.defaultProps = {};
 

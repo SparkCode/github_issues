@@ -18,9 +18,10 @@ const ReceiveIssues = (issues) => {
     }
 };
 
-const ReceiveIssuesError = () => {
+const ReceiveIssuesError = (errorMessage) => {
     return {
-        type: RECEIVE_ISSUES_ERROR
+        type: RECEIVE_ISSUES_ERROR,
+        errorMessage
     }
 };
 
@@ -80,16 +81,17 @@ export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (d
     let url = getIssuesRequestURL(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber.trim());
     fetch(url)
         .then(response => {
-            debugger;
             if (response.ok)
                 return response.json();
-            else throw new Error(`Request error`)
+            else {
+                dispatch(ReceiveIssuesError("User or repository are not exist"));
+                throw new Error(`Request error`)
+            }
         })
         .then(data => data.map(x => {return {id: x.id, number: x.number, title: x.title, created_at: x.created_at}}))
         .then(issues => dispatch(ReceiveIssues(issues)))
         .catch((e) => {
-            debugger;
-            dispatch(ReceiveIssuesError());
+            e instanceof TypeError && dispatch(ReceiveIssuesError("Check your internet connection"));
             logError(e);
         });
 };
@@ -98,7 +100,6 @@ export const fetchIssuesPagesCount = ({userName, repoName, issuesCount}) => (dis
     const url = getReposInformationRequestURL(userName.trim(), repoName.trim());
     fetch(url)
         .then(response => {
-            debugger;
             if (response.ok)
                 return response.json();
             else throw new Error(`Request error`)
@@ -108,7 +109,7 @@ export const fetchIssuesPagesCount = ({userName, repoName, issuesCount}) => (dis
             const issuesPagesCount = Math.ceil(overallIssues / issuesCount);
             dispatch(ReceiveIssuesPagesCount(issuesPagesCount));
         })
-        .catch((e) => logError(e));
+        .catch(logError);
 };
 
 export const loadUserRepositories = (userName, searchString="") => (dispatch) =>  {
@@ -121,7 +122,7 @@ export const loadUserRepositories = (userName, searchString="") => (dispatch) =>
             })
             .then(data => data.items.map(repo => repo.name))
             .then(repos => dispatch(ReceiveUserRepos(repos)))
-            .catch(e => logError(e));
+            .catch(logError);
 };
 
 
