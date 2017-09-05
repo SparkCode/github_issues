@@ -9,9 +9,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+    const {repoName, userName, issuesCount} = ownProps;
     return {
         gotoNewPage: (pageNumber) => {
-            dispatch(searchIssues({...ownProps.query, pageNumber}));
+            dispatch(searchIssues({repoName, userName, issuesCount, pageNumber}));
         },
     }
 };

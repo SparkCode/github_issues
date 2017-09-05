@@ -3,6 +3,8 @@ export {
     fetchIssuesIfNeeded,
     fetchIssues,
     loadUserRepositories,
+    gotoIssue,
+    fetchIssueIfNeeded
 } from "./actionCreators";
 
 export {

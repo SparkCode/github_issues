@@ -3,16 +3,16 @@ import {connect} from "react-redux";
 import Search from "../../components/SearchIssues";
 import {loadUserRepositories} from "../../actionCreators";
 
-const mapStateToProps = (state, ownProps) => {
-    const {issuesCountOptions} = state.issues.paging;
+const mapStateToProps = (state, ownProps) => { //todo: DRY?
+    const {issuesCountOptions, defaultIssuesCountOption} = state.issues.paging;
     const {userRepositories} = state;
-    const {defaultUserName, defaultRepoName, defaultIssuesCount} = ownProps;
+    const {defaultUserName, defaultRepoName} = ownProps;
     return {
         issuesCountOptions,
         userRepositories,
         defaultRepoName,
         defaultUserName,
-        defaultIssuesCount
+        defaultIssuesCount: defaultIssuesCountOption //todo: need to get defaultIssuesCount from previous page
     }
 };
 

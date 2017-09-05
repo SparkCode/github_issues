@@ -59,6 +59,8 @@ const issues = (state=defaultIssuesState, action) => {
                 isFething: true};
         }
 
+
+
         case RECEIVE_ISSUES: {
             return {
                 ...state,
@@ -66,6 +68,7 @@ const issues = (state=defaultIssuesState, action) => {
                 data: data(state.data, action),
                 paging: paging(state.paging, action)};
         }
+
 
         case RECEIVE_ISSUES_ERROR: {
             return {

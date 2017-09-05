@@ -1,6 +1,6 @@
 @import "./../../stylesheets/abstracts/variables";
 
-.issue {
+.issues-list-element {
   padding: 8px;
   list-style:none;
   border-top: 1px solid $athens-gray;
@@ -16,7 +16,6 @@
   &__title {
     font-size: 16px;
     font-weight: 600;
-    color: $shark;
   }
 
   &__body {

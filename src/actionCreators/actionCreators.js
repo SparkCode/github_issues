@@ -4,6 +4,7 @@ import {
 } from "./constants"
 import { push } from 'react-router-redux'
 import logError from "../utils"
+import * as marked from "marked";
 
 const invalidateIssues = () => {
     return {
@@ -46,16 +47,21 @@ const RequestIssues = () => {
 };
 
 export const searchIssues = ({userName, repoName, issuesCount, pageNumber}) => (dispatch) => {
-    dispatch(
-        push({
-            search: `?userName=${userName}&repoName=${repoName}&issuesCount=${issuesCount}&pageNumber=${pageNumber}`
-        })
-    );
+    dispatch(push(`/${userName}/${repoName}/issues?issuesCount=${issuesCount}&pageNumber=${pageNumber}`));
     dispatch(invalidateIssues());
 };
 
+export const gotoIssue = ({issueId, userName, repoName}) => (dispatch, getState) => {
+    const issueNumber = getState().issues.data.find(i => i.id === issueId).number;
+    dispatch(push(`/${userName}/${repoName}/issues/${issueNumber}`));
+};
+
 const shouldUpdateIssues = (state, userName, repoName) => {
-      return state.issues.didInvalidate && userName && repoName;
+    return state.issues.didInvalidate && userName && repoName;
+};
+
+const shouldUpdateIssue  = (state, userName, repoName, issueNumber) => {
+    return state.issues.didInvalidate && userName && repoName && issueNumber;
 };
 
 const getIssuesRequestURL = (userName, repoName, issuesCount, pageNumber) =>
@@ -67,6 +73,16 @@ const getReposInformationRequestURL = (userName, repoName) =>
 const getUserReposRequestURL = (searchString, userName) =>
     `https://api.github.com/search/repositories?q=${searchString}+user:${userName}`;
 
+const getIssueRequestURL = (userName, repoName, issueNumber) =>
+    `https://api.github.com/repos/${userName}/${repoName}/issues/${issueNumber}`;
+
+export const fetchIssueIfNeeded = ({userName, repoName, issueNumber}) => (dispatch, getState) => {
+    if (!shouldUpdateIssue(getState(), userName, repoName, issueNumber))
+        return;
+    dispatch(RequestIssues());
+    dispatch(fetchIssue({userName, repoName, issueNumber}));
+};
+
 export const fetchIssuesIfNeeded = (query) => (dispatch, getState) => {
     const state = getState();
     const {userName, repoName, ...props} = query;
@@ -75,6 +91,39 @@ export const fetchIssuesIfNeeded = (query) => (dispatch, getState) => {
     dispatch(RequestIssues());
     dispatch(fetchIssues({userName, repoName, ...props}));
     dispatch(fetchIssuesPagesCount({userName, repoName, ...props}));
+};
+
+const mapGithubIssueToLocalIssue = (data) => {return {
+    id: data.id,
+    number: data.number,
+    title: data.title,
+    created_at: data.created_at,
+    body: marked(data.body),
+    issue_url: data.html_url,
+    repository_url: data.repository_url,
+    state: data.state,
+    userLogin: data.user.login,
+    userUrl: data.user.html_url,
+    userAvatarUrl: `${data.user.avatar_url}`
+}};
+
+export const fetchIssue = ({userName, repoName, issueNumber}) => (dispatch) => {
+    const url = getIssueRequestURL(userName, repoName, issueNumber);
+    fetch(url)
+        .then(response => {
+            if (response.ok)
+                return response.json();
+            else {
+                dispatch(ReceiveIssuesError("Issue is not be found"));
+                throw new Error(`Request error`)
+            }
+        })
+        .then(mapGithubIssueToLocalIssue)
+        .then(issue => dispatch(ReceiveIssues([issue])))
+        .catch((e) => {
+            e instanceof TypeError && dispatch(ReceiveIssuesError("Check your internet connection"));
+            logError(e);
+        });
 };
 
 export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (dispatch) => {
@@ -88,7 +137,7 @@ export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (d
                 throw new Error(`Request error`)
             }
         })
-        .then(data => data.map(x => {return {id: x.id, number: x.number, title: x.title, created_at: x.created_at}}))
+        .then(data => data.map(mapGithubIssueToLocalIssue))
         .then(issues => dispatch(ReceiveIssues(issues)))
         .catch((e) => {
             e instanceof TypeError && dispatch(ReceiveIssuesError("Check your internet connection"));

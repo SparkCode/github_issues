@@ -1,0 +1,70 @@
+@import "../../stylesheets/abstracts/variables";
+
+.issue-detail {
+  &__header {
+    font-weight: normal;
+    line-height: 1.125;
+  }
+
+  &__number {
+    font-weight: 300;
+    color: $grey;
+    letter-spacing: -1px;
+  }
+
+  &__user-login {
+    font-weight: 600;
+    margin-right: 5px;
+  }
+
+  &__avatar {
+    width: 44px;
+    height: 44px;
+    float: left;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px $athens-gray;
+    margin-bottom: 20px;
+  }
+
+  &__body {
+    border: solid 1px $athens-gray;
+    border-radius: 5px;
+    margin-left: 60px;
+  }
+
+  &__state {
+    padding: 5px 10px;
+    color: #FFF;
+    border-radius: 5px;
+    text-transform: capitalize;
+    font-weight: 600;
+    line-height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+
+    &_state_open {
+      background-color: #2cbe4e;
+    }
+
+    &_state_closed {
+      background-color: $red;
+    }
+  }
+
+  &__body-header {
+    background-color: $athens-gray;
+    color: $shuttle-gray;
+    padding: 10px;
+    display: flex;
+  }
+
+  &__description {
+    padding: 10px;
+  }
+}

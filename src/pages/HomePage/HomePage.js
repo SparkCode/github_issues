@@ -2,9 +2,10 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Search from "../../containers/HomePage/Search";
 import Paging from "../../containers/HomePage/Paging";
-import IssuesList from "../../components/IssuesList";
 import block from "bem-cn";
 import "./HomePage.css"
+import StatusIssuesBar from "../../containers/HomePage/StatusIssuesBar";
+import IssuesList from "../../containers/HomePage/IssuesList";
 
 class HomePage extends PureComponent {
     componentDidMount() {
@@ -18,31 +19,26 @@ class HomePage extends PureComponent {
     }
 
     render() {
-        const {
-            validatedQuery,
-            shouldShowPaging,
-            issues,
-            issuesBeReceived,
-            issuesIsLoading,
-            isRequestFailed,
-            errorMessage} = this.props;
+        const {validatedQuery, shouldShowPaging} = this.props;
         const b = block("home-page");
-        const issuesListConfiguration =
-            isRequestFailed ? {
-                shouldShowNoItemsMessageIfNeed: true,
-                noItemsMessage: errorMessage}
-            : issuesBeReceived ? {
-                shouldShowNoItemsMessageIfNeed: true,
-                noItemsMessage: "No issues be found in this repository"}
-            : issuesIsLoading ? {
-                    shouldShowNoItemsMessageIfNeed: true,
-                    noItemsMessage: "Data is loading..."} : {};
-
         return (
             <div className={b}>
-                <Search className={b("search")()} query={validatedQuery}/>
-                <IssuesList issues={issues} {...issuesListConfiguration}/>
-                {shouldShowPaging && <Paging currentPage={+validatedQuery.pageNumber} query={validatedQuery}/>}
+                <Search
+                    className={b("search")()}
+                    defaultRepoName={validatedQuery.repoName}
+                    defaultUserName={validatedQuery.userName}
+                    defaultIssuesCount={validatedQuery.issuesCount}/>
+                <StatusIssuesBar className={b("status")()}/>
+                <IssuesList
+                    repoName={validatedQuery.repoName}
+                    userName={validatedQuery.userName}/>
+                {shouldShowPaging &&
+                <Paging
+                    currentPage={+validatedQuery.pageNumber}
+                    repoName={validatedQuery.repoName}
+                    userName={validatedQuery.userName}
+                    issuesCount={validatedQuery.issuesCount}/>
+                }
             </div>
         );
     }
@@ -51,12 +47,7 @@ class HomePage extends PureComponent {
 HomePage.propTypes = {
     validatedQuery: PropTypes.object.isRequired,
     shouldShowPaging: PropTypes.bool.isRequired,
-    fetchIssuesIfNeeded: PropTypes.func.isRequired,
-    issuesBeReceived: PropTypes.bool.isRequired,
-    issuesIsLoading: PropTypes.bool.isRequired,
-    isRequestFailed: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string.isRequired,
-    issues: PropTypes.array.isRequired
+    fetchIssuesIfNeeded: PropTypes.func.isRequired
 };
 HomePage.defaultProps = {};
 

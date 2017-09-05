@@ -6,16 +6,12 @@ import "./IssuesList.css"
 
 class IssuesList extends PureComponent {
     render() {
-        const {issues, shouldShowNoItemsMessageIfNeed, noItemsMessage} = this.props;
+        const {issues, onIssueTitleClick} = this.props;
         const b = block("issues");
         return (
             <div className={b}>
-                <div className={b("no-items-message")}>
-                    {!issues.length && shouldShowNoItemsMessageIfNeed && noItemsMessage}
-
-                </div>
                 <ul className={b("list")}>
-                    {issues.map(issue => <Issue key={issue.id} {...issue}/>)}
+                    {issues.map(issue => <Issue key={issue.id} {...issue} onTitleClick={onIssueTitleClick}/>)}
                 </ul>
             </div>
         );
@@ -26,8 +22,7 @@ IssuesList.propTypes = {
     issues: PropTypes.arrayOf(
         PropTypes.shape({id: PropTypes.number.isRequired})
     ).isRequired,
-    noItemsMessage: PropTypes.string,
-    shouldShowNoItemsMessageIfNeed: PropTypes.bool
+    onIssueTitleClick: PropTypes.func.isRequired
 };
 IssuesList.defaultProps = {
     noItemsMessage: "There's nothing to show",

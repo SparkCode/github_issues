@@ -6,13 +6,17 @@ import store from "./store";
 import {syncHistoryWithStore} from "react-router-redux";
 import {browserHistory, Route, Router} from "react-router";
 import HomePage from "./containers/HomePage/HomePage";
+import IssueDetailPage from "./containers/IssueDetailPage/IssueDetailPage";
 
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route path="/" component={HomePage} exact/>
+            <Route path="/" component={HomePage}>
+                <Route path=":userName/:repoName/issues" component={HomePage}/>
+            </Route>
+            <Route path=":userName/:repoName/issues/:issueNumber" component={IssueDetailPage}/>
         </Router>
     </Provider>,
     document.getElementById('root'));

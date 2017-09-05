@@ -1,0 +1,11 @@
+.link {
+  cursor: pointer;
+  &:hover, &:link, &:visited, &:active {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

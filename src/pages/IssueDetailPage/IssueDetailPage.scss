@@ -1,5 +1,5 @@
-@import "./../../stylesheets/abstracts/variables";
-.home-page {
+@import "./../../stylesheets/abstracts/variables"; //todo: DRY?
+.issue-page {
   max-width: 800px;
   margin: 40px auto;
   line-height: 1.25;
