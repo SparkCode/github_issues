@@ -1,0 +1,12 @@
+@import "./../../stylesheets/abstracts/variables";
+
+.autocomplete-list-option {
+  list-style:none;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+
+  &_active {
+    background-color: $athens-gray;
+  }
+}

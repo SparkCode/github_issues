@@ -5,6 +5,7 @@ import * as cn from "classnames";
 import Input from "./../Input";
 import {KeyCodes} from "../../utils"
 import "./Autocomplete.css"
+import OptionsList from "./OptionsList";
 
 
 class AutoComplete extends PureComponent {
@@ -21,9 +22,12 @@ class AutoComplete extends PureComponent {
 
     onInputBlur = () => {
         this.setState(this.defaultState);
-        this.focusedOptionElement = undefined;
-        this.optionsListElement.scrollTop = 0;
-        this.hoveredOptionValue && this._onOptionSelect(this.hoveredOptionValue);
+        const {isControlledByMouse} = this.state;
+        if (isControlledByMouse) {
+            const {options} = this.props;
+            const {focusedOptionIndex} = this.state;
+            this._onOptionSelect(options[focusedOptionIndex]);
+        }
     };
 
     _onOptionSelect = (value) => {
@@ -32,8 +36,12 @@ class AutoComplete extends PureComponent {
         onOptionClicked(value);
     };
 
-    onOptionHover = (value) => () => {
-        this.hoveredOptionValue = value;
+    onOptionHover = (index) => {
+        this.setState({focusedOptionIndex: index, isControlledByMouse: true});
+    };
+
+    onOptionHoverOut = () => {
+        this.setState({focusedOptionIndex: -1, isControlledByMouse: false});
     };
 
     _focusNextOption = (step, focusedOptionIndex, optionsCount) => {
@@ -46,13 +54,14 @@ class AutoComplete extends PureComponent {
     };
 
     onKeyPress = (e) => {
+        this.setState({isControlledByMouse: false});
         switch (e.keyCode) {
             case KeyCodes.enter: {
                 const {focusedOptionIndex} = this.state;
-                const {options} = this.props;
                 if (focusedOptionIndex !== - 1) {
+                    const {options} = this.props;
                     this._onOptionSelect(options[focusedOptionIndex]);
-                    this.input.blur();
+                    this.inputElement.blur();
                 }
                 return
             }
@@ -82,64 +91,29 @@ class AutoComplete extends PureComponent {
     onInputValueChange= (value) => {
         const {onValueChange} = this.props;
         this.setState({focusedOptionIndex: -1});
-        this.focusedOptionElement = undefined;
-        this.optionsListElement.scrollTop = 0;
         onValueChange(value);
     };
-
-    _changeScrollPosition() {
-        if(this.focusedOptionElement) {
-            const viewportTop = this.optionsListElement.scrollTop ;
-            const viewportBottom = viewportTop + this.optionsListElement.offsetHeight;
-
-            const optionTop = this.focusedOptionElement.offsetTop;
-            const optionBottom = optionTop + this.focusedOptionElement.clientHeight;
-
-            if (optionBottom > viewportBottom) {
-                this.optionsListElement.scrollTop += optionBottom - viewportBottom;
-
-            } else if (optionTop < viewportTop) {
-                this.optionsListElement.scrollTop = optionTop;
-            }
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        const focusedOptionIndex = this.props;
-        const prevFocusedOptionIndex = prevProps.focusedOptionIndex;
-        if (focusedOptionIndex !== prevFocusedOptionIndex)
-            this._changeScrollPosition();
-    }
 
     render() {
         const {className, options, value, onOptionClicked, ...props} = this.props;
         const {isInputHasFocus, focusedOptionIndex} = this.state;
         const b = block("drop-down-list");
-        let focusedOptionValue = focusedOptionIndex !== -1 ? options[focusedOptionIndex] : undefined;
         return (
             <div className={cn(className, b())} onKeyDown={this.onKeyPress}>
                 <Input
                     {...props}
                     className={b("control")()}
-                    value={focusedOptionValue || value}
+                    value={value}
                     onFocus={this.onInputFocus}
                     onBlur={this.onInputBlur}
                     onValueChange={this.onInputValueChange}
-                    inputRef={input => this.input = input}/>
-                <ul
-                    className={b("options", {unseen: !isInputHasFocus})}
-                    onMouseLeave={this.onOptionHover(null)}
-                    ref={(el) => this.optionsListElement = el}>
-                    {options.map((option, i) =>
-                        <li
-                            className={b("option", {active: focusedOptionIndex === i})}
-                            ref={(el) => i === focusedOptionIndex && (this.focusedOptionElement = el)}
-                            key={i}
-                            value={option}
-                            onMouseOver={this.onOptionHover(option)}>
-                            {option}
-                        </li>)}
-                </ul>
+                    inputRef={input => this.inputElement = input}/>
+                <OptionsList
+                    options={options}
+                    focusedOptionIndex={focusedOptionIndex}
+                    isInputHasFocus={isInputHasFocus}
+                    onOptionHover={this.onOptionHover}
+                    onOptionHoverOut={this.onOptionHoverOut}/>
             </div>
         );
     }
