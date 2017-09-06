@@ -15,8 +15,7 @@ class SearchIssues extends PureComponent {
         const {defaultUserName, defaultRepoName, defaultIssuesCount} = this.props;
         this.state = {userName: defaultUserName,
                      repoName: defaultRepoName,
-                     issuesCount: defaultIssuesCount,
-                     isUserNameInputFocused: false};
+                     issuesCount: defaultIssuesCount};
     }
 
     _searchReposByUserName = (userName, repoName) => {
@@ -25,6 +24,7 @@ class SearchIssues extends PureComponent {
         const {searchReposByUserName} = this.props;
         searchReposByUserName(userName, repoName);
     };
+
 
     _debouncedSearchReposByUserName = debounce(this._searchReposByUserName, 500);
 

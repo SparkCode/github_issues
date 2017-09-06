@@ -40,7 +40,7 @@ class AutoComplete extends PureComponent {
         this.setState({focusedOptionIndex: index, isControlledByMouse: true});
     };
 
-    onOptionHoverOut = () => {
+    onOptionsListHoverOut = () => {
         this.setState({focusedOptionIndex: -1, isControlledByMouse: false});
     };
 
@@ -113,7 +113,7 @@ class AutoComplete extends PureComponent {
                     focusedOptionIndex={focusedOptionIndex}
                     isInputHasFocus={isInputHasFocus}
                     onOptionHover={this.onOptionHover}
-                    onOptionHoverOut={this.onOptionHoverOut}/>
+                    onOptionsListHoverOut={this.onOptionsListHoverOut}/>
             </div>
         );
     }

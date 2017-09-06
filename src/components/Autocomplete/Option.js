@@ -9,11 +9,6 @@ class Option extends PureComponent {
         onOptionHover(index);
     };
 
-    onMouseLeave = () => {
-        const {onOptionHoverOut} = this.props;
-        onOptionHoverOut();
-    };
-
     render() {
         const {option, index, isSelected, optionRef} = this.props;
         const b = block("autocomplete-list-option");
@@ -23,8 +18,7 @@ class Option extends PureComponent {
                 ref={optionRef}
                 key={index}
                 value={option}
-                onMouseOver={this.onMouseOver}
-                onMouseLeave={this.onMouseLeave}>
+                onMouseOver={this.onMouseOver}>
                 {option}
             </li>
         );
@@ -35,7 +29,6 @@ Option.propTypes = {
     option: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     onOptionHover: PropTypes.func.isRequired,
-    onOptionHoverOut: PropTypes.func.isRequired,
     isSelected: PropTypes.bool.isRequired,
     optionRef: PropTypes.func.isRequired
 };

@@ -21,8 +21,8 @@ class IssueDetail extends PureComponent {
                     </h1>
                 </div>
                 <img className={b("avatar")} src={userAvatarUrl} alt={`${userLogin}'s avatar`}/>
-                <div className={b("body")}>
-                    <div className={b("body-header")}>
+                <div className={b("message")}>
+                    <div className={b("message-header")}>
                         <Link href={userUrl} target="_blank" className={b("user-login")()}>{userLogin}</Link>
                         <div className={b("created-at")}>{`commented on ${date}`}</div>
                     </div>

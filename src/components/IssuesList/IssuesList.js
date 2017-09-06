@@ -7,7 +7,7 @@ import "./IssuesList.css"
 class IssuesList extends PureComponent {
     render() {
         const {issues, onIssueTitleClick} = this.props;
-        const b = block("issues");
+        const b = block("issues-list");
         return (
             <div className={b}>
                 <ul className={b("list")}>

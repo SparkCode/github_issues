@@ -6,38 +6,48 @@ import "./OptionsList.css"
 
 class OptionsList extends PureComponent {
     componentDidUpdate(prevProps) {
-        const {focusedOptionIndex} = this.props;
-        const prevFocusedOptionIndex = prevProps.focusedOptionIndex;
-        if (focusedOptionIndex !== prevFocusedOptionIndex)
-            this._changeScrollPosition();
+        if (this._shouldScrollToOption(prevProps))
+            this._scrollToOption();
+        else if (this._shouldScrollListToTop(prevProps))
+            this._scrollListToTop()
     }
 
-    _changeScrollPosition() {
-        if (this.focusedOptionElement) {
-            const viewportTop = this.optionsListElement.scrollTop ;
-            const viewportBottom = viewportTop + this.optionsListElement.offsetHeight;
+    _shouldScrollListToTop(prevProps) {
+        return prevProps.options !== this.props.options;
+    }
 
-            const optionTop = this.focusedOptionElement.offsetTop;
-            const optionBottom = optionTop + this.focusedOptionElement.clientHeight;
+    _scrollListToTop() {
+        this.optionsListElement.scrollTop = 0;
+    }
 
-            if (optionBottom > viewportBottom) {
-                this.optionsListElement.scrollTop += optionBottom - viewportBottom;
+    _shouldScrollToOption(prevProps) {
+        const {focusedOptionIndex} = this.props;
+        const prevFocusedOptionIndex = prevProps.focusedOptionIndex;
+        return focusedOptionIndex !== prevFocusedOptionIndex && this.focusedOptionElement;
+    }
 
-            } else if (optionTop < viewportTop) {
-                this.optionsListElement.scrollTop = optionTop;
-            }
+    _scrollToOption() {
+        const viewportTop = this.optionsListElement.scrollTop ;
+        const viewportBottom = viewportTop + this.optionsListElement.offsetHeight;
+
+        const optionTop = this.focusedOptionElement.offsetTop;
+        const optionBottom = optionTop + this.focusedOptionElement.clientHeight;
+
+        if (optionBottom > viewportBottom) {
+            this.optionsListElement.scrollTop += optionBottom - viewportBottom;
+
+        } else if (optionTop < viewportTop) {
+            this.optionsListElement.scrollTop = optionTop;
         }
-        else
-            this.optionsListElement.scrollTop = 0;
-
     }
 
     render() {
-        const {options, focusedOptionIndex, isInputHasFocus, ...props} = this.props;
+        const {options, focusedOptionIndex, isInputHasFocus, onOptionsListHoverOut, ...props} = this.props;
         const b = block("autocomplete-options");
         return (
             <ul
                 className={b({unseen: !isInputHasFocus})}
+                onMouseLeave={onOptionsListHoverOut}
                 ref={(el) => this.optionsListElement = el}>
                 {options.map((option, i) =>
                     <Option option={option}
@@ -55,7 +65,8 @@ class OptionsList extends PureComponent {
 OptionsList.propTypes = {
     options: PropTypes.array.isRequired,
     focusedOptionIndex: PropTypes.number.isRequired,
-    isInputHasFocus: PropTypes.bool.isRequired
+    isInputHasFocus: PropTypes.bool.isRequired,
+    onOptionsListHoverOut: PropTypes.func.isRequired
 };
 OptionsList.defaultProps = {};
 

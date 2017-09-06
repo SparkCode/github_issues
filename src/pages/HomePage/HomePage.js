@@ -1,53 +1,31 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import Search from "../../containers/HomePage/Search";
-import Paging from "../../containers/HomePage/Paging";
 import block from "bem-cn";
+import {SearchIssues, StatusIssuesBar} from "../../containers/HomePage";
 import "./HomePage.css"
-import StatusIssuesBar from "../../containers/HomePage/StatusIssuesBar";
-import IssuesList from "../../containers/HomePage/IssuesList";
 
 class HomePage extends PureComponent {
-    componentDidMount() {
-        const {fetchIssuesIfNeeded, validatedQuery} = this.props;
-        fetchIssuesIfNeeded(validatedQuery);
-    }
-
-    componentWillReceiveProps(newProps) {
-        const {fetchIssuesIfNeeded, validatedQuery} = newProps;
-        fetchIssuesIfNeeded(validatedQuery);
-    }
-
     render() {
-        const {validatedQuery, shouldShowPaging} = this.props;
         const b = block("home-page");
+        const {userName, repoName, issuesCount, children} = this.props;
         return (
-            <div className={b}>
-                <Search
-                    className={b("search")()}
-                    defaultRepoName={validatedQuery.repoName}
-                    defaultUserName={validatedQuery.userName}
-                    defaultIssuesCount={validatedQuery.issuesCount}/>
+            <div className={b()}>
+                <SearchIssues className={b("search")()}
+                              defaultUserName={userName}
+                              defaultRepoName={repoName}
+                              defaultIssuesCount={issuesCount}/>
                 <StatusIssuesBar className={b("status")()}/>
-                <IssuesList
-                    repoName={validatedQuery.repoName}
-                    userName={validatedQuery.userName}/>
-                {shouldShowPaging &&
-                <Paging
-                    currentPage={+validatedQuery.pageNumber}
-                    repoName={validatedQuery.repoName}
-                    userName={validatedQuery.userName}
-                    issuesCount={validatedQuery.issuesCount}/>
-                }
+                {children}
             </div>
         );
     }
 }
 
 HomePage.propTypes = {
-    validatedQuery: PropTypes.object.isRequired,
-    shouldShowPaging: PropTypes.bool.isRequired,
-    fetchIssuesIfNeeded: PropTypes.func.isRequired
+    userName: PropTypes.string,
+    repoName: PropTypes.string,
+    children: PropTypes.element.isRequired,
+    issuesCount: PropTypes.string.isRequired
 };
 HomePage.defaultProps = {};
 

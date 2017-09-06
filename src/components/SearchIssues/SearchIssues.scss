@@ -4,28 +4,19 @@
 .search {
   display: flex;
   flex-direction: column;
-  margin: 0 10px;
 
   @include respond-to("small") {
     justify-content: center;
     flex-direction: row;
     margin: 0;
-
-  }
-
-  &__user-name {
-    margin: 0 10px 10px 0;
-  }
-  &__repo-name {
-    margin: 0 10px 10px 0;
-  }
-
-  &__select {
     height: 34px;
-    margin: 0 10px 10px 0;
   }
 
-  &__submit {
-    height: 34px;
+  &__user-name, &__repo-name, &__select{
+    margin-bottom: 10px;
+
+    @include respond-to("small") {
+      margin: 0 10px 0 0;
+    }
   }
 }

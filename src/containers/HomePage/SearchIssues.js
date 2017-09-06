@@ -1,7 +1,8 @@
 import {searchIssues} from "../../actionCreators"
 import {connect} from "react-redux";
-import Search from "../../components/SearchIssues";
 import {loadUserRepositories} from "../../actionCreators";
+import SearchIssues from "../../components/SearchIssues";
+import bindActionCreators from "redux/es/bindActionCreators";
 
 const mapStateToProps = (state, ownProps) => {
     const {issuesCountOptions} = state.issues.paging;
@@ -21,10 +22,8 @@ const mapDispatchToProps = (dispatch) => {
         onSearch: (userName, repoName, issuesCount) => {
             dispatch(searchIssues({userName, repoName, issuesCount, pageNumber: 1}));
         },
-        searchReposByUserName: (userName, queryString) => {
-            dispatch(loadUserRepositories(userName, queryString));
-        }
+        searchReposByUserName: bindActionCreators(loadUserRepositories, dispatch)
     }
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(Search);
+export default  connect(mapStateToProps, mapDispatchToProps)(SearchIssues);

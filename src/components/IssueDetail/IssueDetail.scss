@@ -1,9 +1,12 @@
 @import "../../stylesheets/abstracts/variables";
+@import "./../../stylesheets/abstracts/mixins";
+
 
 .issue-detail {
   &__header {
     font-weight: normal;
     line-height: 1.125;
+    margin: 0 0 10px;
   }
 
   &__number {
@@ -17,26 +20,44 @@
     margin-right: 5px;
   }
 
+
   &__avatar {
+    display: none;
     width: 44px;
     height: 44px;
-    float: left;
     margin-right: 10px;
     border-radius: 5px;
+
+    @include respond-to("small") {
+      float: left;
+      display: inline-block;
+    }
   }
+
+  &__message {
+    border: solid 1px $athens-gray;
+    border-radius: 5px;
+
+    @include respond-to("small") {
+      margin-left: 60px;
+    }
+  }
+
 
   &__top {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     border-bottom: solid 1px $athens-gray;
     margin-bottom: 20px;
+
+    @include respond-to("small") {
+      flex-direction: row;
+      align-items: center;
+
+    }
   }
 
-  &__body {
-    border: solid 1px $athens-gray;
-    border-radius: 5px;
-    margin-left: 60px;
-  }
 
   &__state {
     padding: 5px 10px;
@@ -57,7 +78,7 @@
     }
   }
 
-  &__body-header {
+  &__message-header {
     background-color: $athens-gray;
     color: $shuttle-gray;
     padding: 10px;
