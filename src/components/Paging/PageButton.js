@@ -6,8 +6,8 @@ import "./PageButton.css"
 
 class PageButton extends PureComponent {
     onClick = () => {
-        const {gotoNewPage, name} = this.props;
-        gotoNewPage(name);
+        const {gotoNewPage, value} = this.props;
+        gotoNewPage(value);
     };
 
     render() {
@@ -23,7 +23,16 @@ PageButton.propTypes = {
     gotoNewPage: PropTypes.func.isRequired,
     name: PropTypes.string,
     className: PropTypes.string,
-    active: PropTypes.bool
+    active: PropTypes.bool,
+    disabled: PropTypes.bool,
+    value: function (props, propName, componentName) {
+        if (props.disabled || props[propName])
+            return;
+        return new Error(
+            'Invalid prop `' + propName + '` supplied to' +
+            ' `' + componentName + '`. Validation failed.'
+        );
+    }
 };
 PageButton.defaultProps = {
     active: false
