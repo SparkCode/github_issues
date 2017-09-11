@@ -24,9 +24,5 @@ IssuesList.propTypes = {
     ).isRequired,
     onIssueTitleClick: PropTypes.func.isRequired
 };
-IssuesList.defaultProps = {
-    noItemsMessage: "There's nothing to show",
-    shouldShowNoItemsMessageIfNeed: false
-};
 
 export default IssuesList;

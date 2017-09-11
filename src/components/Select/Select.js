@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import * as cn from "classnames"
+import classnames from "classnames"
 import "./Select.css"
 
 class Select extends PureComponent {
@@ -15,7 +15,7 @@ class Select extends PureComponent {
         const b = block("select");
 
         return (
-            <select className={cn(className, b())} value={value} onChange={this.onChange}>
+            <select className={classnames(className, b())} value={value} onChange={this.onChange}>
                 {options.map((option, i) =>
                     <option className={b("option")} key={i}>{option}</option>)}
             </select>
@@ -26,7 +26,8 @@ class Select extends PureComponent {
 Select.propTypes = {
     className: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.string.isRequired,
+    onValueChange: PropTypes.func.isRequired
 };
 
 export default Select;

@@ -46,7 +46,7 @@ class OptionsList extends PureComponent {
         const b = block("autocomplete-options");
         return (
             <ul
-                className={b({unseen: !isInputHasFocus})}
+                className={b({unseen: !isInputHasFocus})()}
                 onMouseLeave={onOptionsListHoverOut}
                 ref={(el) => this.optionsListElement = el}>
                 {options.map((option, i) =>

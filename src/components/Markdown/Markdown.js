@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn"
-import * as cn from "classnames"
+import classnames from "classnames"
 import "github-markdown-css"
 
 class Markdown extends PureComponent {
@@ -9,7 +9,7 @@ class Markdown extends PureComponent {
         const {text, className} = this.props;
         const b = block("markdown-body");
         return (
-            <div className={cn(className, b())} dangerouslySetInnerHTML={{__html: text}}/>
+            <div className={classnames(className, b())} dangerouslySetInnerHTML={{__html: text}}/>
         );
     }
 }

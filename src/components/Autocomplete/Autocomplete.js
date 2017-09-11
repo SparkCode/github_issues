@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn";
-import * as cn from "classnames";
+import classnames from "classnames";
 import Input from "./../Input";
 import {KeyCodes} from "../../utils"
 import "./Autocomplete.css"
@@ -21,19 +21,19 @@ class AutoComplete extends PureComponent {
     };
 
     onInputBlur = () => {
-        this.setState(this.defaultState);
         const {isControlledByMouse} = this.state;
         if (isControlledByMouse) {
             const {options} = this.props;
             const {focusedOptionIndex} = this.state;
             this._onOptionSelect(options[focusedOptionIndex]);
         }
+        this.setState(this.defaultState);
     };
 
     _onOptionSelect = (value) => {
-        const {onValueChange, onOptionClicked} = this.props;
+        const {onValueChange, onOptionSelected} = this.props;
         onValueChange(value);
-        onOptionClicked(value);
+        onOptionSelected(value);
     };
 
     onOptionHover = (index) => {
@@ -95,11 +95,11 @@ class AutoComplete extends PureComponent {
     };
 
     render() {
-        const {className, options, value, onOptionClicked, ...props} = this.props;
+        const {className, options, value, onOptionSelected, ...props} = this.props;
         const {isInputHasFocus, focusedOptionIndex} = this.state;
-        const b = block("drop-down-list");
+        const b = block("autocomplete");
         return (
-            <div className={cn(className, b())} onKeyDown={this.onKeyPress}>
+            <div className={classnames(className, b())} onKeyDown={this.onKeyPress}>
                 <Input
                     {...props}
                     className={b("control")()}
@@ -120,14 +120,17 @@ class AutoComplete extends PureComponent {
 }
 
 AutoComplete.propTypes = {
+    options: PropTypes.arrayOf(PropTypes.string),
     className: PropTypes.string,
-    options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    value: PropTypes.string.isRequired,
-    onValueChange: PropTypes.func.isRequired,
-    onOptionClicked: PropTypes.func
+    value: PropTypes.string,
+    onValueChange: PropTypes.func,
+    onOptionSelected: PropTypes.func
 };
 AutoComplete.defaultProps = {
-    onOptionClicked: () => {}
+    value: "",
+    options: [],
+    onValueChange: () => {},
+    onOptionSelected: () => {}
 };
 
 export default AutoComplete;

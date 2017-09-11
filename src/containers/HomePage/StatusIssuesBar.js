@@ -8,7 +8,7 @@ const mapStateToProps = (state) => {
         issuesIsLoading: isFething,
         isRequestFailed,
         errorMessage,
-        noIssuesBeLoaded: data.length === 0
+        noIssueHave: data.length === 0
     }
 };
 

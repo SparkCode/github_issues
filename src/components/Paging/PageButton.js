@@ -1,12 +1,12 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import * as cn from "classnames";
+import classnames from "classnames";
 import block from "bem-cn";
 import "./PageButton.css"
 
 class PageButton extends PureComponent {
     onClick = () => {
-        const {gotoNewPage, value} = this.props;
+        const {gotoNewPage, value, disabled} = this.props;
         gotoNewPage(value);
     };
 
@@ -14,7 +14,7 @@ class PageButton extends PureComponent {
         const {className, name, active, gotoNewPage, ...props} = this.props;
         const b = block("page-button")({active});
         return (
-            <button className={cn(className, b())} onClick={this.onClick} {...props}>{name}</button>
+            <button className={classnames(className, b())} onClick={this.onClick} {...props}>{name}</button>
         );
     }
 }

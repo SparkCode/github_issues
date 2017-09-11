@@ -36,7 +36,7 @@ class IssueDetail extends PureComponent {
 IssueDetail.propTypes = {
     title : PropTypes.string.isRequired,
     number: PropTypes.number.isRequired,
-    state: PropTypes.string.isRequired,
+    state: PropTypes.oneOf(['open', 'close']),
     userLogin: PropTypes.string.isRequired,
     created_at: PropTypes.string.isRequired,
     issue_url: PropTypes.string.isRequired,

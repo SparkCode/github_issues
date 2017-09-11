@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn'
-import * as cn from "classnames"
+import classnames from "classnames"
 import Input from "../Input";
 import Button from "../Button";
 import AutoComplete from "../Autocomplete";
@@ -66,7 +66,7 @@ class SearchIssues extends PureComponent {
         const {userName, repoName, issuesCount} = this.state;
         const {className, issuesCountOptions, userRepositories} = this.props;
         return (
-            <form className={cn(b(), className)} onSubmit={this.onSubmit}>
+            <form className={classnames(b(), className)} onSubmit={this.onSubmit}>
                 <Input
                     value={userName}
                     className={b("user-name")()}
@@ -79,7 +79,7 @@ class SearchIssues extends PureComponent {
                     value={repoName}
                     options={userRepositories}
                     onValueChange={this.onRepoNameChange}
-                    onOptionClicked={this.onRepoSelected}
+                    onOptionSelected={this.onRepoSelected}
                     placeholder="Repository name"
                     required/>
                 <Select

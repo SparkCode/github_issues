@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import block from "bem-cn"
 import "./StatusIssuesBar.css"
-import * as cn from "classnames"
+import classnames from "classnames"
 
 class StatusIssuesBar extends PureComponent {
     render() {
@@ -11,18 +11,20 @@ class StatusIssuesBar extends PureComponent {
             issuesIsLoading,
             isRequestFailed,
             errorMessage,
-            noIssuesBeLoaded,
-            className} = this.props;
+            noIssueHave,
+            className,
+            noIssuesBeReceivedMessage,
+            issuesIsLoadingMessage} = this.props;
 
         const b = block("status-issues-bar");
 
         const status =
-            isRequestFailed
-                ? errorMessage : issuesBeReceived && noIssuesBeLoaded
-                ? "No issues be found in this repository" : issuesIsLoading
-                    ? "Data is loading..." : null;
+            isRequestFailed ? errorMessage
+                : issuesBeReceived && noIssueHave ? noIssuesBeReceivedMessage
+                : issuesIsLoading ? issuesIsLoadingMessage
+                    : null;
         return (
-            <div className={cn(className, b())}>
+            <div className={classnames(className, b())}>
                 {status}
             </div>
         );
@@ -33,10 +35,16 @@ StatusIssuesBar.propTypes = {
     issuesBeReceived: PropTypes.bool.isRequired,
     issuesIsLoading: PropTypes.bool.isRequired,
     isRequestFailed: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string.isRequired,
-    noIssuesBeLoaded: PropTypes.bool.isRequired,
-    className: PropTypes.string
+    noIssueHave: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    errorMessage: PropTypes.string,
+    noIssuesBeReceivedMessage: PropTypes.string,
+    issuesIsLoadingMessage: PropTypes.string
 };
-StatusIssuesBar.defaultProps = {};
+StatusIssuesBar.defaultProps = {
+    noIssuesBeReceivedMessage: "No issues be found in this repository",
+    issuesIsLoadingMessage: "Data is loading...",
+    errorMessage: "Something went wrong"
+};
 
 export default StatusIssuesBar;

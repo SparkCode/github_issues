@@ -14,7 +14,7 @@ class Option extends PureComponent {
         const b = block("autocomplete-list-option");
         return (
             <li
-                className={b({active: isSelected})}
+                className={b({active: isSelected})()}
                 ref={optionRef}
                 key={index}
                 value={option}
@@ -29,9 +29,11 @@ Option.propTypes = {
     option: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     onOptionHover: PropTypes.func.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    optionRef: PropTypes.func.isRequired
+    isSelected: PropTypes.bool,
+    optionRef: PropTypes.func
 };
-Option.defaultProps = {};
+Option.defaultProps = {
+    optionRef: () => {}
+};
 
 export default Option;
