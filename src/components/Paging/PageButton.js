@@ -6,7 +6,7 @@ import "./PageButton.css"
 
 class PageButton extends PureComponent {
     onClick = () => {
-        const {gotoNewPage, value, disabled} = this.props;
+        const {gotoNewPage, value} = this.props;
         gotoNewPage(value);
     };
 

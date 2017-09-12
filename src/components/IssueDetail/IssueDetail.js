@@ -9,14 +9,14 @@ import Link from "../Link";
 class IssueDetail extends PureComponent {
     render() {
         const b = block("issue-detail");
-        const {title, number, state, userLogin, created_at, body, issue_url, userUrl, userAvatarUrl} = this.props;
-        const date = formatDate(created_at);
+        const {title, number, state, userLogin, createdAt, body, issueUrl, userUrl, userAvatarUrl} = this.props;
+        const date = formatDate(createdAt);
         return (
             <div className={b()}>
                 <div className={b("top")}>
                     <div className={b("state", {state})}>{state}</div>
                     <h1 className={b("header")}>
-                        <Link href={issue_url} target="_blank">{title}</Link>
+                        <Link href={issueUrl} target="_blank">{title}</Link>
                         <span className={b("number")}> #{number}</span>
                     </h1>
                 </div>
@@ -38,8 +38,8 @@ IssueDetail.propTypes = {
     number: PropTypes.number.isRequired,
     state: PropTypes.oneOf(['open', 'close']),
     userLogin: PropTypes.string.isRequired,
-    created_at: PropTypes.string.isRequired,
-    issue_url: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    issueUrl: PropTypes.string.isRequired,
     userUrl: PropTypes.string.isRequired,
     userAvatarUrl: PropTypes.string.isRequired
 };

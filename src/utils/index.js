@@ -1,6 +1,6 @@
 import KeyCodes from "./keyCodes";
 
-const logError = (e) => console.error(e);
+const logError = (e) => {};
 
 const formatDate = (date) => {
     const options = {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'};
