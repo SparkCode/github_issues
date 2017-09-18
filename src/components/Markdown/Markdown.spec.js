@@ -1,21 +1,13 @@
-import {shallow} from "enzyme";
 import React from "react";
 import Markdown from "./Markdown";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<Markdown/>", () => {
     const defaultProps = {
         text: "Just a minor sentence fix in the readme"
     };
 
-    const setup = (prorsOverrides) => {
-        const props = {...defaultProps, ...prorsOverrides};
-        const wrapper = shallow(<Markdown {...props}/>);
-
-        return {
-            wrapper,
-            props
-        }
-    };
+    const setup = (propsOverrides) => componentSetup(Markdown, defaultProps, propsOverrides);
 
     it("should render without crashing", () => {
         setup();

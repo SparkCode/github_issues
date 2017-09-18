@@ -1,51 +1,46 @@
-import {
-    INVALIDATE_ISSUES, ISSUE_NOT_BE_FOUND_MESSAGE, NO_INTERNET_CONNECTION_MESSAGE, RECEIVE_ISSUES, RECEIVE_ISSUES_ERROR,
-    RECEIVE_ISSUES_PAGES_COUNT,
-    RECEIVE_USER_REPOSITORIES, REQUEST_ISSUES, USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE
-} from "./constants"
+import * as constants from "./constants"
 import { push } from 'react-router-redux'
-import logError from "../utils"
 import marked from "marked";
-
-import {getIssue, getIssues, getIssuesPagesCount, getUserRepos} from "../utils/GitHubApi";
+import * as api  from "../utils/GitHubApi";
+import {makeRequest, NetworkError, UnsuccessfulRequestError} from "../utils/Network";
 
 const invalidateIssues = () => {
     return {
-        type: INVALIDATE_ISSUES
+        type: constants.INVALIDATE_ISSUES
     }
 };
 
 const ReceiveIssues = (issues) => {
     return {
-        type: RECEIVE_ISSUES,
+        type: constants.RECEIVE_ISSUES,
         issues
     }
 };
 
 const ReceiveIssuesError = (errorMessage) => {
     return {
-        type: RECEIVE_ISSUES_ERROR,
+        type: constants.RECEIVE_ISSUES_ERROR,
         errorMessage
     }
 };
 
 const ReceiveIssuesPagesCount = (issuesPagesCount) => {
     return {
-        type: RECEIVE_ISSUES_PAGES_COUNT,
+        type: constants.RECEIVE_ISSUES_PAGES_COUNT,
         issuesPagesCount
     }
 };
 
 const ReceiveUserRepos = (repos) => {
     return {
-        type: RECEIVE_USER_REPOSITORIES,
+        type: constants.RECEIVE_USER_REPOSITORIES,
         repos
     }
 };
 
 const RequestIssues = () => {
     return {
-        type: REQUEST_ISSUES
+        type: constants.REQUEST_ISSUES
     }
 };
 
@@ -98,41 +93,47 @@ export const mapGithubIssueToLocalIssue = (data) => {return {
     userAvatarUrl: `${data.user.avatar_url}`
 }};
 
+const onFetchIssuesError = (dispatch, e, notBeFoundMessage="") => {
+    const message = e instanceof NetworkError ? constants.NO_INTERNET_CONNECTION_MESSAGE :
+        e instanceof UnsuccessfulRequestError ?
+            (e.response.status ? notBeFoundMessage : constants.SOMETHING_WENT_WRONG_MESSAGE)
+            : undefined;
+    if (!message)
+        return Promise.reject(e);
+    dispatch(ReceiveIssuesError(message));
+};
+
 export const fetchIssue = ({userName, repoName, issueNumber}) => (dispatch) => {
-    return getIssue(userName.trim(), repoName.trim(), issueNumber.trim())
+    const url = api.getIssueUrl(userName.trim(), repoName.trim(), issueNumber.trim());
+    return makeRequest(url)
         .then(mapGithubIssueToLocalIssue)
         .then(issue => dispatch(ReceiveIssues([issue])))
-        .catch((e) => {
-            const message = e instanceof TypeError ? NO_INTERNET_CONNECTION_MESSAGE : ISSUE_NOT_BE_FOUND_MESSAGE;  //todo:
-            dispatch(ReceiveIssuesError(message));
-        });
+        .catch(e => onFetchIssuesError(dispatch, e, constants.ISSUE_NOT_BE_FOUND_MESSAGE));
 };
 
 export const fetchIssues = ({userName, repoName, issuesCount, pageNumber}) => (dispatch) => {
-    return getIssues(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber.trim())
+    const url = api.getIssuesUrl(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber.trim());
+    return makeRequest(url)
         .then(data => data.map(mapGithubIssueToLocalIssue))
         .then(issues => dispatch(ReceiveIssues(issues)))
-        .catch((e) => {
-            const message = e instanceof TypeError ? NO_INTERNET_CONNECTION_MESSAGE : USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE;  //todo:
-            dispatch(ReceiveIssuesError(message));
-        });
+        .catch(e => onFetchIssuesError(dispatch, e, constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE));
 };
 
 export const fetchIssuesPagesCount = ({userName, repoName, issuesCount}) => (dispatch) => {
-    return getIssuesPagesCount(userName.trim(), repoName.trim())
+    const url = api.getIssuesPagesCountUrl(userName.trim(), repoName.trim());
+    return makeRequest(url)
         .then(data => {
             const overallIssues = data.open_issues_count;
             const issuesPagesCount = Math.ceil(overallIssues / issuesCount);
             dispatch(ReceiveIssuesPagesCount(issuesPagesCount));
         })
-        .catch(logError); //todo
 };
 
 export const loadUserRepositories = (userName, searchString="") => (dispatch) =>  {
-    return getUserRepos(userName.trim(), searchString.trim())
-            .then(data => data.items.map(repo => repo.name))
-            .then(repos => dispatch(ReceiveUserRepos(repos)))
-            .catch(logError);
+    const url = api.getUserReposUrl(userName.trim(), searchString.trim());
+    return makeRequest(url)
+        .then(data => data.items.map(repo => repo.name))
+        .then(repos => dispatch(ReceiveUserRepos(repos)))
 };
 
 

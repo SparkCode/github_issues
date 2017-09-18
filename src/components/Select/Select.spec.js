@@ -1,7 +1,7 @@
-import {shallow} from "enzyme";
 import Select from "./Select";
 import React from "react";
 import sinon from "sinon";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<Select/>", () => {
     const defaultProps = {
@@ -13,15 +13,7 @@ describe("<Select/>", () => {
         defaultProps.onValueChange = sinon.spy();
     });
 
-    const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides};
-        const wrapper = shallow(<Select {...props}/>);
-
-        return {
-            props,
-            wrapper
-        }
-    };
+    const setup = (propsOverrides) => componentSetup(Select, defaultProps, propsOverrides);
 
     it("should render without crashing", () => {
         setup();

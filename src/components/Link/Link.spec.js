@@ -1,18 +1,9 @@
-import {shallow} from "enzyme";
 import Link from "./Link";
 import React from "react";
+import {componentSetup} from "../../utils/ComponentTest";
 describe("<Link/>", () => {
     const defaultProps = {};
-
-    const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides};
-        const wrapper = shallow(<Link {...props}/>);
-
-        return {
-            props,
-            wrapper
-        }
-    };
+    const setup = (propsOverrides) => componentSetup(Link, defaultProps, propsOverrides);
 
     it("should render without crashing", () => {
         setup();

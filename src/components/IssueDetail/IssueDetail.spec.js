@@ -1,6 +1,6 @@
-import {shallow} from "enzyme";
 import IssueDetail from "./IssueDetail";
 import React from "react";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<IssueDetail/>", () => {
     const defaultProps = {
@@ -16,6 +16,6 @@ describe("<IssueDetail/>", () => {
     };
 
     it("should render without crashing", () => {
-       shallow(<IssueDetail {...defaultProps}/>);
+        componentSetup(IssueDetail, defaultProps);
     });
 });

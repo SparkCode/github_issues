@@ -1,15 +1,17 @@
-import {shallow} from "enzyme";
 import Button from "./Button";
 import React from "react";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<Button/>", () => {
+    const setup = (propsOverrides) => componentSetup(Button, {}, propsOverrides);
+
     it('should render without crashing', () => {
-        shallow(<Button/>)
+        setup();
     });
 
     it('should render with class', () => {
         const className = "big-button";
-        const component = shallow(<Button className={className}/>);
-        expect(component.hasClass(className)).toBeTruthy();
+        const {wrapper} = setup({className});
+        expect(wrapper.hasClass(className)).toBeTruthy();
     });
 });

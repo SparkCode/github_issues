@@ -2,7 +2,7 @@ import {shallow} from "enzyme";
 import OptionsList from "./OptionsList";
 import React from "react";
 import sinon from "sinon";
-import renderer from 'react-test-renderer';
+import {componentSetup} from "../../utils/ComponentTest";
 
 
 describe("<OptionsList/>", () => {
@@ -15,9 +15,7 @@ describe("<OptionsList/>", () => {
     };
 
     const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides};
-        const wrapper = shallow(<OptionsList {...props}/>);
-
+        const {wrapper, props} = componentSetup(OptionsList, defaultProps, propsOverrides);
         return {
             wrapper,
             props,
@@ -27,11 +25,6 @@ describe("<OptionsList/>", () => {
 
     it("should render without crashing when required props be provided", () => {
         setup();
-    });
-
-    it("should render correctly", () => {
-        const tree = renderer.create(<OptionsList {...defaultProps}/>).toJSON();
-        expect(tree).toMatchSnapshot();
     });
 
     it("should render list element with autocomplete-options-unseen class, when isInputHasFocus is false", () => {

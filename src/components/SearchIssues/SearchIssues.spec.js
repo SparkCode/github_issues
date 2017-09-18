@@ -1,7 +1,7 @@
 import sinon from "sinon";
-import {shallow} from "enzyme";
 import React from "react";
 import SearchIssues from "./SearchIssues";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<SearchIssues/>", () => {
     const defaultProps = {
@@ -13,9 +13,8 @@ describe("<SearchIssues/>", () => {
         defaultProps.searchReposByUserName = sinon.spy()
     });
 
-    const setup = (overridesProps) => {
-        const props = {...defaultProps, ...overridesProps};
-        const wrapper = shallow(<SearchIssues {...props}/>);
+    const setup = (propsOverrides) => {
+        const {wrapper, props} = componentSetup(SearchIssues, defaultProps, propsOverrides);
 
         return {
             props,

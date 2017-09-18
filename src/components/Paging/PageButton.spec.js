@@ -1,7 +1,7 @@
 import sinon from "sinon";
-import {shallow} from "enzyme";
 import React from "react";
 import PageButton from "./PageButton";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<PageButton/>", () => {
     const defaultProps = {
@@ -12,15 +12,7 @@ describe("<PageButton/>", () => {
         defaultProps.gotoNewPage = sinon.spy()
     });
 
-    const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides};
-        const wrapper = shallow(<PageButton {...props}/>);
-
-        return {
-            props,
-            wrapper
-        }
-    };
+    const setup = (propsOverrides) => componentSetup(PageButton, defaultProps, propsOverrides);
 
     it("should render without crashes", () => {
         setup();

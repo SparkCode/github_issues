@@ -1,6 +1,6 @@
-import {shallow} from "enzyme";
 import StatusIssuesBar from "./StatusIssuesBar";
 import React from "react";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<StatusIssuesBar/>", () => {
    const defaultProps = {
@@ -10,15 +10,7 @@ describe("<StatusIssuesBar/>", () => {
        noIssueHave : false,
    };
 
-    const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides};
-        const wrapper = shallow(<StatusIssuesBar {...props}/>);
-
-        return {
-            props,
-            wrapper
-        }
-    };
+    const setup = (propsOverrides) => componentSetup(StatusIssuesBar, defaultProps, propsOverrides);
 
     it("should render without crashing", () => {
         setup();

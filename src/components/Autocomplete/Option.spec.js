@@ -1,7 +1,7 @@
-import {shallow} from "enzyme";
 import Option from "./Option";
 import React from "react";
 import sinon from "sinon";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<Option/>", () => {
     const defaultProps = {
@@ -14,11 +14,7 @@ describe("<Option/>", () => {
     });
 
     const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides
-        };
-
-        const wrapper = shallow(<Option {...props}/>);
-
+        const {wrapper, props} = componentSetup(Option, defaultProps, propsOverrides);
         return {
             wrapper,
             option: wrapper.find(".autocomplete-list-option"),

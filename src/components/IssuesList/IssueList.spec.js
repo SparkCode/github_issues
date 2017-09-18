@@ -1,7 +1,7 @@
 import sinon from "sinon";
-import {shallow} from "enzyme";
 import React from "react";
 import IssueList from "./IssuesList"
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<IssuesList/>", () => {
    const defaultProps = {
@@ -22,6 +22,6 @@ describe("<IssuesList/>", () => {
    };
 
    it("should render without crashing", () => {
-       shallow(<IssueList {...defaultProps}/>)
+      componentSetup(IssueList, defaultProps);
    });
 });

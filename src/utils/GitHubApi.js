@@ -1,5 +1,3 @@
-import fetch from "isomorphic-fetch";
-
 export const hostname = 'https://api.github.com';
 
 export const getIssuesPath = (userName, repoName, issuesCount, pageNumber) =>
@@ -16,31 +14,18 @@ export const getIssuePath = (userName, repoName, issueNumber) =>
 
 const constructUrl = path => hostname + path;
 
-export const getIssue = (userName, repoName, issueNumber) => {
-    const url = constructUrl(getIssuePath(userName, repoName, issueNumber));
-    return sendRequest(url);
+export const getIssueUrl = (userName, repoName, issueNumber) => {
+    return constructUrl(getIssuePath(userName, repoName, issueNumber));
 };
 
-export const getIssues = (userName, repoName, issuesCount, pageNumber) => {
-    const url = constructUrl(getIssuesPath(userName, repoName, issuesCount, pageNumber));
-    return sendRequest(url);
+export const getIssuesUrl = (userName, repoName, issuesCount, pageNumber) => {
+    return constructUrl(getIssuesPath(userName, repoName, issuesCount, pageNumber));
 };
 
-export const getIssuesPagesCount = (userName, repoName) => {
-    const url = constructUrl(getReposInformationPath(userName, repoName));
-    return sendRequest(url);
+export const getIssuesPagesCountUrl = (userName, repoName) => {
+    return constructUrl(getReposInformationPath(userName, repoName))
 };
 
-export const getUserRepos = (userName, searchString) => {
-    const url = constructUrl(getUserReposPath(userName, searchString));
-    return sendRequest(url);
+export const getUserReposUrl = (userName, searchString) => {
+    return constructUrl(getUserReposPath(userName, searchString));
 };
-
-const sendRequest = (url) =>
-    fetch(url)
-        .then(response => {
-            if (response.ok)
-                return response.json();
-            else
-                throw new Error(response.statusText) //todo use onReject and pass response?
-        });

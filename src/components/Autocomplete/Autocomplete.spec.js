@@ -1,10 +1,9 @@
 import Autocomplete from "./Autocomplete";
 import React from "react";
-import {shallow} from "enzyme";
 import sinon from 'sinon';
 import KeyCodes from "../../utils/keyCodes";
-import renderer from 'react-test-renderer';
 import OptionsList from "./OptionsList";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<Autocomplete/>", () => {
     const defaultProps = {
@@ -17,9 +16,7 @@ describe("<Autocomplete/>", () => {
     });
 
     const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides};
-        const wrapper = shallow(<Autocomplete {...props}/>);
-
+        const {wrapper, props} = componentSetup(Autocomplete, defaultProps, propsOverrides);
         return {
             wrapper,
             props,
@@ -30,11 +27,6 @@ describe("<Autocomplete/>", () => {
 
     it("should render without crashing", () => {
         setup();
-    });
-
-    it("should render correctly", () => {
-        const tree = renderer.create(<Autocomplete {...defaultProps}/>).toJSON();
-        expect(tree).toMatchSnapshot();
     });
 
     it("should render with class", () => {

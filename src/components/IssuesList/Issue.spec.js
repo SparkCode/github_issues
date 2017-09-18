@@ -1,7 +1,7 @@
 import sinon from "sinon";
-import {shallow} from "enzyme";
 import React from "react";
 import Issue from "./Issue";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<Issue/>", () => {
     const defaultProps = {
@@ -16,8 +16,7 @@ describe("<Issue/>", () => {
     });
 
     const setup = (propsOverrides) => {
-        const props = {...defaultProps, ...propsOverrides};
-        const wrapper = shallow(<Issue {...props}/>);
+        const {wrapper, props} = componentSetup(Issue, defaultProps, propsOverrides);
 
         return {
             wrapper,

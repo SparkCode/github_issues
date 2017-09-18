@@ -1,7 +1,7 @@
 import sinon from "sinon";
-import {shallow} from "enzyme";
 import React from "react";
 import Input from "./Input";
+import {componentSetup} from "../../utils/ComponentTest";
 
 describe("<Input/>", () => {
    const defaultProps = {value: "Bill"};
@@ -10,15 +10,7 @@ describe("<Input/>", () => {
        defaultProps.onValueChange = sinon.spy();
    });
 
-   const setup = (propsOverrides) => {
-       const props = {...defaultProps, ...propsOverrides};
-       const wrapper = shallow(<Input {...props}/>);
-
-       return {
-           wrapper,
-           props
-       }
-   };
+   const setup = (propsOverrides) =>  componentSetup(Input, defaultProps, propsOverrides);
 
     it("should render without crashing", () => {
         setup();

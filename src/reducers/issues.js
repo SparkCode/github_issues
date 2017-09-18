@@ -1,12 +1,11 @@
-import {INVALIDATE_ISSUES, RECEIVE_ISSUES, RECEIVE_ISSUES_ERROR, RECEIVE_ISSUES_PAGES_COUNT, REQUEST_ISSUES}
-    from "../actionCreators";
+import  * as constants from "../actionCreators";
 
 const data = (state, action) => {
     switch (action.type) {
-        case RECEIVE_ISSUES: {
-            return [...action.issues];
+        case constants.RECEIVE_ISSUES: {
+            return [...state, ...action.issues];
         }
-        case INVALIDATE_ISSUES: {
+        case constants.INVALIDATE_ISSUES: {
             return [];
         }
         default: return state;
@@ -15,12 +14,12 @@ const data = (state, action) => {
 
 const paging =  (state, action) => {
     switch (action.type) {
-        case RECEIVE_ISSUES_PAGES_COUNT: {
+        case constants.RECEIVE_ISSUES_PAGES_COUNT: {
             return {...state, issuesPagesCount: action.issuesPagesCount};
         }
 
-        case INVALIDATE_ISSUES: {
-            return {...state, issuesPagesCount: null};
+        case constants.INVALIDATE_ISSUES: {
+            return {...state, issuesPagesCount: undefined};
         }
 
         default: return state;
@@ -41,7 +40,7 @@ const defaultIssuesState = {
 
 const issues = (state=defaultIssuesState, action) => {
     switch  (action.type) {
-        case INVALIDATE_ISSUES: {
+        case constants.INVALIDATE_ISSUES: {
             return {
                 ...state,
                 didInvalidate: true,
@@ -52,16 +51,14 @@ const issues = (state=defaultIssuesState, action) => {
             };
         }
 
-        case REQUEST_ISSUES: {
+        case constants.REQUEST_ISSUES: {
             return {
                 ...state,
                 didInvalidate: false,
                 isFething: true};
         }
 
-
-
-        case RECEIVE_ISSUES: {
+        case constants.RECEIVE_ISSUES: {
             return {
                 ...state,
                 isFething: false,
@@ -69,8 +66,7 @@ const issues = (state=defaultIssuesState, action) => {
                 paging: paging(state.paging, action)};
         }
 
-
-        case RECEIVE_ISSUES_ERROR: {
+        case constants.RECEIVE_ISSUES_ERROR: {
             return {
                 ...state,
                 isFething: false,
@@ -80,7 +76,7 @@ const issues = (state=defaultIssuesState, action) => {
                 paging: paging(state.paging, action)};
         }
 
-        case RECEIVE_ISSUES_PAGES_COUNT: {
+        case constants.RECEIVE_ISSUES_PAGES_COUNT: {
             return {
                 ...state,
                 paging: paging(state.paging, action)}
