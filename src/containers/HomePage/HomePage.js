@@ -1,8 +1,6 @@
 import {connect} from "react-redux";
 import HomePage from "../../pages/HomePage";
-const isIssuesCountValid = (issuesCount, issuesCountOptions) => {
-    return issuesCountOptions.indexOf(issuesCount) !== -1;
-};
+import {isIssuesCountValid} from "../index";
 
 const mapStateToProps = (state, ownProps) => {
     const {userName, repoName} = ownProps.params;
