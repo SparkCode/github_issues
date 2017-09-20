@@ -1,9 +1,9 @@
 # Github Issues Showcase Project
 It's an SPA for viewing issues from the selected repository on Github.
 ## Fulfilled requirements: 
-1. Searhing issues by user and repository name. The input field for repository name should have autocomplete. Each issue should display with number, name and open date. Need an opportunity to share a search result page.
+1. Searching issues by user and repository name. The input field for repository name should have autocomplete. Each issue should display with number, name and open date. Need an opportunity to share a search result page.
 2. Paging for issues
-3. Showing messagies: "loading issues", "issues not be found", "issues not be loaded" etc.
+3. Showing messages: "loading issues", "issues not be found", "issues not be loaded" etc.
 5. Viewing an issue on the different page
 6. Tests for components / reducers / action creators
 ## Available Scripts
