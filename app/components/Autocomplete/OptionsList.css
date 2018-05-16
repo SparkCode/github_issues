@@ -1,0 +1,12 @@
+.autocomplete-options {
+  padding-left: 0;
+  background-color: #f1f1f1;
+  color: #858585;
+  margin: 1px 0 0;
+  position: absolute;
+  max-height: 400px;
+  overflow-y: auto;
+  left: 0;
+  right: 0; }
+  .autocomplete-options_unseen {
+    display: none; }

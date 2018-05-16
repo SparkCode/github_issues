@@ -1,0 +1,22 @@
+@import "stylesheets/abstracts/variables";
+@import "stylesheets/abstracts/mixins";
+
+.search {
+  display: flex;
+  flex-direction: column;
+
+  @include respond-to("small") {
+    justify-content: center;
+    flex-direction: row;
+    margin: 0;
+    height: 34px;
+  }
+
+  &__user-name, &__repo-name, &__select{
+    margin-bottom: 10px;
+
+    @include respond-to("small") {
+      margin: 0 10px 0 0;
+    }
+  }
+}

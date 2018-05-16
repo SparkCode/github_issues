@@ -1,0 +1,10 @@
+@import "stylesheets/abstracts/variables";
+
+.autocomplete {
+  position: relative;
+
+  &__control {
+    box-sizing: border-box;
+    width: 100%;
+  }
+}

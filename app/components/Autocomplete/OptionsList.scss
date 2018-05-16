@@ -1,0 +1,16 @@
+@import "stylesheets/abstracts/variables";
+
+.autocomplete-options {
+  padding-left: 0;
+  background-color: $seashell;
+  color: $grey;
+  margin: 1px 0 0;
+  position: absolute;
+  max-height: 400px;
+  overflow-y:auto;
+  left: 0;
+  right: 0;
+  &_unseen {
+    display: none;
+  }
+}

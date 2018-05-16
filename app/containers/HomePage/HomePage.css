@@ -1,0 +1,13 @@
+.home-page {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 10px;
+  line-height: 1.25;
+  word-wrap: break-word;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  color: #24292e; }
+  .home-page__search {
+    margin: 0 auto 20px; }
+  .home-page__status {
+    margin: 30px auto; }

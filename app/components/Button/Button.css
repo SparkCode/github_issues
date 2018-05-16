@@ -1,0 +1,9 @@
+.button {
+  width: 140px;
+  min-height: 34px;
+  padding: 0;
+  border-width: 0;
+  background-color: #005ca9;
+  color: #FFF;
+  cursor: pointer;
+  text-transform: uppercase; }

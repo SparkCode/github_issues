@@ -1,0 +1,14 @@
+.search {
+  display: flex;
+  flex-direction: column; }
+  @media screen and (min-width: 768px) {
+    .search {
+      justify-content: center;
+      flex-direction: row;
+      margin: 0;
+      height: 34px; } }
+  .search__user-name, .search__repo-name, .search__select {
+    margin-bottom: 10px; }
+    @media screen and (min-width: 768px) {
+      .search__user-name, .search__repo-name, .search__select {
+        margin: 0 10px 0 0; } }
