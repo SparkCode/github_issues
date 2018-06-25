@@ -52,7 +52,10 @@ const mapStateToProps = (immutableState, ownProps) => {
   const state = immutableState.toJS();
   const { userName, repoName } = ownProps.match.params;
   const { issuesCount } = queryString.parse(ownProps.location.search);
-  const { issuesCountOptions, defaultIssuesCountOption } = state.home.issues.paging;
+  const {
+    issuesCountOptions,
+    defaultIssuesCountOption,
+  } = state.home.issues.paging;
   return {
     userName,
     repoName,

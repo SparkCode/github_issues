@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+'use strict';
 
 const shell = require('shelljs');
 const exec = require('child_process').exec;
@@ -17,8 +18,10 @@ let interval;
 let clearRepo = true;
 
 cleanRepo(() => {
-  process.stdout.write('\nInstalling dependencies... (This might take a while)');
-  setTimeout(() => {
+  process.stdout.write(
+    '\nInstalling dependencies... (This might take a while)',
+  );
+  setTimeout(function() {
     readline.cursorTo(process.stdout, 0);
     interval = animateProgress('Installing dependencies');
   }, 500);
@@ -32,14 +35,15 @@ cleanRepo(() => {
 function cleanRepo(callback) {
   fs.readFile('.git/config', 'utf8', (err, data) => {
     if (!err) {
-      const isClonedRepo = typeof data === 'string'
-        && (data.match(/url\s*=/g) || []).length === 1
-        && /react-boilerplate\/react-boilerplate\.git/.test(data);
+      let isClonedRepo =
+        typeof data === 'string' &&
+        (data.match(/url\s*=/g) || []).length === 1 &&
+        /react-boilerplate\/react-boilerplate\.git/.test(data);
       if (isClonedRepo) {
         process.stdout.write('\nDo you want to clear old repository? [Y/n] ');
         process.stdin.resume();
-        process.stdin.on('data', (data) => {
-          const val = data.toString().trim();
+        process.stdin.on('data', data => {
+          let val = data.toString().trim();
           if (val === 'y' || val === 'Y' || val === '') {
             process.stdout.write('Removing old repository');
             shell.rm('-rf', '.git/');
@@ -62,7 +66,7 @@ function cleanRepo(callback) {
  */
 function dontClearRepo(nl, callback) {
   clearRepo = false;
-  process.stdout.write(`${nl}Leaving your repository untouched`);
+  process.stdout.write(nl + 'Leaving your repository untouched');
   addCheckMark(callback);
 }
 
@@ -70,7 +74,10 @@ function dontClearRepo(nl, callback) {
  * Initializes git again
  */
 function initGit(callback) {
-  exec('git init && git add . && git commit -m "Initial commit"', addCheckMark.bind(null, callback));
+  exec(
+    'git init && git add . && git commit -m "Initial commit"',
+    addCheckMark.bind(null, callback),
+  );
 }
 
 /**
@@ -84,13 +91,20 @@ function deleteFileInCurrentDir(file, callback) {
  * Installs dependencies
  */
 function installDeps() {
-  exec('node --version', (err, stdout, stderr) => {
+  exec('node --version', function(err, stdout, stderr) {
     const nodeVersion = stdout && parseFloat(stdout.substring(1));
     if (nodeVersion < 5 || err) {
-      installDepsCallback(err || 'Unsupported node.js version, make sure you have the latest version installed.');
+      installDepsCallback(
+        err ||
+          'Unsupported node.js version, make sure you have the latest version installed.',
+      );
     } else {
-      exec('yarn --version', (err, stdout, stderr) => {
-        if (parseFloat(stdout) < 0.15 || err || process.env.USE_YARN === 'false') {
+      exec('yarn --version', function(err, stdout, stderr) {
+        if (
+          parseFloat(stdout) < 0.15 ||
+          err ||
+          process.env.USE_YARN === 'false'
+        ) {
           exec('npm install', addCheckMark.bind(null, installDepsCallback));
         } else {
           exec('yarn install', addCheckMark.bind(null, installDepsCallback));
@@ -112,15 +126,23 @@ function installDepsCallback(error) {
     process.exit(1);
   }
 
-  deleteFileInCurrentDir('setup.js', () => {
+  deleteFileInCurrentDir('setup.js', function() {
     if (clearRepo) {
       interval = animateProgress('Initialising new repository');
       process.stdout.write('Initialising new repository');
-      initGit(() => {
+      initGit(function() {
         clearInterval(interval);
+        endProcess();
       });
     }
-    process.stdout.write('\nDone!');
-    process.exit(0);
+
+    endProcess();
   });
+}
+/**
+ * Function which ends setup process
+ */
+function endProcess() {
+  process.stdout.write('\nDone!');
+  process.exit(0);
 }
