@@ -10,6 +10,7 @@ const defaultIssuesState = fromJS({
   paging: {
     issuesCountOptions: ['10', '20', '30', '50', '100'],
     defaultIssuesCountOption: '20',
+    issuesPagesCount: null,
   },
 });
 
@@ -25,16 +26,11 @@ const issues = (state = defaultIssuesState, action) => {
     }
 
     case constants.REQUEST_ISSUES: {
-      return state
-        .set('didInvalidate', false)
-        .set('isFetching', true);
+      return state.set('didInvalidate', false).set('isFetching', true);
     }
 
     case constants.RECEIVE_ISSUES: {
-      return state
-        .set('data', fromJS(action.issues))
-        .set('isFetching', false)
-        .setIn(['paging', 'issuesPagesCount'], fromJS(action.issuesPagesCount));
+      return state.set('data', fromJS(action.issues)).set('isFetching', false);
     }
 
     case constants.RECEIVE_ISSUES_ERROR: {
@@ -45,8 +41,10 @@ const issues = (state = defaultIssuesState, action) => {
     }
 
     case constants.RECEIVE_ISSUES_PAGES_COUNT: {
-      return state
-        .setIn(['paging', 'issuesPagesCount'], action.issuesPagesCount);
+      return state.setIn(
+        ['paging', 'issuesPagesCount'],
+        action.issuesPagesCount,
+      );
     }
     default:
       return state;

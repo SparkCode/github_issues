@@ -19,6 +19,7 @@ class StatusIssuesBar extends PureComponent {
 
     const b = block('status-issues-bar');
 
+    // todo: looks ugly
     const status = isRequestFailed
       ? errorMessage
       : issuesBeReceived && noIssueHave

@@ -11,6 +11,7 @@ class IssueDetailPage extends PureComponent {
     fetchIssueIfNeeded();
   }
 
+  // todo: use DidUpdate
   componentWillReceiveProps() {
     const { fetchIssueIfNeeded } = this.props;
     fetchIssueIfNeeded();
@@ -21,6 +22,7 @@ class IssueDetailPage extends PureComponent {
     const b = block('issue-page');
     return (
       <div className={b()}>
+        {/* todo + is no here */}
         {issueBeLoaded && <IssueDetail issueNumber={+issueNumber} />}
       </div>
     );
@@ -35,7 +37,11 @@ IssueDetailPage.propTypes = {
 IssueDetailPage.defaultProps = {};
 
 const mapStateToProps = (state, ownProps) => {
-  const { didInvalidate, isFetching, isRequestFailed } = state.toJS().home.issues;
+  const {
+    didInvalidate,
+    isFetching,
+    isRequestFailed,
+  } = state.toJS().home.issues;
   const { issueNumber, userName, repoName } = ownProps.match.params;
   const issueBeLoaded = !didInvalidate && !isFetching && !isRequestFailed;
   return {
@@ -54,4 +60,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IssueDetailPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IssueDetailPage);

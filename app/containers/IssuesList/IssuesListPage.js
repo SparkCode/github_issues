@@ -48,6 +48,7 @@ class IssuesListPage extends PureComponent {
           <Paging
             repoName={repoName}
             userName={userName}
+            // todo: + here no looks good
             currentPage={+pageNumber}
             issuesCount={issuesCount}
           />
@@ -74,7 +75,7 @@ const mapStateToProps = (immutableState, ownProps) => {
     issuesPagesCount,
   } = state.home.issues.paging;
   const issues = state.home.issues.data;
-  const { userName, repoName } = ownProps.match.params;
+  const { userName, repoName } = ownProps.match.params; // todo: не здесь
   const { issuesCount, pageNumber } = queryString.parse(
     ownProps.location.search,
   );
@@ -93,16 +94,19 @@ const mapStateToProps = (immutableState, ownProps) => {
   };
 };
 
-export const isPageNumberValid = (pageNumber, issuesPagesCount) => {
+const isPageNumberValid = (pageNumber, issuesPagesCount) => {
   if (isNaN(pageNumber)) {
     return false;
   }
   return (
-    (issuesPagesCount && pageNumber <= issuesPagesCount && pageNumber > 0) ||
+    (issuesPagesCount && pageNumber <= issuesPagesCount && pageNumber > 0) || // todo: почему валидно при !issuesPagesCount?
     !issuesPagesCount
   );
 };
 
 const mapDispatchToProps = { dispatchFetchIssuesIfNeeded: fetchIssuesIfNeeded };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IssuesListPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IssuesListPage);

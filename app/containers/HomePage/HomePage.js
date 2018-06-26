@@ -14,9 +14,10 @@ import IssuesListPage from '../IssuesList/IssuesListPage';
 import IssueDetailPage from '../IssueDetail/IssueDetailPage';
 
 class HomePage extends PureComponent {
+  // todo: по-видимому страница HomePage не нужна
   render() {
     const b = block('home-page');
-    const { userName, repoName, issuesCount } = this.props;
+    const { userName, repoName, issuesCount } = this.props; // todo: все это получается с помощью withRoute и стейта в контейнере SearchIssues
     return (
       <div className={b()}>
         <SearchIssues
@@ -50,8 +51,8 @@ HomePage.defaultProps = {};
 
 const mapStateToProps = (immutableState, ownProps) => {
   const state = immutableState.toJS();
-  const { userName, repoName } = ownProps.match.params;
-  const { issuesCount } = queryString.parse(ownProps.location.search);
+  const { userName, repoName } = ownProps.match.params; // todo: no here
+  const { issuesCount } = queryString.parse(ownProps.location.search); // todo: maybe no here
   const {
     issuesCountOptions,
     defaultIssuesCountOption,

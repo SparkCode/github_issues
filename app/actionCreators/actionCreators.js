@@ -12,22 +12,22 @@ const invalidateIssues = () => ({
   type: constants.INVALIDATE_ISSUES,
 });
 
-const ReceiveIssues = (issues) => ({
+const ReceiveIssues = issues => ({
   type: constants.RECEIVE_ISSUES,
   issues,
 });
 
-const ReceiveIssuesError = (errorMessage) => ({
+const ReceiveIssuesError = errorMessage => ({
   type: constants.RECEIVE_ISSUES_ERROR,
   errorMessage,
 });
 
-const ReceiveIssuesPagesCount = (issuesPagesCount) => ({
+const ReceiveIssuesPagesCount = issuesPagesCount => ({
   type: constants.RECEIVE_ISSUES_PAGES_COUNT,
   issuesPagesCount,
 });
 
-const ReceiveUserRepos = (repos) => ({
+const ReceiveUserRepos = repos => ({
   type: constants.RECEIVE_USER_REPOSITORIES,
   repos,
 });
@@ -41,7 +41,7 @@ export const searchIssues = ({
   repoName,
   issuesCount,
   pageNumber,
-}) => (dispatch) => {
+}) => dispatch => {
   dispatch(
     push(
       `/${userName}/${repoName}/issues?issuesCount=${issuesCount}&pageNumber=${pageNumber}`,
@@ -54,30 +54,36 @@ export const gotoIssue = ({ issueId, userName, repoName }) => (
   dispatch,
   getState,
 ) => {
-  const { number: issueNumber } = getState().toJS().home.issues.data.find(
-    ({ id }) => id === issueId,
-  );
+  const { number: issueNumber } = getState()
+    .toJS()
+    .home.issues.data.find(({ id }) => id === issueId);
   dispatch(push(`/${userName}/${repoName}/issues/${issueNumber}`));
 };
 
 const shouldUpdateIssues = (state, userName, repoName) =>
   state.issues.didInvalidate && userName && repoName;
 
-const shouldUpdateIssue = (state, userName, repoName, issueNumber) =>
-  state.issues.didInvalidate && userName && repoName && issueNumber;
+const shouldUpdateIssue = (
+  state,
+  userName,
+  repoName,
+  issueNumber, // todo: причем здесь userName && repoName && issueNumber?
+) => state.issues.didInvalidate && userName && repoName && issueNumber;
 
 export const fetchIssueIfNeeded = ({ userName, repoName, issueNumber }) => (
   dispatch,
   getState,
 ) => {
-  if (!shouldUpdateIssue(getState().toJS().home, userName, repoName, issueNumber)) {
+  if (
+    !shouldUpdateIssue(getState().toJS().home, userName, repoName, issueNumber)
+  ) {
     return;
   }
   dispatch(RequestIssues());
   dispatch(fetchIssue({ userName, repoName, issueNumber }));
 };
 
-export const fetchIssuesIfNeeded = (query) => (dispatch, getState) => {
+export const fetchIssuesIfNeeded = query => (dispatch, getState) => {
   const state = getState().toJS().home;
   const { userName, repoName, ...props } = query;
   if (!shouldUpdateIssues(state, userName, repoName)) {
@@ -88,7 +94,7 @@ export const fetchIssuesIfNeeded = (query) => (dispatch, getState) => {
   dispatch(fetchIssuesPagesCount({ userName, repoName, ...props }));
 };
 
-export const mapGithubIssueToLocalIssue = (data) => ({
+export const mapGithubIssueToLocalIssue = data => ({
   id: data.id,
   number: data.number,
   title: data.title,
@@ -117,9 +123,11 @@ const onFetchIssuesError = (dispatch, e, notBeFoundMessage = '') => {
   dispatch(ReceiveIssuesError(message));
 };
 
-export const fetchIssue = ({ userName, repoName, issueNumber }) => async (
-  dispatch,
-) => {
+export const fetchIssue = ({
+  userName,
+  repoName,
+  issueNumber,
+}) => async dispatch => {
   const url = api.getIssueUrl(
     userName.trim(),
     repoName.trim(),
@@ -139,7 +147,8 @@ export const fetchIssues = ({
   repoName,
   issuesCount,
   pageNumber,
-}) => async (dispatch) => {
+}) => async dispatch => {
+  // todo: юзание .trim() - это логика redux thunk?
   const url = api.getIssuesUrl(
     userName.trim(),
     repoName.trim(),
@@ -163,7 +172,7 @@ export const fetchIssuesPagesCount = ({
   userName,
   repoName,
   issuesCount,
-}) => async (dispatch) => {
+}) => async dispatch => {
   const url = api.getIssuesPagesCountUrl(userName.trim(), repoName.trim());
   const data = await makeRequest(url);
   const overallIssues = data.open_issues_count;
@@ -171,11 +180,12 @@ export const fetchIssuesPagesCount = ({
   return dispatch(ReceiveIssuesPagesCount(issuesPagesCount));
 };
 
-export const loadUserRepositories = (userName, searchString = '') => async (
-  dispatch,
-) => {
+export const loadUserRepositories = (
+  userName,
+  searchString = '',
+) => async dispatch => {
   const url = api.getUserReposUrl(userName.trim(), searchString.trim());
   const data = await makeRequest(url);
-  const repos = await data.items.map((repo) => repo.name);
+  const repos = await data.items.map(repo => repo.name);
   return dispatch(ReceiveUserRepos(repos));
 };
