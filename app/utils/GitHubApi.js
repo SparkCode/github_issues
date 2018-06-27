@@ -1,27 +1,48 @@
-export const hostname = 'https://api.github.com';
+import { githubAccessToken } from '../../appConfig.json';
 
-export const getIssuesPath = (userName, repoName, issuesCount, pageNumber) =>
-  `/repos/${userName}/${repoName}/issues?&per_page=${issuesCount}&page=${pageNumber}`;
+export const hostname = `https://api.github.com`;
 
-export const getReposInformationPath = (userName, repoName) =>
-  `/repos/${userName}/${repoName}`;
+export const getIssuesPath = (userName, repoName, issuesCount, pageNumber) => ({
+  path: `/repos/${userName}/${repoName}/issues`,
+  queryParams: {
+    per_page: issuesCount,
+    page: pageNumber,
+  },
+});
 
-export const getUserReposPath = (userName, searchString) =>
-  `/search/repositories?q=${searchString}+user:${userName}`;
+export const getReposInformationPath = (userName, repoName) => ({
+  path: `/repos/${userName}/${repoName}`,
+});
 
-export const getIssuePath = (userName, repoName, issueNumber) =>
-  `/repos/${userName}/${repoName}/issues/${issueNumber}`;
+export const getUserReposPath = (userName, searchString) => ({
+  path: `/search/repositories`,
+  queryParams: {
+    q: `${searchString}+user:${userName}`,
+  },
+});
 
-const constructUrl = (path) => hostname + path;
+export const getIssuePath = (userName, repoName, issueNumber) => ({
+  path: `/repos/${userName}/${repoName}/issues/${issueNumber}`,
+});
+
+const constructUrl = ({ path, queryParams: pathQueryParams = {} }) => {
+  const queryParams = { access_token: githubAccessToken, ...pathQueryParams };
+  const queryString = Object.keys(queryParams).reduce(
+    (acc, curr) =>
+      `${acc}${acc.length ? '&' : '?'}${curr}=${queryParams[curr]}`,
+    '',
+  );
+  return hostname + path + queryString;
+};
 
 export const getIssueUrl = (userName, repoName, issueNumber) =>
-  constructUrl(getIssuePath(userName, repoName, issueNumber));
+  `${constructUrl(getIssuePath(userName, repoName, issueNumber))}`;
 
 export const getIssuesUrl = (userName, repoName, issuesCount, pageNumber) =>
-  constructUrl(getIssuesPath(userName, repoName, issuesCount, pageNumber));
+  `${constructUrl(getIssuesPath(userName, repoName, issuesCount, pageNumber))}`;
 
 export const getIssuesPagesCountUrl = (userName, repoName) =>
-  constructUrl(getReposInformationPath(userName, repoName));
+  `${constructUrl(getReposInformationPath(userName, repoName))}`;
 
 export const getUserReposUrl = (userName, searchString) =>
-  constructUrl(getUserReposPath(userName, searchString));
+  `${constructUrl(getUserReposPath(userName, searchString))}`;
