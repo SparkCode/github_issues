@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import injectReducer from 'utils/injectReducer';
 import block from 'bem-cn';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import queryString from 'query-string';
@@ -10,15 +9,15 @@ import reducer from 'mainReducers';
 import './HomePage.css';
 import SearchIssues from './SearchIssues';
 import StatusIssuesBar from './StatusIssuesBar';
-import IssuesListPage from '../IssuesList/IssuesListPage';
-import IssueDetailPage from '../IssueDetail/IssueDetailPage';
-import { selectPaging } from 'selectors';
+import IssuesListPage from 'containers/IssuesList';
+import IssueDetailPage from 'containers/IssueDetail';
+import { mapProps, compose } from 'recompose';
+import { selectDefaultIssuesCountOption, selectIssuesCountOptions } from 'selectors';
 
 class HomePage extends PureComponent {
-  // todo: по-видимому страница HomePage не нужна
   render() {
     const b = block('home-page');
-    const { userName, repoName, issuesCount } = this.props; // todo: все это получается с помощью withRoute и стейта в контейнере SearchIssues
+    const { issuesCount, userName, repoName } = this.props;
     return (
       <div className={b()}>
         <SearchIssues
@@ -31,46 +30,51 @@ class HomePage extends PureComponent {
         <Route
           exact
           path="/:userName/:repoName/issues"
-          component={IssuesListPage}
+          render={props => (
+            <IssuesListPage {...props} issuesCount={issuesCount} userName={userName} repoName={repoName} />
+          )}
         />
         <Route
           exact
           path="/:userName/:repoName/issues/:issueNumber"
-          component={IssueDetailPage}
+          render={props => <IssueDetailPage {...props} userName={userName} repoName={repoName} />}
         />
       </div>
     );
   }
 }
 
+// todo: rewrite it for HomePage namespace
 HomePage.propTypes = {
   userName: PropTypes.string,
   repoName: PropTypes.string,
   issuesCount: PropTypes.string.isRequired,
 };
-HomePage.defaultProps = {};
 
-const mapStateToProps = (immutableState, ownProps) => {
-  const { userName, repoName } = ownProps.match.params; // todo: no here
-  const { issuesCount } = queryString.parse(ownProps.location.search); // todo: maybe no here
-  const { issuesCountOptions, defaultIssuesCountOption } = selectPaging(
-    immutableState,
-  );
-  return {
-    userName,
-    repoName,
-    // todo: there's no logic of mapStateToProps
-    issuesCount:
-      issuesCountOptions.indexOf(issuesCount) !== -1
-        ? issuesCount
-        : defaultIssuesCountOption,
-  };
-};
+const mapStateToProps = state => ({
+  issuesCountOptions: selectIssuesCountOptions(state),
+  defaultIssuesCountOption: selectDefaultIssuesCountOption(state),
+});
 
 const withReducer = injectReducer({ key: 'home', reducer });
+
 const withConnect = connect(mapStateToProps);
+
+const withRouteParams = mapProps(({ match: { params: { userName, repoName } }, location: { search }, ...props }) => ({
+  userName,
+  repoName,
+  ...queryString.parse(search),
+  ...props,
+}));
+
+const withValidIssuesCount = mapProps(({ issuesCountOptions, issuesCount, defaultIssuesCountOption, ...props }) => ({
+  issuesCount: issuesCountOptions.indexOf(issuesCount) !== -1 ? issuesCount : defaultIssuesCountOption,
+  ...props,
+}));
 
 export default compose(
   withReducer,
+  withRouteParams,
   withConnect,
+  withValidIssuesCount,
 )(HomePage);

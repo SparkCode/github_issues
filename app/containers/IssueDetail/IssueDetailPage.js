@@ -1,10 +1,12 @@
+// todo: 'IssueDetailPage' should be renamed
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import { fetchIssueIfNeeded } from '../../actionCreators';
+import { fetchIssueIfNeeded } from 'actionCreators';
 import { connect } from 'react-redux';
 import IssueDetail from './IssueDetail';
-import { selectIssues } from 'selectors';
+import { selectIsIssuesSuccessfullyBeLoaded } from 'selectors';
+import { compose, withProps } from 'recompose';
 
 class IssueDetailPage extends PureComponent {
   componentDidMount() {
@@ -12,8 +14,7 @@ class IssueDetailPage extends PureComponent {
     fetchIssueIfNeeded();
   }
 
-  // todo: use DidUpdate
-  componentWillReceiveProps() {
+  componentDidUpdate() {
     const { fetchIssueIfNeeded } = this.props;
     fetchIssueIfNeeded();
   }
@@ -21,46 +22,36 @@ class IssueDetailPage extends PureComponent {
   render() {
     const { issueBeLoaded, issueNumber } = this.props;
     const b = block('issue-page');
-    return (
-      <div className={b()}>
-        {/* todo + is no here */}
-        {issueBeLoaded && <IssueDetail issueNumber={+issueNumber} />}
-      </div>
-    );
+    return <div className={b()}>{issueBeLoaded && <IssueDetail issueNumber={issueNumber} />}</div>;
   }
 }
 
+// todo: rewrite it for namespace
 IssueDetailPage.propTypes = {
   fetchIssueIfNeeded: PropTypes.func.isRequired,
-  issueNumber: PropTypes.string,
+  issueNumber: PropTypes.number,
   issueBeLoaded: PropTypes.bool.isRequired,
 };
 IssueDetailPage.defaultProps = {};
 
-const mapStateToProps = (state, ownProps) => {
-  const { didInvalidate, isFetching, isRequestFailed } = selectIssues(
-    state,
-  );
+const mapStateToProps = state => ({
+  issueBeLoaded: selectIsIssuesSuccessfullyBeLoaded(state),
+});
 
-  const { issueNumber, userName, repoName } = ownProps.match.params;
-  const issueBeLoaded = !didInvalidate && !isFetching && !isRequestFailed;
-  return {
-    issueBeLoaded,
-    issueNumber,
-    userName,
-    repoName,
-  };
-};
+const mapDispatchToProps = (dispatch, { userName, repoName, issueNumber }) => ({
+  fetchIssueIfNeeded: () => dispatch(fetchIssueIfNeeded({ userName, repoName, issueNumber })),
+});
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { userName, repoName, issueNumber } = ownProps.match.params;
-  return {
-    fetchIssueIfNeeded: () =>
-      dispatch(fetchIssueIfNeeded({ userName, repoName, issueNumber })),
-  };
-};
+const withIssueNumber = withProps(({ match: { params: { issueNumber } } }) => ({
+  issueNumber: Number.parseInt(issueNumber, 10),
+}));
 
-export default connect(
+const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
+);
+
+export default compose(
+  withIssueNumber,
+  withConnect,
 )(IssueDetailPage);

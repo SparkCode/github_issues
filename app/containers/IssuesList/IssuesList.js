@@ -1,18 +1,17 @@
 import { connect } from 'react-redux';
-import IssuesList from '../../components/IssuesList';
-import { gotoIssue } from '../../actionCreators';
+import IssuesList from 'components/IssuesList';
+import { gotoIssue } from 'actionCreators';
 import { selectIssues, selectIssuesData } from 'selectors';
 
-const mapStateToProps = (immutableState) => ({
-  issues: selectIssuesData(immutableState),
+const mapStateToProps = state => ({
+  issues: selectIssuesData(state),
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { userName, repoName } = ownProps;
-  return {
-    onIssueTitleClick: (issueId) =>
-      dispatch(gotoIssue({ issueId, userName, repoName })),
-  };
-};
+const mapDispatchToProps = (dispatch, { userName, repoName }) => ({
+  onIssueTitleClick: issueId => dispatch(gotoIssue({ issueId, userName, repoName })),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(IssuesList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IssuesList);

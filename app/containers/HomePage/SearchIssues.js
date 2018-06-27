@@ -1,21 +1,13 @@
+import SearchIssues from 'components/SearchIssues';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SearchIssues from '../../components/SearchIssues';
-import { searchIssues, loadUserRepositories } from '../../actionCreators';
-import { selectPaging, selectUserRepositories } from 'selectors';
+import { searchIssues, loadUserRepositories } from 'actionCreators';
+import { selectUserRepositories, selectIssuesCountOptions } from 'selectors';
 
-const mapStateToProps = (immutableState, ownProps) => {
-  const { issuesCountOptions } = selectPaging(immutableState);
-  const userRepositories = selectUserRepositories(immutableState);
-  const { defaultUserName, defaultRepoName, defaultIssuesCount } = ownProps;
-  return {
-    issuesCountOptions,
-    userRepositories,
-    defaultRepoName,
-    defaultUserName,
-    defaultIssuesCount,
-  };
-};
+const mapStateToProps = state => ({
+  issuesCountOptions: selectIssuesCountOptions(state),
+  userRepositories: selectUserRepositories(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   onSearch: (userName, repoName, issuesCount) => {

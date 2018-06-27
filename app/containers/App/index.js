@@ -21,6 +21,7 @@ export default function App() {
   return (
     <div>
       <Switch>
+        <Route path="/:userName/:repoName/issues" component={HomePage} />
         <Route path="/" component={HomePage} />
         <Route component={NotFoundPage} />
       </Switch>

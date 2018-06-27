@@ -1,21 +1,14 @@
 import { connect } from 'react-redux';
-import StatusIssuesBar from '../../components/StatusIssuesBar';
-import { selectIssues } from 'selectors';
+import StatusIssuesBar from 'components/StatusIssuesBar';
+import { selectIssues, selectIsNoIssuesReceived } from 'selectors';
 
-const mapStateToProps = immutableState => {
-  const {
-    data,
-    didInvalidate,
-    isFetching,
-    isRequestFailed,
-    errorMessage,
-  } = selectIssues(immutableState);
+const mapStateToProps = state => {
+  const { isFetching, isRequestFailed, errorMessage } = selectIssues(state);
   return {
-    issuesBeReceived: !didInvalidate && !isFetching,
     issuesIsLoading: isFetching,
     isRequestFailed,
     errorMessage,
-    noIssueHave: data.length === 0,
+    noIssuesReceived: selectIsNoIssuesReceived(state),
   };
 };
 

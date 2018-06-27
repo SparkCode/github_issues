@@ -7,14 +7,13 @@ import classnames from 'classnames';
 class StatusIssuesBar extends PureComponent {
   render() {
     const {
-      issuesBeReceived,
       issuesIsLoading,
       isRequestFailed,
       errorMessage,
-      noIssueHave,
       className,
       noIssuesBeReceivedMessage,
       issuesIsLoadingMessage,
+      noIssuesReceived,
     } = this.props;
 
     const b = block('status-issues-bar');
@@ -22,7 +21,7 @@ class StatusIssuesBar extends PureComponent {
     // todo: looks ugly
     const status = isRequestFailed
       ? errorMessage
-      : issuesBeReceived && noIssueHave
+      : noIssuesReceived
         ? noIssuesBeReceivedMessage
         : issuesIsLoading
           ? issuesIsLoadingMessage
@@ -32,10 +31,9 @@ class StatusIssuesBar extends PureComponent {
 }
 
 StatusIssuesBar.propTypes = {
-  issuesBeReceived: PropTypes.bool.isRequired,
   issuesIsLoading: PropTypes.bool.isRequired,
   isRequestFailed: PropTypes.bool.isRequired,
-  noIssueHave: PropTypes.bool.isRequired,
+  noIssuesReceived: PropTypes.bool.isRequired,
   className: PropTypes.string,
   errorMessage: PropTypes.string,
   noIssuesBeReceivedMessage: PropTypes.string,

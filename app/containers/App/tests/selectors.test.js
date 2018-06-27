@@ -10,8 +10,6 @@ describe('makeSelectLocation', () => {
     const mockedState = fromJS({
       route,
     });
-    expect(makeSelectLocation()(mockedState)).toEqual(
-      route.get('location').toJS(),
-    );
+    expect(makeSelectLocation()(mockedState)).toEqual(route.get('location').toJS());
   });
 });
