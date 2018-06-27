@@ -4,6 +4,7 @@ import block from 'bem-cn';
 import { fetchIssueIfNeeded } from '../../actionCreators';
 import { connect } from 'react-redux';
 import IssueDetail from './IssueDetail';
+import { selectIssues } from 'selectors';
 
 class IssueDetailPage extends PureComponent {
   componentDidMount() {
@@ -37,11 +38,10 @@ IssueDetailPage.propTypes = {
 IssueDetailPage.defaultProps = {};
 
 const mapStateToProps = (state, ownProps) => {
-  const {
-    didInvalidate,
-    isFetching,
-    isRequestFailed,
-  } = state.toJS().home.issues;
+  const { didInvalidate, isFetching, isRequestFailed } = selectIssues(
+    state,
+  );
+
   const { issueNumber, userName, repoName } = ownProps.match.params;
   const issueBeLoaded = !didInvalidate && !isFetching && !isRequestFailed;
   return {

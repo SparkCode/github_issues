@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SearchIssues from '../../components/SearchIssues';
 import { searchIssues, loadUserRepositories } from '../../actionCreators';
+import { selectPaging, selectUserRepositories } from 'selectors';
 
 const mapStateToProps = (immutableState, ownProps) => {
-  const state = immutableState.toJS();
-  const { issuesCountOptions } = state.home.issues.paging;
-  const { userRepositories } = state.home;
+  const { issuesCountOptions } = selectPaging(immutableState);
+  const userRepositories = selectUserRepositories(immutableState);
   const { defaultUserName, defaultRepoName, defaultIssuesCount } = ownProps;
   return {
     issuesCountOptions,
@@ -17,7 +17,7 @@ const mapStateToProps = (immutableState, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   onSearch: (userName, repoName, issuesCount) => {
     dispatch(
       searchIssues({
@@ -31,4 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
   searchReposByUserName: bindActionCreators(loadUserRepositories, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchIssues);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchIssues);

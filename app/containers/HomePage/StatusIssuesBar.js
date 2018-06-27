@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import StatusIssuesBar from '../../components/StatusIssuesBar';
+import { selectIssues } from 'selectors';
 
-const mapStateToProps = (immutableState) => {
-  const state = immutableState.toJS();
+const mapStateToProps = immutableState => {
   const {
     data,
     didInvalidate,
     isFetching,
     isRequestFailed,
     errorMessage,
-  } = state.home.issues;
+  } = selectIssues(immutableState);
   return {
     issuesBeReceived: !didInvalidate && !isFetching,
     issuesIsLoading: isFetching,

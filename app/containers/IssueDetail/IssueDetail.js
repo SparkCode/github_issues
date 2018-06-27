@@ -1,11 +1,8 @@
 import { connect } from 'react-redux';
 import IssueDetail from '../../components/IssueDetail';
+import { selectIssue } from 'selectors';
 
-const mapStateToProps = (immutableState, ownProps) => {
-  const state = immutableState.toJS();
-  const { issueNumber } = ownProps;
-  const issue = state.home.issues.data.find(i => i.number === issueNumber);
-  return { ...issue }; // эм
-};
+const mapStateToProps = (immutableState, { issueNumber }) =>
+  selectIssue(immutableState, issueNumber);
 
 export default connect(mapStateToProps)(IssueDetail);

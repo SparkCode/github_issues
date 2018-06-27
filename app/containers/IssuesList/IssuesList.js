@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
 import IssuesList from '../../components/IssuesList';
 import { gotoIssue } from '../../actionCreators';
+import { selectIssues, selectIssuesData } from 'selectors';
 
-const mapStateToProps = (immutableState) => {
-  const state = immutableState.toJS();
-  const { data } = state.home.issues;
-  return {
-    issues: data,
-  };
-};
+const mapStateToProps = (immutableState) => ({
+  issues: selectIssuesData(immutableState),
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { userName, repoName } = ownProps;

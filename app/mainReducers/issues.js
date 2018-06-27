@@ -20,7 +20,7 @@ const issues = (state = defaultIssuesState, action) => {
       return state
         .set('didInvalidate', true)
         .set('data', fromJS([]))
-        .set('isRequestFailed', true)
+        .set('isRequestFailed', false)
         .set('errorMessage', '')
         .setIn(['paging', 'issuesPagesCount'], null);
     }

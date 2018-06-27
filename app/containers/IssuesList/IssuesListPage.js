@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { fetchIssuesIfNeeded } from '../../actionCreators';
 import IssuesList from './IssuesList';
 import Paging from './Paging';
+import { selectIssuesData, selectPaging } from 'selectors';
 
 class IssuesListPage extends PureComponent {
   componentDidMount() {
@@ -68,13 +69,12 @@ IssuesListPage.propTypes = {
 IssuesListPage.defaultProps = {};
 
 const mapStateToProps = (immutableState, ownProps) => {
-  const state = immutableState.toJS();
   const {
     issuesCountOptions,
     defaultIssuesCountOption,
     issuesPagesCount,
-  } = state.home.issues.paging;
-  const issues = state.home.issues.data;
+  } = selectPaging(immutableState);
+  const issues = selectIssuesData(immutableState);
   const { userName, repoName } = ownProps.match.params; // todo: не здесь
   const { issuesCount, pageNumber } = queryString.parse(
     ownProps.location.search,

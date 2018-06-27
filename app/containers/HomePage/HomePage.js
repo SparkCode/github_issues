@@ -12,6 +12,7 @@ import SearchIssues from './SearchIssues';
 import StatusIssuesBar from './StatusIssuesBar';
 import IssuesListPage from '../IssuesList/IssuesListPage';
 import IssueDetailPage from '../IssueDetail/IssueDetailPage';
+import { selectPaging } from 'selectors';
 
 class HomePage extends PureComponent {
   // todo: по-видимому страница HomePage не нужна
@@ -50,16 +51,15 @@ HomePage.propTypes = {
 HomePage.defaultProps = {};
 
 const mapStateToProps = (immutableState, ownProps) => {
-  const state = immutableState.toJS();
   const { userName, repoName } = ownProps.match.params; // todo: no here
   const { issuesCount } = queryString.parse(ownProps.location.search); // todo: maybe no here
-  const {
-    issuesCountOptions,
-    defaultIssuesCountOption,
-  } = state.home.issues.paging;
+  const { issuesCountOptions, defaultIssuesCountOption } = selectPaging(
+    immutableState,
+  );
   return {
     userName,
     repoName,
+    // todo: there's no logic of mapStateToProps
     issuesCount:
       issuesCountOptions.indexOf(issuesCount) !== -1
         ? issuesCount

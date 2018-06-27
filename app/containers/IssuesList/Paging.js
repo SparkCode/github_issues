@@ -1,9 +1,10 @@
 import { searchIssues } from '../../actionCreators';
 import { connect } from 'react-redux';
 import Paging from '../../components/Paging';
+import { selectIssuesPagesCount } from 'selectors';
 
 const mapStateToProps = (state) => ({
-  pagesNumber: state.toJS().home.issues.paging.issuesPagesCount,
+  pagesNumber: selectIssuesPagesCount(state),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
