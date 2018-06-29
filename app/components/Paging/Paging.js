@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import './Paging.css';
+import './Paging.scss';
 import PageButton from './PageButton';
 
 class Paging extends PureComponent {
@@ -31,29 +31,15 @@ class Paging extends PureComponent {
     }
 
     return configures
-      .map((b) => ({ ...b, className }))
-      .map(
-        (b) =>
-          b.value === currentPage || !b.value ? { ...b, disabled: true } : b,
-      );
+      .map(b => ({ ...b, className }))
+      .map(b => (b.value === currentPage || !b.value ? { ...b, disabled: true } : b));
   }
 
   render() {
-    const {
-      pagesNumber,
-      currentPage,
-      gotoNewPage,
-      maxVisiblePagesFromEachSide = 2,
-    } = this.props;
+    const { pagesNumber, currentPage, gotoNewPage, maxVisiblePagesFromEachSide = 2 } = this.props;
     const b = block('paging');
-    const startVisiblePage = Math.max(
-      currentPage - maxVisiblePagesFromEachSide,
-      1,
-    );
-    const finishVisiblePage = Math.min(
-      currentPage + maxVisiblePagesFromEachSide,
-      pagesNumber,
-    );
+    const startVisiblePage = Math.max(currentPage - maxVisiblePagesFromEachSide, 1);
+    const finishVisiblePage = Math.min(currentPage + maxVisiblePagesFromEachSide, pagesNumber);
     const buttonsConfigure = this.getButtonsConfigure(
       pagesNumber,
       currentPage,
@@ -61,9 +47,7 @@ class Paging extends PureComponent {
       finishVisiblePage,
       b('page-link')(),
     );
-    const buttons = buttonsConfigure.map((c) => (
-      <PageButton gotoNewPage={gotoNewPage} {...c} />
-    ));
+    const buttons = buttonsConfigure.map(c => <PageButton gotoNewPage={gotoNewPage} {...c} />);
     return <div className={b()}>{buttons}</div>;
   }
 }

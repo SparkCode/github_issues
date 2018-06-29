@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import block from 'bem-cn';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import './Button.css';
+import './Button.scss';
 
 class Button extends PureComponent {
   render() {

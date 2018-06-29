@@ -4,7 +4,7 @@ import block from 'bem-cn';
 import { KeyCodes } from 'utils';
 import classnames from 'classnames';
 import Input from './../Input';
-import './Autocomplete.css';
+import './Autocomplete.scss';
 import OptionsList from './OptionsList';
 
 class AutoComplete extends PureComponent {
@@ -29,13 +29,13 @@ class AutoComplete extends PureComponent {
     this.setState(this.defaultState);
   };
 
-  onOptionSelect = (value) => {
+  onOptionSelect = value => {
     const { onValueChange, onOptionSelected } = this.props;
     onValueChange(value);
     onOptionSelected(value);
   };
 
-  onOptionHover = (index) => {
+  onOptionHover = index => {
     this.setState({ focusedOptionIndex: index, isControlledByMouse: true });
   };
 
@@ -53,7 +53,7 @@ class AutoComplete extends PureComponent {
     return { focusedOptionIndex: newIndex };
   };
 
-  onKeyPress = (e) => {
+  onKeyPress = e => {
     this.setState({ isControlledByMouse: false });
     switch (e.keyCode) {
       case KeyCodes.enter: {
@@ -70,11 +70,7 @@ class AutoComplete extends PureComponent {
         e.preventDefault();
         this.setState((prevState, props) => {
           const { focusedOptionIndex } = prevState;
-          return this.focusNextOption(
-            -1,
-            focusedOptionIndex,
-            props.options.length,
-          );
+          return this.focusNextOption(-1, focusedOptionIndex, props.options.length);
         });
         return;
       }
@@ -83,11 +79,7 @@ class AutoComplete extends PureComponent {
         e.preventDefault();
         this.setState((prevState, props) => {
           const { focusedOptionIndex } = prevState;
-          return this.focusNextOption(
-            1,
-            focusedOptionIndex,
-            props.options.length,
-          );
+          return this.focusNextOption(1, focusedOptionIndex, props.options.length);
         });
       }
 
@@ -95,20 +87,14 @@ class AutoComplete extends PureComponent {
     }
   };
 
-  onInputValueChange = (value) => {
+  onInputValueChange = value => {
     const { onValueChange } = this.props;
     this.setState({ focusedOptionIndex: -1 });
     onValueChange(value);
   };
 
   render() {
-    const {
-      className,
-      options,
-      value,
-      onOptionSelected,
-      ...props
-    } = this.props;
+    const { className, options, value, onOptionSelected, ...props } = this.props;
     const { isInputHasFocus, focusedOptionIndex } = this.state;
     const b = block('autocomplete');
     return (
@@ -120,7 +106,7 @@ class AutoComplete extends PureComponent {
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
           onValueChange={this.onInputValueChange}
-          inputRef={(input) => (this.inputElement = input)}
+          inputRef={input => (this.inputElement = input)}
         />
         <OptionsList
           options={options}

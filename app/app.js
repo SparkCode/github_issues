@@ -14,11 +14,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-import 'sanitize.css/sanitize.css';
+import 'sanitize.css/sanitize.css'; // todo: зачем?
 
 // Import root app
 import App from 'containers/App';
-import './stylesheets/main.css';
+import './stylesheets/main.scss';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
@@ -41,7 +41,7 @@ const render = () => {
         <App />
       </ConnectedRouter>
     </Provider>,
-    MOUNT_NODE
+    MOUNT_NODE,
   );
 };
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import block from 'bem-cn';
 import PropTypes from 'prop-types';
 import Option from './Option';
-import './OptionsList.css';
+import './OptionsList.scss';
 
 class OptionsList extends PureComponent {
   componentDidUpdate(prevProps) {
@@ -24,9 +24,7 @@ class OptionsList extends PureComponent {
   shouldScrollToOption(prevProps) {
     const { focusedOptionIndex } = this.props;
     const prevFocusedOptionIndex = prevProps.focusedOptionIndex;
-    return (
-      focusedOptionIndex !== prevFocusedOptionIndex && this.focusedOptionElement
-    );
+    return focusedOptionIndex !== prevFocusedOptionIndex && this.focusedOptionElement;
   }
 
   scrollToOption() {
@@ -44,27 +42,19 @@ class OptionsList extends PureComponent {
   }
 
   render() {
-    const {
-      options,
-      focusedOptionIndex,
-      isInputHasFocus,
-      onOptionsListHoverOut,
-      ...props
-    } = this.props;
+    const { options, focusedOptionIndex, isInputHasFocus, onOptionsListHoverOut, ...props } = this.props;
     const b = block('autocomplete-options');
     return (
       <ul
         className={b({ unseen: !isInputHasFocus })()}
         onMouseLeave={onOptionsListHoverOut}
-        ref={(el) => (this.optionsListElement = el)}
+        ref={el => (this.optionsListElement = el)}
       >
         {options.map((option, i) => (
           <Option
             option={option}
             index={i}
-            optionRef={(el) =>
-              i === focusedOptionIndex && (this.focusedOptionElement = el)
-            }
+            optionRef={el => i === focusedOptionIndex && (this.focusedOptionElement = el)}
             isSelected={i === focusedOptionIndex}
             key={i}
             {...props}

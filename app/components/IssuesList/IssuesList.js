@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Issue from './Issue';
 import block from 'bem-cn';
-import './IssuesList.css';
+import './IssuesList.scss';
 
 class IssuesList extends PureComponent {
   render() {
@@ -11,9 +11,7 @@ class IssuesList extends PureComponent {
     return (
       <div className={b()}>
         <ul className={b('list')()}>
-          {issues.map((issue) => (
-            <Issue key={issue.id} {...issue} onTitleClick={onIssueTitleClick} />
-          ))}
+          {issues.map(issue => <Issue key={issue.id} {...issue} onTitleClick={onIssueTitleClick} />)}
         </ul>
       </div>
     );
@@ -21,9 +19,7 @@ class IssuesList extends PureComponent {
 }
 
 IssuesList.propTypes = {
-  issues: PropTypes.arrayOf(
-    PropTypes.shape({ id: PropTypes.number.isRequired }),
-  ).isRequired,
+  issues: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number.isRequired })).isRequired,
   onIssueTitleClick: PropTypes.func.isRequired,
 };
 

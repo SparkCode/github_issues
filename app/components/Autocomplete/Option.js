@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import './Option.css';
+import './Option.scss';
 
 class Option extends PureComponent {
   onMouseOver = () => {

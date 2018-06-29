@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './Link.css';
+import './Link.scss';
 import block from 'bem-cn';
 import classnames from 'classnames';
 

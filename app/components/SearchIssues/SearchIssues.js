@@ -7,7 +7,7 @@ import Button from '../Button';
 import AutoComplete from '../Autocomplete';
 import Select from '../Select';
 import { debounce } from 'lodash';
-import './SearchIssues.css';
+import './SearchIssues.scss';
 
 class SearchIssues extends PureComponent {
   constructor(props) {
@@ -34,23 +34,23 @@ class SearchIssues extends PureComponent {
     this.setState({ [propertyName]: value });
   };
 
-  onUserNameChange = (value) => this.onValueChange('userName', value);
+  onUserNameChange = value => this.onValueChange('userName', value);
 
-  onRepoNameChange = (value) => {
+  onRepoNameChange = value => {
     this.onValueChange('repoName', value);
     const { userName } = this.state;
     this.debouncedSearchReposByUserName(userName, value);
   };
 
-  onIssueCountChange = (value) => this.onValueChange('issuesCount', value);
+  onIssueCountChange = value => this.onValueChange('issuesCount', value);
 
-  onRepoSelected = (repoName) => {
+  onRepoSelected = repoName => {
     const { onSearch } = this.props;
     const { userName, issuesCount } = this.state;
     onSearch(userName, repoName, issuesCount);
   };
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
     const { onSearch } = this.props;
     const { userName, repoName, issuesCount } = this.state;

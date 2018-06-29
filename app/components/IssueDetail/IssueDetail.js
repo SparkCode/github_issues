@@ -2,24 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate } from 'utils';
 import block from 'bem-cn';
-import './IssueDetail.css';
+import './IssueDetail.scss';
 import Markdown from '../Markdown';
 import Link from '../Link';
 
 class IssueDetail extends PureComponent {
   render() {
     const b = block('issue-detail');
-    const {
-      title,
-      number,
-      state,
-      userLogin,
-      createdAt,
-      body,
-      issueUrl,
-      userUrl,
-      userAvatarUrl,
-    } = this.props;
+    const { title, number, state, userLogin, createdAt, body, issueUrl, userUrl, userAvatarUrl } = this.props;
     const date = formatDate(createdAt);
     return (
       <div className={b()}>
@@ -32,11 +22,7 @@ class IssueDetail extends PureComponent {
             <span className={b('number')()}> #{number}</span>
           </h1>
         </div>
-        <img
-          className={b('avatar')()}
-          src={userAvatarUrl}
-          alt={`${userLogin}'s avatar`}
-        />
+        <img className={b('avatar')()} src={userAvatarUrl} alt={`${userLogin}'s avatar`} />
         <div className={b('message')()}>
           <div className={b('message-header')()}>
             <Link href={userUrl} target="_blank" className={b('user-login')()}>

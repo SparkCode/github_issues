@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import queryString from 'query-string';
 import reducer from 'mainReducers';
-import './HomePage.css';
+import './HomePage.scss';
 import SearchIssues from './SearchIssues';
 import StatusIssuesBar from './StatusIssuesBar';
 import IssuesListPage from 'containers/IssuesList';

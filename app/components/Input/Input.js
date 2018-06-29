@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import block from 'bem-cn';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import './Input.css';
+import './Input.scss';
 
 class Input extends PureComponent {
-  onChange = (e) => {
+  onChange = e => {
     const value = e.target.value;
     this.props.onValueChange(value);
   };
@@ -13,14 +13,7 @@ class Input extends PureComponent {
   render() {
     const { className, inputRef, onValueChange, ...props } = this.props;
     const b = block('input');
-    return (
-      <input
-        {...props}
-        className={classnames(className, b())}
-        ref={inputRef}
-        onChange={this.onChange}
-      />
-    );
+    return <input {...props} className={classnames(className, b())} ref={inputRef} onChange={this.onChange} />;
   }
 }
 
