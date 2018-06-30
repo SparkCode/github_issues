@@ -10,8 +10,7 @@ describe('<IssuesList/>', () => {
         id: 5,
         number: 10,
         title: 'problems with simulating events',
-        createdAt:
-          'Sun Sep 10 2017 14:18:04 GMT+0400 (Russia TZ 3 Standard Time)',
+        createdAt: 'Sun Sep 10 2017 14:18:04 GMT+0400 (Russia TZ 3 Standard Time)',
       },
       {
         id: 2,

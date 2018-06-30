@@ -10,8 +10,7 @@ describe('<StatusIssuesBar/>', () => {
     noIssueHave: false,
   };
 
-  const setup = (propsOverrides) =>
-    componentSetup(StatusIssuesBar, defaultProps, propsOverrides);
+  const setup = propsOverrides => componentSetup(StatusIssuesBar, defaultProps, propsOverrides);
 
   it('should render without crashing', () => {
     setup();
@@ -38,9 +37,7 @@ describe('<StatusIssuesBar/>', () => {
       noIssueHave: true,
       noIssuesBeReceivedMessage: 'message',
     });
-    expect(
-      wrapper.children().contains(props.noIssuesBeReceivedMessage),
-    ).toBeTruthy();
+    expect(wrapper.children().contains(props.noIssuesBeReceivedMessage)).toBeTruthy();
   });
 
   it('should render issuesIsLoadingMessage when issues is loading', () => {
@@ -51,8 +48,6 @@ describe('<StatusIssuesBar/>', () => {
       issuesIsLoading: true,
       issuesIsLoadingMessage: 'message',
     });
-    expect(
-      wrapper.children().contains(props.issuesIsLoadingMessage),
-    ).toBeTruthy();
+    expect(wrapper.children().contains(props.issuesIsLoadingMessage)).toBeTruthy();
   });
 });

@@ -51,10 +51,13 @@ HomePage.propTypes = {
   issuesCount: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  issuesCountOptions: selectIssuesCountOptions(state),
-  defaultIssuesCountOption: selectDefaultIssuesCountOption(state),
-});
+const mapStateToProps = state => {
+  debugger;
+  return ({
+    issuesCountOptions: selectIssuesCountOptions(state),
+    defaultIssuesCountOption: selectDefaultIssuesCountOption(state),
+  });
+};
 
 const withReducer = injectReducer({ key: 'home', reducer });
 

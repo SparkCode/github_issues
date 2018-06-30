@@ -13,12 +13,8 @@ describe('<OptionsList/>', () => {
     onOptionHover: () => {},
   };
 
-  const setup = (propsOverrides) => {
-    const { wrapper, props } = componentSetup(
-      OptionsList,
-      defaultProps,
-      propsOverrides,
-    );
+  const setup = propsOverrides => {
+    const { wrapper, props } = componentSetup(OptionsList, defaultProps, propsOverrides);
     return {
       wrapper,
       props,
@@ -32,16 +28,12 @@ describe('<OptionsList/>', () => {
 
   it('should render list element with autocomplete-options-unseen class, when isInputHasFocus is false', () => {
     const { optionsListElement } = setup({ isInputHasFocus: false });
-    expect(
-      optionsListElement.hasClass('autocomplete-options_unseen'),
-    ).toBeTruthy();
+    expect(optionsListElement.hasClass('autocomplete-options_unseen')).toBeTruthy();
   });
 
   it('should render list element without autocomplete-options-unseen class, when isInputHasFocus is true', () => {
     const { optionsListElement } = setup({ isInputHasFocus: true });
-    expect(
-      optionsListElement.hasClass('autocomplete-options_unseen'),
-    ).toBeFalsy();
+    expect(optionsListElement.hasClass('autocomplete-options_unseen')).toBeFalsy();
   });
 
   it('should call onOptionsListHoverOut callback when onMouseLeave event is fire for options list element', () => {
@@ -56,15 +48,11 @@ describe('<OptionsList/>', () => {
 
   it('should render only single Option with true isSelected attribute, when focusedOptionIndex is not -1', () => {
     const { optionsListElement } = setup({ focusedOptionIndex: 2 });
-    expect(
-      optionsListElement.children().findWhere((el) => el.prop('isSelected')),
-    ).toHaveLength(1);
+    expect(optionsListElement.children().findWhere(el => el.prop('isSelected'))).toHaveLength(1);
   });
 
   it('should render no Options with true isSelected attribute, when focusedOptionIndex is -1', () => {
     const { optionsListElement } = setup({ focusedOptionIndex: -1 });
-    expect(
-      optionsListElement.children().findWhere((el) => el.prop('isSelected')),
-    ).toHaveLength(0);
+    expect(optionsListElement.children().findWhere(el => el.prop('isSelected'))).toHaveLength(0);
   });
 });

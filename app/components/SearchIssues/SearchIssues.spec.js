@@ -14,12 +14,8 @@ describe('<SearchIssues/>', () => {
     defaultProps.searchReposByUserName = sinon.spy();
   });
 
-  const setup = (propsOverrides) => {
-    const { wrapper, props } = componentSetup(
-      SearchIssues,
-      defaultProps,
-      propsOverrides,
-    );
+  const setup = propsOverrides => {
+    const { wrapper, props } = componentSetup(SearchIssues, defaultProps, propsOverrides);
 
     return {
       props,
@@ -49,12 +45,7 @@ describe('<SearchIssues/>', () => {
     wrapper.setState(state);
     wrapper.simulate('submit', { preventDefault: sinon.spy() });
     expect(
-      props.onSearch.calledOnce &&
-        props.onSearch.calledWithExactly(
-          state.userName,
-          state.repoName,
-          state.issuesCount,
-        ),
+      props.onSearch.calledOnce && props.onSearch.calledWithExactly(state.userName, state.repoName, state.issuesCount),
     ).toBeTruthy();
   });
 
@@ -69,12 +60,7 @@ describe('<SearchIssues/>', () => {
     const selectedRepo = 'newRepo';
     repoName.props().onOptionSelected(selectedRepo);
     expect(
-      props.onSearch.calledOnce &&
-        props.onSearch.calledWithExactly(
-          state.userName,
-          selectedRepo,
-          state.issuesCount,
-        ),
+      props.onSearch.calledOnce && props.onSearch.calledWithExactly(state.userName, selectedRepo, state.issuesCount),
     ).toBeTruthy();
   });
 
@@ -85,10 +71,7 @@ describe('<SearchIssues/>', () => {
     userName.props().onBlur();
     expect(
       props.searchReposByUserName.calledOnce &&
-        props.searchReposByUserName.calledWithExactly(
-          state.userName,
-          undefined,
-        ),
+        props.searchReposByUserName.calledWithExactly(state.userName, undefined),
     ).toBeTruthy();
   });
 
@@ -102,10 +85,7 @@ describe('<SearchIssues/>', () => {
     setTimeout(() => {
       expect(
         props.searchReposByUserName.calledOnce &&
-          props.searchReposByUserName.calledWithExactly(
-            state.userName,
-            newRepoName,
-          ),
+          props.searchReposByUserName.calledWithExactly(state.userName, newRepoName),
       ).toBeTruthy();
     }, 600);
   });

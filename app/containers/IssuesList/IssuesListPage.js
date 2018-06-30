@@ -3,12 +3,12 @@ import React, { PureComponent } from 'react';
 import block from 'bem-cn';
 import * as queryString from 'query-string';
 import PropTypes from 'prop-types';
+import { withProps } from 'recompose';
 import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator } from 'actionCreators';
+import { selectIssuesData, selectIssuesPagesCount } from 'selectors';
+import { compose } from 'redux';
 import IssuesList from './IssuesList';
 import Paging from './Paging';
-import { selectIssuesData, selectIssuesPagesCount } from 'selectors';
-import { withProps } from 'recompose';
-import { compose } from 'redux';
 
 class IssuesListPage extends PureComponent {
   componentDidMount() {

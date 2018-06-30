@@ -1,6 +1,7 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import nock from 'nock';
+import * as api from 'utils/GitHubApi';
 import {
   fetchIssue,
   fetchIssues,
@@ -9,7 +10,6 @@ import {
   mapGithubIssueToLocalIssue,
 } from './actionCreators';
 import * as constants from './constants';
-import * as api from '../utils/GitHubApi';
 
 describe('async actions', () => {
   const middlewares = [thunk];
@@ -23,15 +23,13 @@ describe('async actions', () => {
     it('should dispatch RECEIVE_USER_REPOSITORIES action, when user repositories be received', () => {
       const userName = 'userName';
       const repos = ['project1', 'project2', 'project3'];
-      const body = { items: repos.map((name) => ({ name })) };
+      const body = { items: repos.map(name => ({ name })) };
 
       nock(api.hostname)
         .get(api.getUserReposPath(userName, ''))
         .reply(200, body);
 
-      const expectedAction = [
-        { type: constants.RECEIVE_USER_REPOSITORIES, repos },
-      ];
+      const expectedAction = [{ type: constants.RECEIVE_USER_REPOSITORIES, repos }];
       const initState = {};
       const store = mockStore(initState);
 
@@ -72,16 +70,12 @@ describe('async actions', () => {
         .reply(200, body);
 
       const store = mockStore({});
-      const expectedActions = [
-        { type: constants.RECEIVE_ISSUES_PAGES_COUNT, issuesPagesCount: 10 },
-      ];
+      const expectedActions = [{ type: constants.RECEIVE_ISSUES_PAGES_COUNT, issuesPagesCount: 10 }];
 
-      return store
-        .dispatch(fetchIssuesPagesCount({ userName, repoName, issuesCount }))
-        .then(() => {
-          const actions = store.getActions();
-          expect(actions).toEqual(expectedActions);
-        });
+      return store.dispatch(fetchIssuesPagesCount({ userName, repoName, issuesCount })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
     });
 
     it('should dispatch no actions, when request not be successful', () => {
@@ -219,12 +213,10 @@ describe('async actions', () => {
         },
       ];
 
-      return store
-        .dispatch(fetchIssue({ userName, repoName, issueNumber }))
-        .then(() => {
-          const actions = store.getActions();
-          expect(actions).toEqual(expectedActions);
-        });
+      return store.dispatch(fetchIssue({ userName, repoName, issueNumber })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
     });
 
     it('should dispatch RECEIVE_ISSUES_ERROR action, when request not be successful', () => {

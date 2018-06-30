@@ -1,6 +1,7 @@
+// TODO: need to be refactored
 import KeyCodes from './keyCodes';
 
-const formatDate = (date) => {
+const formatDate = date => {
   const options = {
     day: 'numeric',
     month: 'short',

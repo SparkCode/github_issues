@@ -3,7 +3,7 @@ import React from 'react';
 import { componentSetup } from 'utils/ComponentTest';
 
 describe('<Button/>', () => {
-  const setup = (propsOverrides) => componentSetup(Button, {}, propsOverrides);
+  const setup = propsOverrides => componentSetup(Button, {}, propsOverrides);
 
   it('should render without crashing', () => {
     setup();

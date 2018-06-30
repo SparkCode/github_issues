@@ -13,8 +13,7 @@ describe('<Select/>', () => {
     defaultProps.onValueChange = sinon.spy();
   });
 
-  const setup = (propsOverrides) =>
-    componentSetup(Select, defaultProps, propsOverrides);
+  const setup = propsOverrides => componentSetup(Select, defaultProps, propsOverrides);
 
   it('should render without crashing', () => {
     setup();
@@ -30,9 +29,6 @@ describe('<Select/>', () => {
     const { wrapper, props } = setup();
     const newValue = props.options[2];
     wrapper.simulate('change', { target: { value: newValue } });
-    expect(
-      props.onValueChange.calledOnce &&
-        props.onValueChange.calledWithExactly(newValue),
-    ).toBeTruthy();
+    expect(props.onValueChange.calledOnce && props.onValueChange.calledWithExactly(newValue)).toBeTruthy();
   });
 });

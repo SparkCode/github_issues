@@ -15,12 +15,8 @@ describe('<Issue/>', () => {
     defaultProps.onTitleClick = sinon.spy();
   });
 
-  const setup = (propsOverrides) => {
-    const { wrapper, props } = componentSetup(
-      Issue,
-      defaultProps,
-      propsOverrides,
-    );
+  const setup = propsOverrides => {
+    const { wrapper, props } = componentSetup(Issue, defaultProps, propsOverrides);
 
     return {
       wrapper,
@@ -36,9 +32,6 @@ describe('<Issue/>', () => {
   it('should call onTitleClick callback with issue id arg when click event fire for title element', () => {
     const { title, props } = setup();
     title.props().onClick();
-    expect(
-      props.onTitleClick.calledOnce &&
-        props.onTitleClick.calledWithExactly(props.id),
-    ).toBeTruthy();
+    expect(props.onTitleClick.calledOnce && props.onTitleClick.calledWithExactly(props.id)).toBeTruthy();
   });
 });

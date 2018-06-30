@@ -41,10 +41,7 @@ const issues = (state = defaultIssuesState, action) => {
     }
 
     case constants.RECEIVE_ISSUES_PAGES_COUNT: {
-      return state.setIn(
-        ['paging', 'issuesPagesCount'],
-        action.issuesPagesCount,
-      );
+      return state.setIn(['paging', 'issuesPagesCount'], action.issuesPagesCount);
     }
     default:
       return state;

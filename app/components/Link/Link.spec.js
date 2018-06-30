@@ -3,8 +3,7 @@ import React from 'react';
 import { componentSetup } from 'utils/ComponentTest';
 describe('<Link/>', () => {
   const defaultProps = {};
-  const setup = (propsOverrides) =>
-    componentSetup(Link, defaultProps, propsOverrides);
+  const setup = propsOverrides => componentSetup(Link, defaultProps, propsOverrides);
 
   it('should render without crashing', () => {
     setup();

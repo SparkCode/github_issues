@@ -1,8 +1,8 @@
 import { push } from 'react-router-redux';
 import marked from 'marked';
+import * as api from 'utils/GitHubApi';
+import { makeRequest, NetworkError, UnsuccessfulRequestError } from 'utils/Network';
 import * as constants from './constants';
-import * as api from '../utils/GitHubApi';
-import { makeRequest, NetworkError, UnsuccessfulRequestError } from '../utils/Network';
 
 const invalidateIssues = () => ({
   type: constants.INVALIDATE_ISSUES,
@@ -40,7 +40,7 @@ export const searchIssues = ({ userName, repoName, issuesCount, pageNumber }) =>
 export const gotoIssue = ({ issueId, userName, repoName }) => (dispatch, getState) => {
   const { number: issueNumber } = getState()
     .toJS()
-    .home.issues.data.find(({ id }) => id === issueId);
+    .home.issues.data.find(({ id }) => id === issueId); // issueId to number and use reselect
   dispatch(push(`/${userName}/${repoName}/issues/${issueNumber}`));
 };
 

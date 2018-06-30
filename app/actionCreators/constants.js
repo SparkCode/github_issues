@@ -7,6 +7,5 @@ export const REQUEST_ISSUES = 'REQUEST_ISSUES';
 
 export const NO_INTERNET_CONNECTION_MESSAGE = 'Check your internet connection';
 export const ISSUE_NOT_BE_FOUND_MESSAGE = 'Issue is not be found';
-export const USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE =
-  'User or repository are not exist';
+export const USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE = 'User or repository are not exist';
 export const SOMETHING_WENT_WRONG_MESSAGE = 'Something went wrong..';

@@ -10,8 +10,7 @@ describe('<Input/>', () => {
     defaultProps.onValueChange = sinon.spy();
   });
 
-  const setup = (propsOverrides) =>
-    componentSetup(Input, defaultProps, propsOverrides);
+  const setup = propsOverrides => componentSetup(Input, defaultProps, propsOverrides);
 
   it('should render without crashing', () => {
     setup();
@@ -27,9 +26,6 @@ describe('<Input/>', () => {
     const { wrapper, props } = setup();
     const newValue = 'Billy';
     wrapper.simulate('change', { target: { value: newValue } });
-    expect(
-      props.onValueChange.calledOnce &&
-        props.onValueChange.calledWithExactly(newValue),
-    ).toBeTruthy();
+    expect(props.onValueChange.calledOnce && props.onValueChange.calledWithExactly(newValue)).toBeTruthy();
   });
 });

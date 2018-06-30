@@ -9,9 +9,7 @@ describe('Issue', () => {
 
   it('should not affect state', () => {
     const expectedState = [];
-    expect(userRepositories(undefined, { type: 'NOT_EXISTING' })).toEqual(
-      expectedState,
-    );
+    expect(userRepositories(undefined, { type: 'NOT_EXISTING' })).toEqual(expectedState);
   });
 
   it('should delete old and add new repositories', () => {

@@ -14,8 +14,7 @@ describe('<Paging/>', () => {
     defaultProps.gotoNewPage = sinon.spy();
   });
 
-  const setup = (propsOverrides) =>
-    componentSetup(Paging, defaultProps, propsOverrides);
+  const setup = propsOverrides => componentSetup(Paging, defaultProps, propsOverrides);
 
   it('should render without crashing', () => {
     setup();

@@ -1,12 +1,9 @@
 import fetch from 'isomorphic-fetch';
 
-export const makeRequest = (url) =>
+export const makeRequest = url =>
   fetch(url).then(
-    (response) =>
-      response.ok
-        ? response.json()
-        : Promise.reject(new UnsuccessfulRequestError(response)),
-    (e) => Promise.reject(new NetworkError(e)),
+    response => (response.ok ? response.json() : Promise.reject(new UnsuccessfulRequestError(response))),
+    e => Promise.reject(new NetworkError(e)),
   );
 
 export function UnsuccessfulRequestError(response) {

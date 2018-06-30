@@ -28,8 +28,7 @@ export const getIssuePath = (userName, repoName, issueNumber) => ({
 const constructUrl = ({ path, queryParams: pathQueryParams = {} }) => {
   const queryParams = { access_token: githubAccessToken, ...pathQueryParams };
   const queryString = Object.keys(queryParams).reduce(
-    (acc, curr) =>
-      `${acc}${acc.length ? '&' : '?'}${curr}=${queryParams[curr]}`,
+    (acc, curr) => `${acc}${acc.length ? '&' : '?'}${curr}=${queryParams[curr]}`,
     '',
   );
   return hostname + path + queryString;
@@ -44,5 +43,4 @@ export const getIssuesUrl = (userName, repoName, issuesCount, pageNumber) =>
 export const getIssuesPagesCountUrl = (userName, repoName) =>
   `${constructUrl(getReposInformationPath(userName, repoName))}`;
 
-export const getUserReposUrl = (userName, searchString) =>
-  `${constructUrl(getUserReposPath(userName, searchString))}`;
+export const getUserReposUrl = (userName, searchString) => `${constructUrl(getUserReposPath(userName, searchString))}`;

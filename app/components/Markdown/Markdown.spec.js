@@ -7,8 +7,7 @@ describe('<Markdown/>', () => {
     text: 'Just a minor sentence fix in the readme',
   };
 
-  const setup = (propsOverrides) =>
-    componentSetup(Markdown, defaultProps, propsOverrides);
+  const setup = propsOverrides => componentSetup(Markdown, defaultProps, propsOverrides);
 
   it('should render without crashing', () => {
     setup();

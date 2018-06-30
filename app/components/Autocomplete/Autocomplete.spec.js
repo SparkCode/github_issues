@@ -15,18 +15,12 @@ describe('<Autocomplete/>', () => {
     defaultProps.onOptionSelected = sinon.spy();
   });
 
-  const setup = (propsOverrides) => {
-    const { wrapper, props } = componentSetup(
-      Autocomplete,
-      defaultProps,
-      propsOverrides,
-    );
+  const setup = propsOverrides => {
+    const { wrapper, props } = componentSetup(Autocomplete, defaultProps, propsOverrides);
     return {
       wrapper,
       props,
-      input: wrapper
-        .children()
-        .findWhere((x) => x.props().className === 'autocomplete__control'),
+      input: wrapper.children().findWhere(x => x.props().className === 'autocomplete__control'),
       optionsList: wrapper.find(OptionsList),
     };
   };
@@ -46,9 +40,7 @@ describe('<Autocomplete/>', () => {
     const { input, props } = setup();
     input.props().onValueChange(value);
     const onValueChange = props.onValueChange;
-    expect(
-      onValueChange.calledOnce && onValueChange.calledWithExactly(value),
-    ).toBeTruthy();
+    expect(onValueChange.calledOnce && onValueChange.calledWithExactly(value)).toBeTruthy();
   });
 
   it('should call onValueChange & onOptionSelected with value arg when option is selected by keyboard', () => {

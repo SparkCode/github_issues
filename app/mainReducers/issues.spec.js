@@ -29,9 +29,7 @@ describe('Issue', () => {
       data: [{ id: 1 }, { id: 2 }, { id: 5 }],
     };
     const expectedState = initState;
-    expect(
-      issues(originalState, { type: constants.INVALIDATE_ISSUES }),
-    ).toEqual(expectedState);
+    expect(issues(originalState, { type: constants.INVALIDATE_ISSUES })).toEqual(expectedState);
   });
 
   it('should handle REQUEST_ISSUES', () => {
@@ -41,9 +39,7 @@ describe('Issue', () => {
       didInvalidate: false,
       isFetching: true,
     };
-    expect(issues(originalState, { type: constants.REQUEST_ISSUES })).toEqual(
-      expectedState,
-    );
+    expect(issues(originalState, { type: constants.REQUEST_ISSUES })).toEqual(expectedState);
   });
 
   it('should handle RECEIVE_ISSUES', () => {

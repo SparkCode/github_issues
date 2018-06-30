@@ -8,12 +8,7 @@ class Markdown extends PureComponent {
   render() {
     const { text, className } = this.props;
     const b = block('markdown-body');
-    return (
-      <div
-        className={classnames(className, b())}
-        dangerouslySetInnerHTML={{ __html: text }}
-      />
-    );
+    return <div className={classnames(className, b())} dangerouslySetInnerHTML={{ __html: text }} />;
   }
 }
 
