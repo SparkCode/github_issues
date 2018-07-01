@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import { fetchIssueIfNeeded } from 'actionCreators';
+import { fetchIssueIfNeeded as fetchIssueIfNeededAction } from 'actionCreators';
 import { connect } from 'react-redux';
-import IssueDetail from './IssueDetail';
-import { selectIsIssuesSuccessfullyBeLoaded } from 'selectors';
+import { selectIsIssuesSuccessfullyBeLoaded } from 'selectors/index';
 import { compose, withProps } from 'recompose';
+import IssueDetail from './IssueDetail';
 
 class IssueDetailPage extends PureComponent {
   componentDidMount() {
@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, { userName, repoName, issueNumber }) => ({
-  fetchIssueIfNeeded: () => dispatch(fetchIssueIfNeeded({ userName, repoName, issueNumber })),
+  fetchIssueIfNeeded: () => dispatch(fetchIssueIfNeededAction({ userName, repoName, issueNumber })),
 });
 
 const withIssueNumber = withProps(({ match: { params: { issueNumber } } }) => ({

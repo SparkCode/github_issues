@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import './Issue.scss';
 import { formatDate } from 'utils';
+import './Issue.scss';
 import Link from '../Link';
 
 class Issue extends PureComponent {
   onTitleClick = () => {
-    const { id, onTitleClick } = this.props;
-    onTitleClick(id);
+    const { number, onTitleClick } = this.props;
+    onTitleClick(number);
   };
 
   render() {
@@ -30,7 +30,6 @@ class Issue extends PureComponent {
 }
 
 Issue.propTypes = {
-  id: PropTypes.number.isRequired,
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,

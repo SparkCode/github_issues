@@ -1,6 +1,5 @@
-import IssueDetail from './IssueDetail';
-import React from 'react';
 import { componentSetup } from 'utils/ComponentTest';
+import IssueDetail from './IssueDetail';
 
 describe('<IssueDetail/>', () => {
   const defaultProps = {

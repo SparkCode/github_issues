@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Issue from './Issue';
 import block from 'bem-cn';
+import Issue from './Issue';
 import './IssuesList.scss';
 
 class IssuesList extends PureComponent {

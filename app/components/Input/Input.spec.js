@@ -1,7 +1,6 @@
 import sinon from 'sinon';
-import React from 'react';
-import Input from './Input';
 import { componentSetup } from 'utils/ComponentTest';
+import Input from './Input';
 
 describe('<Input/>', () => {
   const defaultProps = { value: 'Bill' };

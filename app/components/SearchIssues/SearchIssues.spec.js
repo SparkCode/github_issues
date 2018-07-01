@@ -1,7 +1,6 @@
 import sinon from 'sinon';
-import React from 'react';
-import SearchIssues from './SearchIssues';
 import { componentSetup } from 'utils/ComponentTest';
+import SearchIssues from './SearchIssues';
 
 describe('<SearchIssues/>', () => {
   const defaultProps = {

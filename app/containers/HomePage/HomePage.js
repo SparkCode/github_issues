@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import queryString from 'query-string';
 import reducer from 'mainReducers';
-import './HomePage.scss';
-import SearchIssues from './SearchIssues';
-import StatusIssuesBar from './StatusIssuesBar';
+import { selectDefaultIssuesCountOption, selectIssuesCountOptions } from 'selectors/index';
 import IssuesListPage from 'containers/IssuesList';
 import IssueDetailPage from 'containers/IssueDetail';
 import { mapProps, compose } from 'recompose';
-import { selectDefaultIssuesCountOption, selectIssuesCountOptions } from 'selectors';
+import './HomePage.scss';
+import SearchIssues from './SearchIssues';
+import StatusIssuesBar from './StatusIssuesBar';
 
 class HomePage extends PureComponent {
   render() {
@@ -51,13 +51,10 @@ HomePage.propTypes = {
   issuesCount: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => {
-  debugger;
-  return ({
-    issuesCountOptions: selectIssuesCountOptions(state),
-    defaultIssuesCountOption: selectDefaultIssuesCountOption(state),
-  });
-};
+const mapStateToProps = state => ({
+  issuesCountOptions: selectIssuesCountOptions(state),
+  defaultIssuesCountOption: selectDefaultIssuesCountOption(state),
+});
 
 const withReducer = injectReducer({ key: 'home', reducer });
 

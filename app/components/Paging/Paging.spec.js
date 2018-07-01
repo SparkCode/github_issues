@@ -1,7 +1,6 @@
 import sinon from 'sinon';
-import React from 'react';
-import Paging from './Paging';
 import { componentSetup } from 'utils/ComponentTest';
+import Paging from './Paging';
 
 describe('<Paging/>', () => {
   const defaultProps = {

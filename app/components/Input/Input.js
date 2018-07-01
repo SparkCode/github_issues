@@ -5,10 +5,7 @@ import classnames from 'classnames';
 import './Input.scss';
 
 class Input extends PureComponent {
-  onChange = e => {
-    const value = e.target.value;
-    this.props.onValueChange(value);
-  };
+  onChange = ({ target: { value } }) => this.props.onValueChange(value);
 
   render() {
     const { className, inputRef, onValueChange, ...props } = this.props;

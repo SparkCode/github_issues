@@ -1,6 +1,5 @@
-import Button from './Button';
-import React from 'react';
 import { componentSetup } from 'utils/ComponentTest';
+import Button from './Button';
 
 describe('<Button/>', () => {
   const setup = propsOverrides => componentSetup(Button, {}, propsOverrides);

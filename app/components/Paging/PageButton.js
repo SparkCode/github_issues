@@ -31,7 +31,7 @@ PageButton.propTypes = {
     if (props.disabled || props[propName]) {
       return;
     }
-    return new Error(`Invalid prop \`${propName}\` supplied to` + ` \`${componentName}\`. Validation failed.`);
+    throw new Error(`Invalid prop \`${propName}\` supplied to \`${componentName}\`. Validation failed.`);
   },
 };
 PageButton.defaultProps = {

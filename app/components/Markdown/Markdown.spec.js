@@ -1,6 +1,5 @@
-import React from 'react';
-import Markdown from './Markdown';
 import { componentSetup } from 'utils/ComponentTest';
+import Markdown from './Markdown';
 
 describe('<Markdown/>', () => {
   const defaultProps = {

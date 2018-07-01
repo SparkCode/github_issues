@@ -2,7 +2,7 @@ import SearchIssues from 'components/SearchIssues';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { searchIssues, loadUserRepositories } from 'actionCreators';
-import { selectUserRepositories, selectIssuesCountOptions } from 'selectors';
+import { selectUserRepositories, selectIssuesCountOptions } from 'selectors/index';
 
 const mapStateToProps = state => ({
   issuesCountOptions: selectIssuesCountOptions(state),

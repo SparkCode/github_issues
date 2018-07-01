@@ -1,7 +1,6 @@
-import Option from './Option';
-import React from 'react';
 import sinon from 'sinon';
 import { componentSetup } from 'utils/ComponentTest';
+import Option from './Option';
 
 describe('<Option/>', () => {
   const defaultProps = {

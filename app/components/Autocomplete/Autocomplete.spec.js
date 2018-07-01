@@ -1,9 +1,8 @@
-import React from 'react';
 import sinon from 'sinon';
-import Autocomplete from './Autocomplete';
-import KeyCodes from 'utils/keyCodes';
-import OptionsList from './OptionsList';
 import { componentSetup } from 'utils/ComponentTest';
+import KeyCodes from 'utils/keyCodes';
+import Autocomplete from './Autocomplete';
+import OptionsList from './OptionsList';
 
 describe('<Autocomplete/>', () => {
   const defaultProps = {
@@ -37,14 +36,20 @@ describe('<Autocomplete/>', () => {
 
   it('should call onValueChange callback with value arg when input value is changed', () => {
     const value = 'Alex';
-    const { input, props } = setup();
+    const {
+      input,
+      props: { onValueChange },
+    } = setup();
     input.props().onValueChange(value);
-    const onValueChange = props.onValueChange;
     expect(onValueChange.calledOnce && onValueChange.calledWithExactly(value)).toBeTruthy();
   });
 
   it('should call onValueChange & onOptionSelected with value arg when option is selected by keyboard', () => {
-    const { wrapper, input, props } = setup();
+    const {
+      wrapper,
+      input,
+      props: { onValueChange, onOptionSelected, options },
+    } = setup();
 
     input.props().inputRef({ blur: sinon.spy() });
     wrapper.simulate('keydown', {
@@ -59,30 +64,28 @@ describe('<Autocomplete/>', () => {
       keyCode: KeyCodes.enter,
       preventDefault: sinon.spy(),
     });
-
-    const onValueChange = props.onValueChange;
-    const onOptionSelected = props.onOptionSelected;
     expect(
       onValueChange.calledOnce &&
         onOptionSelected.calledOnce &&
-        onValueChange.calledWithExactly(props.options[1]) &&
-        onOptionSelected.calledWithExactly(props.options[1]),
+        onValueChange.calledWithExactly(options[1]) &&
+        onOptionSelected.calledWithExactly(options[1]),
     ).toBeTruthy();
   });
 
   it('should call onValueChange & onOptionSelected with value arg when option is selected by mouse', () => {
-    const { optionsList, input, props } = setup();
+    const {
+      optionsList,
+      input,
+      props: { onValueChange, onOptionSelected, options },
+    } = setup();
     optionsList.props().onOptionHover(2);
     input.props().onBlur();
-
-    const onValueChange = props.onValueChange;
-    const onOptionSelected = props.onOptionSelected;
 
     expect(
       onValueChange.calledOnce &&
         onOptionSelected.calledOnce &&
-        onValueChange.calledWithExactly(props.options[2]) &&
-        onOptionSelected.calledWithExactly(props.options[2]),
+        onValueChange.calledWithExactly(options[2]) &&
+        onOptionSelected.calledWithExactly(options[2]),
     ).toBeTruthy();
   });
 });

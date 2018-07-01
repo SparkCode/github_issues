@@ -48,13 +48,17 @@ class OptionsList extends PureComponent {
       <ul
         className={b({ unseen: !isInputHasFocus })()}
         onMouseLeave={onOptionsListHoverOut}
-        ref={el => (this.optionsListElement = el)}
+        ref={el => {
+          this.optionsListElement = el;
+        }}
       >
         {options.map((option, i) => (
           <Option
             option={option}
             index={i}
-            optionRef={el => i === focusedOptionIndex && (this.focusedOptionElement = el)}
+            optionRef={el => {
+              if (i === focusedOptionIndex) this.focusedOptionElement = el;
+            }}
             isSelected={i === focusedOptionIndex}
             key={i}
             {...props}

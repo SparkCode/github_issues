@@ -37,12 +37,8 @@ export const searchIssues = ({ userName, repoName, issuesCount, pageNumber }) =>
   dispatch(invalidateIssues());
 };
 
-export const gotoIssue = ({ issueId, userName, repoName }) => (dispatch, getState) => {
-  const { number: issueNumber } = getState()
-    .toJS()
-    .home.issues.data.find(({ id }) => id === issueId); // issueId to number and use reselect
-  dispatch(push(`/${userName}/${repoName}/issues/${issueNumber}`));
-};
+export const gotoIssue = ({ number, userName, repoName }) => dispatch =>
+  dispatch(push(`/${userName}/${repoName}/issues/${number}`));
 
 const shouldUpdateIssues = (state, userName, repoName) => state.issues.didInvalidate && userName && repoName;
 

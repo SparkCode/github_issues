@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import StatusIssuesBar from 'components/StatusIssuesBar';
-import { selectIssues, selectIsNoIssuesReceived } from 'selectors';
+import { selectIssues, selectIsNoIssuesReceived } from 'selectors/index';
 
 const mapStateToProps = state => {
   const { isFetching, isRequestFailed, errorMessage } = selectIssues(state);

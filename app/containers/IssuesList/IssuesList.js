@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import IssuesList from 'components/IssuesList';
 import { gotoIssue } from 'actionCreators';
-import { selectIssues, selectIssuesData } from 'selectors';
+import { selectIssuesData } from 'selectors/index';
 
 const mapStateToProps = state => ({
   issues: selectIssuesData(state),
 });
 
 const mapDispatchToProps = (dispatch, { userName, repoName }) => ({
-  onIssueTitleClick: issueId => dispatch(gotoIssue({ issueId, userName, repoName })),
+  onIssueTitleClick: number => dispatch(gotoIssue({ number, userName, repoName })),
 });
 
 export default connect(

@@ -5,7 +5,7 @@ import * as queryString from 'query-string';
 import PropTypes from 'prop-types';
 import { withProps } from 'recompose';
 import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator } from 'actionCreators';
-import { selectIssuesData, selectIssuesPagesCount } from 'selectors';
+import { selectIssuesData, selectIssuesPagesCount } from 'selectors/index';
 import { compose } from 'redux';
 import IssuesList from './IssuesList';
 import Paging from './Paging';
@@ -36,6 +36,7 @@ class IssuesListPage extends PureComponent {
 }
 
 IssuesListPage.propTypes = {
+  fetchIssuesIfNeeded: PropTypes.func.isRequired,
   shouldShowPaging: PropTypes.bool.isRequired,
   issuesCount: PropTypes.string.isRequired,
   repoName: PropTypes.string,
@@ -50,7 +51,7 @@ const withConnect = connect(state => ({
 
 const withIssuesListProps = withProps(({ issuesPagesCount, issues, location: { search } }) => {
   const { pageNumber } = queryString.parse(search);
-  const parsedPageNumber = Number.parseInt(pageNumber);
+  const parsedPageNumber = Number.parseInt(pageNumber, 10);
   return {
     pageNumber:
       Number.isInteger(issuesPagesCount) &&

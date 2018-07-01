@@ -1,8 +1,6 @@
-import { shallow } from 'enzyme';
-import OptionsList from './OptionsList';
-import React from 'react';
 import sinon from 'sinon';
 import { componentSetup } from 'utils/ComponentTest';
+import OptionsList from './OptionsList';
 
 describe('<OptionsList/>', () => {
   const defaultProps = {

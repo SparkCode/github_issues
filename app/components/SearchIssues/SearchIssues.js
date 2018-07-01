@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import classnames from 'classnames';
+import { debounce } from 'lodash';
 import Input from '../Input';
 import Button from '../Button';
 import AutoComplete from '../Autocomplete';
 import Select from '../Select';
-import { debounce } from 'lodash';
 import './SearchIssues.scss';
 
 class SearchIssues extends PureComponent {

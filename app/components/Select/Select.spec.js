@@ -1,7 +1,6 @@
-import Select from './Select';
-import React from 'react';
 import sinon from 'sinon';
 import { componentSetup } from 'utils/ComponentTest';
+import Select from './Select';
 
 describe('<Select/>', () => {
   const defaultProps = {

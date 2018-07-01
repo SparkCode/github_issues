@@ -1,7 +1,6 @@
 import sinon from 'sinon';
-import React from 'react';
-import PageButton from './PageButton';
 import { componentSetup } from 'utils/ComponentTest';
+import PageButton from './PageButton';
 
 describe('<PageButton/>', () => {
   const defaultProps = {

@@ -1,6 +1,6 @@
-import Link from './Link';
-import React from 'react';
 import { componentSetup } from 'utils/ComponentTest';
+import Link from './Link';
+
 describe('<Link/>', () => {
   const defaultProps = {};
   const setup = propsOverrides => componentSetup(Link, defaultProps, propsOverrides);

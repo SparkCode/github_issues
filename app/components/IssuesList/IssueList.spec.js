@@ -1,7 +1,6 @@
 import sinon from 'sinon';
-import React from 'react';
-import IssueList from './IssuesList';
 import { componentSetup } from 'utils/ComponentTest';
+import IssueList from './IssuesList';
 
 describe('<IssuesList/>', () => {
   const defaultProps = {

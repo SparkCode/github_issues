@@ -138,7 +138,6 @@
       "raf/polyfill",
       "<rootDir>/internals/testing/enzyme-setup.js"
     ],
-    "testRegex": "tests/.*\\.test\\.js$",
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ]
@@ -162,6 +161,7 @@
     "lodash": "4.17.10",
     "marked": "^0.3.19",
     "minimist": "1.2.0",
+    "nock": "^9.4.0",
     "prop-types": "15.6.1",
     "query-string": "^6.1.0",
     "react": "16.4.1",
@@ -175,10 +175,12 @@
     "recompose": "^0.27.1",
     "redux": "4.0.0",
     "redux-immutable": "4.0.0",
+    "redux-mock-store": "^1.5.3",
     "redux-saga": "0.16.0",
     "redux-thunk": "^2.2.0",
     "reselect": "3.0.1",
     "sanitize.css": "4.1.0",
+    "sinon": "^6.0.1",
     "styled-components": "3.3.2",
     "warning": "4.0.1",
     "whatwg-fetch": "2.0.4"

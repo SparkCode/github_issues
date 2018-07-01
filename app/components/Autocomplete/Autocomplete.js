@@ -63,7 +63,7 @@ class AutoComplete extends PureComponent {
           this.onOptionSelect(options[focusedOptionIndex]);
           this.inputElement.blur();
         }
-        return;
+        break;
       }
 
       case KeyCodes.top: {
@@ -72,7 +72,7 @@ class AutoComplete extends PureComponent {
           const { focusedOptionIndex } = prevState;
           return this.focusNextOption(-1, focusedOptionIndex, props.options.length);
         });
-        return;
+        break;
       }
 
       case KeyCodes.bottom: {
@@ -81,9 +81,10 @@ class AutoComplete extends PureComponent {
           const { focusedOptionIndex } = prevState;
           return this.focusNextOption(1, focusedOptionIndex, props.options.length);
         });
+        break;
       }
-
       default:
+        break;
     }
   };
 
@@ -106,7 +107,9 @@ class AutoComplete extends PureComponent {
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
           onValueChange={this.onInputValueChange}
-          inputRef={input => (this.inputElement = input)}
+          inputRef={input => {
+            this.inputElement = input;
+          }}
         />
         <OptionsList
           options={options}
