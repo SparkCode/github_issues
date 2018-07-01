@@ -1,7 +1,6 @@
 import sinon from 'sinon';
-import React from 'react';
-import Issue from './Issue';
 import { componentSetup } from 'utils/ComponentTest';
+import Issue from './Issue';
 
 describe('<Issue/>', () => {
   const defaultProps = {
@@ -32,6 +31,6 @@ describe('<Issue/>', () => {
   it('should call onTitleClick callback with issue id arg when click event fire for title element', () => {
     const { title, props } = setup();
     title.props().onClick();
-    expect(props.onTitleClick.calledOnce && props.onTitleClick.calledWithExactly(props.id)).toBeTruthy();
+    expect(props.onTitleClick.calledOnce && props.onTitleClick.calledWithExactly(props.number)).toBeTruthy();
   });
 });

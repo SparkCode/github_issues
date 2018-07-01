@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import './StatusIssuesBar.scss';
 import classnames from 'classnames';
+import './StatusIssuesBar.scss';
 
 class StatusIssuesBar extends PureComponent {
   render() {

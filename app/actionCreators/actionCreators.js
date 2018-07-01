@@ -94,7 +94,7 @@ const onFetchIssuesError = (dispatch, e, notBeFoundMessage = '') => {
   if (!message) {
     return Promise.reject(e);
   }
-  dispatch(ReceiveIssuesError(message));
+  return dispatch(ReceiveIssuesError(message));
 };
 
 export const fetchIssue = ({ userName, repoName, issueNumber }) => async dispatch => {
@@ -104,7 +104,7 @@ export const fetchIssue = ({ userName, repoName, issueNumber }) => async dispatc
     const issue = mapGithubIssueToLocalIssue(data);
     return dispatch(ReceiveIssues([issue]));
   } catch (e) {
-    onFetchIssuesError(dispatch, e, constants.ISSUE_NOT_BE_FOUND_MESSAGE);
+    return onFetchIssuesError(dispatch, e, constants.ISSUE_NOT_BE_FOUND_MESSAGE);
   }
 };
 
@@ -117,7 +117,7 @@ export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => 
     const issues = data.map(mapGithubIssueToLocalIssue);
     return dispatch(ReceiveIssues(issues));
   } catch (e) {
-    onFetchIssuesError(dispatch, e, constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE);
+    return onFetchIssuesError(dispatch, e, constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE);
   }
 };
 

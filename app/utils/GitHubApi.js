@@ -25,14 +25,16 @@ export const getIssuePath = (userName, repoName, issueNumber) => ({
   path: `/repos/${userName}/${repoName}/issues/${issueNumber}`,
 });
 
-const constructUrl = ({ path, queryParams: pathQueryParams = {} }) => {
+export const withAccessToken = ({ path, queryParams: pathQueryParams = {} }) => {
   const queryParams = { access_token: githubAccessToken, ...pathQueryParams };
   const queryString = Object.keys(queryParams).reduce(
     (acc, curr) => `${acc}${acc.length ? '&' : '?'}${curr}=${queryParams[curr]}`,
     '',
   );
-  return hostname + path + queryString;
+  return path + queryString;
 };
+
+const constructUrl = path => hostname + withAccessToken(path);
 
 export const getIssueUrl = (userName, repoName, issueNumber) =>
   `${constructUrl(getIssuePath(userName, repoName, issueNumber))}`;

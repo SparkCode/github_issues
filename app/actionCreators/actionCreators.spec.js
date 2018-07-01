@@ -24,9 +24,8 @@ describe('async actions', () => {
       const userName = 'userName';
       const repos = ['project1', 'project2', 'project3'];
       const body = { items: repos.map(name => ({ name })) };
-
       nock(api.hostname)
-        .get(api.getUserReposPath(userName, ''))
+        .get(api.withAccessToken(api.getUserReposPath(userName, '')))
         .reply(200, body);
 
       const expectedAction = [{ type: constants.RECEIVE_USER_REPOSITORIES, repos }];
@@ -42,7 +41,7 @@ describe('async actions', () => {
     it('should dispatch no actions, when request not be successful', () => {
       const userName = 'userName';
       nock(api.hostname)
-        .get(api.getUserReposPath(userName, ''))
+        .get(api.withAccessToken(api.getUserReposPath(userName, '')))
         .reply(404);
 
       const initState = {};
@@ -66,7 +65,7 @@ describe('async actions', () => {
       const body = { open_issues_count: 100 };
 
       nock(api.hostname)
-        .get(api.getReposInformationPath(userName, repoName))
+        .get(api.withAccessToken(api.getReposInformationPath(userName, repoName)))
         .reply(200, body);
 
       const store = mockStore({});
@@ -84,7 +83,7 @@ describe('async actions', () => {
       const issuesCount = '10';
 
       nock(api.hostname)
-        .get(api.getReposInformationPath(userName, repoName))
+        .get(api.withAccessToken(api.getReposInformationPath(userName, repoName)))
         .reply(404);
 
       const initState = {};
@@ -122,7 +121,7 @@ describe('async actions', () => {
       ];
 
       nock(api.hostname)
-        .get(api.getIssuesPath(userName, repoName, issuesCount, pageNumber))
+        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCount, pageNumber)))
         .reply(200, body);
 
       const store = mockStore({});
@@ -155,7 +154,7 @@ describe('async actions', () => {
       const pageNumber = '1';
 
       nock(api.hostname)
-        .get(api.getIssuesPath(userName, repoName, issuesCount, pageNumber))
+        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCount, pageNumber)))
         .reply(404);
 
       const store = mockStore({});
@@ -202,7 +201,7 @@ describe('async actions', () => {
       };
 
       nock(api.hostname)
-        .get(api.getIssuePath(userName, repoName, issueNumber))
+        .get(api.withAccessToken(api.getIssuePath(userName, repoName, issueNumber)))
         .reply(200, body);
 
       const store = mockStore({});
@@ -225,7 +224,7 @@ describe('async actions', () => {
       const issueNumber = '1';
 
       nock(api.hostname)
-        .get(api.getIssuePath(userName, repoName, issueNumber))
+        .get(api.withAccessToken(api.getIssuePath(userName, repoName, issueNumber)))
         .reply(404);
 
       const store = mockStore({});

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import classnames from 'classnames';
-import 'github-markdown-css';
+// import 'github-markdown-css';
 
 class Markdown extends PureComponent {
   render() {

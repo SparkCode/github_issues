@@ -1,8 +1,9 @@
+import { fromJS } from 'immutable';
 import issues from './issues';
 import * as constants from '../actionCreators/constants';
 
 describe('Issue', () => {
-  const initState = {
+  const initState = fromJS({
     didInvalidate: true,
     isFetching: false,
     isRequestFailed: false,
@@ -11,8 +12,9 @@ describe('Issue', () => {
     paging: {
       issuesCountOptions: ['10', '20', '30', '50', '100'],
       defaultIssuesCountOption: '20',
+      issuesPagesCount: null,
     },
-  };
+  });
 
   it('should return the init state', () => {
     expect(issues(undefined, {})).toEqual(initState);
@@ -22,39 +24,25 @@ describe('Issue', () => {
     expect(issues(undefined, { type: 'NOT_EXISTING' })).toEqual(initState);
   });
 
-  it('should handle INVALIDATE_ISSUES', () => {
-    const originalState = {
-      ...initState,
-      didInvalidate: false,
-      data: [{ id: 1 }, { id: 2 }, { id: 5 }],
-    };
+  it('should handle INVALIDATE_ISSUES action', () => {
+    const originalState = initState.set('didInvalidate', false).set('data', fromJS([{ id: 1 }, { id: 2 }, { id: 5 }]));
     const expectedState = initState;
-    expect(issues(originalState, { type: constants.INVALIDATE_ISSUES })).toEqual(expectedState);
+    expect(issues(originalState, { type: constants.INVALIDATE_ISSUES })).toEqual(fromJS(expectedState));
   });
 
-  it('should handle REQUEST_ISSUES', () => {
+  it('should handle REQUEST_ISSUES action', () => {
     const originalState = initState;
-    const expectedState = {
-      ...initState,
-      didInvalidate: false,
-      isFetching: true,
-    };
+    const expectedState = initState.set('didInvalidate', false).set('isFetching', true);
     expect(issues(originalState, { type: constants.REQUEST_ISSUES })).toEqual(expectedState);
   });
 
-  it('should handle RECEIVE_ISSUES', () => {
-    const originalState = {
-      ...initState,
-      data: [{ id: 1 }, { id: 2 }, { id: 5 }],
-      isFetching: true,
-      didInvalidate: false,
-    };
+  it('should handle RECEIVE_ISSUES action', () => {
+    const originalState = initState
+      .set('data', fromJS([{ id: 1 }, { id: 2 }, { id: 5 }]))
+      .set('isFetching', true)
+      .set('didInvalidate', false);
     const newIssues = [{ id: 7 }, { id: 8 }, { id: 9 }];
-    const expectedState = {
-      ...originalState,
-      isFetching: false,
-      data: [...originalState.data, ...newIssues],
-    };
+    const expectedState = originalState.set('isFetching', false).set('data', fromJS(newIssues));
     expect(
       issues(originalState, {
         type: constants.RECEIVE_ISSUES,
@@ -63,20 +51,16 @@ describe('Issue', () => {
     ).toEqual(expectedState);
   });
 
-  it('should handle RECEIVE_ISSUES_ERROR', () => {
-    const originalState = {
-      ...initState,
-      data: [{ id: 1 }, { id: 2 }, { id: 5 }],
-      isFetching: true,
-      didInvalidate: false,
-    };
+  it('should handle RECEIVE_ISSUES_ERROR action', () => {
+    const originalState = initState
+      .set('data', [{ id: 1 }, { id: 2 }, { id: 5 }])
+      .set('isFetching', true)
+      .set('didInvalidate', false);
     const errorMessage = 'Message';
-    const expectedState = {
-      ...originalState,
-      isFetching: false,
-      isRequestFailed: true,
-      errorMessage,
-    };
+    const expectedState = originalState
+      .set('isFetching', false)
+      .set('isRequestFailed', true)
+      .set('errorMessage', errorMessage);
     expect(
       issues(originalState, {
         type: constants.RECEIVE_ISSUES_ERROR,
@@ -85,13 +69,10 @@ describe('Issue', () => {
     ).toEqual(expectedState);
   });
 
-  it('should handle RECEIVE_ISSUES_PAGES_COUNT', () => {
+  it('should handle RECEIVE_ISSUES_PAGES_COUNT action', () => {
     const originalState = initState;
     const issuesPagesCount = 5;
-    const expectedState = {
-      ...initState,
-      paging: { ...originalState.paging, issuesPagesCount },
-    };
+    const expectedState = originalState.setIn(['paging', 'issuesPagesCount'], issuesPagesCount);
     expect(
       issues(originalState, {
         type: constants.RECEIVE_ISSUES_PAGES_COUNT,

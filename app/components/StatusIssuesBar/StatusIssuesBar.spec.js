@@ -1,13 +1,11 @@
-import StatusIssuesBar from './StatusIssuesBar';
-import React from 'react';
 import { componentSetup } from 'utils/ComponentTest';
+import StatusIssuesBar from './StatusIssuesBar';
 
 describe('<StatusIssuesBar/>', () => {
   const defaultProps = {
-    issuesBeReceived: false,
     issuesIsLoading: false,
     isRequestFailed: false,
-    noIssueHave: false,
+    noIssuesReceived: false,
   };
 
   const setup = propsOverrides => componentSetup(StatusIssuesBar, defaultProps, propsOverrides);
@@ -33,8 +31,7 @@ describe('<StatusIssuesBar/>', () => {
   it('should render noIssuesBeReceivedMessage when no issues is received without request error', () => {
     const { props, wrapper } = setup({
       isRequestFailed: false,
-      issuesBeReceived: true,
-      noIssueHave: true,
+      noIssuesReceived: true,
       noIssuesBeReceivedMessage: 'message',
     });
     expect(wrapper.children().contains(props.noIssuesBeReceivedMessage)).toBeTruthy();
@@ -44,7 +41,6 @@ describe('<StatusIssuesBar/>', () => {
     const { props, wrapper } = setup({
       isRequestFailed: false,
       issuesBeReceived: false,
-      noIssueHave: false,
       issuesIsLoading: true,
       issuesIsLoadingMessage: 'message',
     });
