@@ -16,8 +16,8 @@ class Select extends PureComponent {
 
     return (
       <select className={classnames(className, b())} value={value} onChange={this.onChange}>
-        {options.map((option, i) => (
-          <option className={b('option')()} key={i}>
+        {options.map(option => (
+          <option className={b('option')()} key={option}>
             {option}
           </option>
         ))}

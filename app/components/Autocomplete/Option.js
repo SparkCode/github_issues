@@ -10,16 +10,11 @@ class Option extends PureComponent {
   };
 
   render() {
-    const { option, index, isSelected, optionRef } = this.props;
+    const { option, isSelected, optionRef } = this.props;
     const b = block('autocomplete-list-option');
     return (
-      <li
-        className={b({ active: isSelected })()}
-        ref={optionRef}
-        key={index}
-        value={option}
-        onMouseOver={this.onMouseOver}
-      >
+      // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+      <li className={b({ active: isSelected })()} ref={optionRef} value={option} onMouseOver={this.onMouseOver}>
         {option}
       </li>
     );

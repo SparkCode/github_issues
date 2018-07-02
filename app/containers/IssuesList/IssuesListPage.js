@@ -44,13 +44,20 @@ IssuesListPage.propTypes = {
   pageNumber: PropTypes.number,
 };
 
-const withConnect = connect(state => ({
-  issuesPagesCount: selectIssuesPagesCount(state),
-  issues: selectIssuesData(state),
-}));
+const withQueryStringParams = withProps(({ location: { search } }) => ({ ...queryString.parse(search) }));
 
-const withIssuesListProps = withProps(({ issuesPagesCount, issues, location: { search } }) => {
-  const { pageNumber } = queryString.parse(search);
+const withConnect = connect(
+  state => ({
+    issuesPagesCount: selectIssuesPagesCount(state),
+    issues: selectIssuesData(state),
+  }),
+  (dispatch, { userName, repoName, issuesCount, pageNumber }) => ({
+    fetchIssuesIfNeeded: () =>
+      dispatch(fetchIssuesIfNeededActionCreator({ userName, repoName, issuesCount, pageNumber })),
+  }),
+);
+
+const withIssuesListProps = withProps(({ issuesPagesCount, issues, pageNumber }) => {
   const parsedPageNumber = Number.parseInt(pageNumber, 10);
   return {
     pageNumber:
@@ -64,16 +71,8 @@ const withIssuesListProps = withProps(({ issuesPagesCount, issues, location: { s
   };
 });
 
-const withDispatchingFetchIssuesIfNeededActionCreator = connect(
-  null,
-  (dispatch, { userName, repoName, issuesCount, pageNumber }) => ({
-    fetchIssuesIfNeeded: () =>
-      dispatch(fetchIssuesIfNeededActionCreator({ userName, repoName, issuesCount, pageNumber })),
-  }),
-);
-
 export default compose(
+  withQueryStringParams,
   withConnect,
   withIssuesListProps,
-  withDispatchingFetchIssuesIfNeededActionCreator,
 )(IssuesListPage);

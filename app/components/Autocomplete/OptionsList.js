@@ -60,7 +60,7 @@ class OptionsList extends PureComponent {
               if (i === focusedOptionIndex) this.focusedOptionElement = el;
             }}
             isSelected={i === focusedOptionIndex}
-            key={i}
+            key={option}
             {...props}
           />
         ))}

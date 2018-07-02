@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, { repoName, userName, issuesCount }) => ({
-  gotoNewPage: pageNumber => {
+  goToNewPage: pageNumber => {
     dispatch(searchIssues({ repoName, userName, issuesCount, pageNumber }));
   },
 });

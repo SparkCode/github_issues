@@ -99,7 +99,7 @@ class AutoComplete extends PureComponent {
     const { isInputHasFocus, focusedOptionIndex } = this.state;
     const b = block('autocomplete');
     return (
-      <div className={classnames(className, b())} onKeyDown={this.onKeyPress}>
+      <div className={classnames(className, b())}>
         <Input
           {...props}
           className={b('control')()}
@@ -107,6 +107,7 @@ class AutoComplete extends PureComponent {
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
           onValueChange={this.onInputValueChange}
+          onKeyDown={this.onKeyPress}
           inputRef={input => {
             this.inputElement = input;
           }}

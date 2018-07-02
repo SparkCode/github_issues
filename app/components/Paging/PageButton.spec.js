@@ -8,7 +8,7 @@ describe('<PageButton/>', () => {
   };
 
   beforeEach(() => {
-    defaultProps.gotoNewPage = sinon.spy();
+    defaultProps.goToNewPage = sinon.spy();
   });
 
   const setup = propsOverrides => componentSetup(PageButton, defaultProps, propsOverrides);
@@ -23,9 +23,9 @@ describe('<PageButton/>', () => {
     expect(wrapper.hasClass(className)).toBeTruthy();
   });
 
-  it('should call gotoNewPage callback with value arg when button be clicked', () => {
+  it('should call goToNewPage callback with value arg when button be clicked', () => {
     const { props, wrapper } = setup();
     wrapper.simulate('click');
-    expect(props.gotoNewPage.calledOnce && props.gotoNewPage.calledWithExactly(props.value)).toBeTruthy();
+    expect(props.goToNewPage.calledOnce && props.goToNewPage.calledWithExactly(props.value)).toBeTruthy();
   });
 });

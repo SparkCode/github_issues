@@ -17,6 +17,7 @@ class Issue extends PureComponent {
     const date = formatDate(createdAt);
     return (
       <li className={b()}>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <Link className={b('title')()} onClick={this.onTitleClick}>
           {title}
         </Link>

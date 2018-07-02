@@ -37,7 +37,7 @@ export const searchIssues = ({ userName, repoName, issuesCount, pageNumber }) =>
   dispatch(invalidateIssues());
 };
 
-export const gotoIssue = ({ number, userName, repoName }) => dispatch =>
+export const goToIssue = ({ number, userName, repoName }) => dispatch =>
   dispatch(push(`/${userName}/${repoName}/issues/${number}`));
 
 const shouldUpdateIssues = (state, userName, repoName) => state.issues.didInvalidate && userName && repoName;
@@ -83,6 +83,7 @@ export const mapGithubIssueToLocalIssue = data => ({
 });
 
 const onFetchIssuesError = (dispatch, e, notBeFoundMessage = '') => {
+  /* eslint-disable no-nested-ternary  */
   const message =
     e instanceof NetworkError
       ? constants.NO_INTERNET_CONNECTION_MESSAGE
@@ -91,6 +92,7 @@ const onFetchIssuesError = (dispatch, e, notBeFoundMessage = '') => {
           ? notBeFoundMessage
           : constants.SOMETHING_WENT_WRONG_MESSAGE
         : undefined;
+  /* eslint-enable no-nested-ternary  */
   if (!message) {
     return Promise.reject(e);
   }

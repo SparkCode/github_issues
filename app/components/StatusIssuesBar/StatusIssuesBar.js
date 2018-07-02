@@ -18,7 +18,7 @@ class StatusIssuesBar extends PureComponent {
 
     const b = block('status-issues-bar');
 
-    // todo: looks ugly
+    /* eslint-disable no-nested-ternary  */
     const status = isRequestFailed
       ? errorMessage
       : noIssuesReceived
@@ -26,6 +26,7 @@ class StatusIssuesBar extends PureComponent {
         : issuesIsLoading
           ? issuesIsLoadingMessage
           : null;
+    /* eslint-enable no-nested-ternary  */
     return <div className={classnames(className, b())}>{status}</div>;
   }
 }

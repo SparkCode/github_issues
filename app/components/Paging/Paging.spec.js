@@ -10,7 +10,7 @@ describe('<Paging/>', () => {
   };
 
   beforeEach(() => {
-    defaultProps.gotoNewPage = sinon.spy();
+    defaultProps.goToNewPage = sinon.spy();
   });
 
   const setup = propsOverrides => componentSetup(Paging, defaultProps, propsOverrides);

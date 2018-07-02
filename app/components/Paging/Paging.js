@@ -12,7 +12,7 @@ class Paging extends PureComponent {
       configures.push({ name: '...', key: 'unshown-right' });
     }
 
-    for (let i = start; i <= finish; i++) {
+    for (let i = start; i <= finish; i += 1) {
       configures.push({
         name: i.toString(),
         active: i === currentPage,
@@ -36,7 +36,7 @@ class Paging extends PureComponent {
   }
 
   render() {
-    const { pagesNumber, currentPage, gotoNewPage, maxVisiblePagesFromEachSide = 2 } = this.props;
+    const { pagesNumber, currentPage, goToNewPage, maxVisiblePagesFromEachSide = 2 } = this.props;
     const b = block('paging');
     const startVisiblePage = Math.max(currentPage - maxVisiblePagesFromEachSide, 1);
     const finishVisiblePage = Math.min(currentPage + maxVisiblePagesFromEachSide, pagesNumber);
@@ -47,13 +47,13 @@ class Paging extends PureComponent {
       finishVisiblePage,
       b('page-link')(),
     );
-    const buttons = buttonsConfigure.map(c => <PageButton gotoNewPage={gotoNewPage} {...c} />);
+    const buttons = buttonsConfigure.map(c => <PageButton goToNewPage={goToNewPage} {...c} />);
     return <div className={b()}>{buttons}</div>;
   }
 }
 
 Paging.propTypes = {
-  gotoNewPage: PropTypes.func.isRequired,
+  goToNewPage: PropTypes.func.isRequired,
   pagesNumber: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
   maxVisiblePagesFromEachSide: PropTypes.number,
