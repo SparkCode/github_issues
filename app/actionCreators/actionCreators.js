@@ -3,6 +3,7 @@ import marked from 'marked';
 import * as api from 'utils/GitHubApi';
 import { makeRequest, NetworkError, UnsuccessfulRequestError } from 'utils/Network';
 import * as constants from './constants';
+import { selectDidIssuesInvalidate } from '../selectors/index';
 
 const invalidateIssues = () => ({
   type: constants.INVALIDATE_ISSUES,
@@ -40,27 +41,16 @@ export const searchIssues = ({ userName, repoName, issuesCount, pageNumber }) =>
 export const goToIssue = ({ number, userName, repoName }) => dispatch =>
   dispatch(push(`/${userName}/${repoName}/issues/${number}`));
 
-const shouldUpdateIssues = (state, userName, repoName) => state.issues.didInvalidate && userName && repoName;
-
-const shouldUpdateIssue = (
-  state,
-  userName,
-  repoName,
-  issueNumber, // todo: причем здесь userName && repoName && issueNumber?
-) => state.issues.didInvalidate && userName && repoName && issueNumber;
-
 export const fetchIssueIfNeeded = ({ userName, repoName, issueNumber }) => (dispatch, getState) => {
-  if (!shouldUpdateIssue(getState().toJS().home, userName, repoName, issueNumber)) {
+  if (!(selectDidIssuesInvalidate(getState()) && userName && repoName && issueNumber)) {
     return;
   }
   dispatch(RequestIssues());
   dispatch(fetchIssue({ userName, repoName, issueNumber }));
 };
 
-export const fetchIssuesIfNeeded = query => (dispatch, getState) => {
-  const state = getState().toJS().home;
-  const { userName, repoName, ...props } = query;
-  if (!shouldUpdateIssues(state, userName, repoName)) {
+export const fetchIssuesIfNeeded = ({ userName, repoName, ...props }) => (dispatch, getState) => {
+  if (!(selectDidIssuesInvalidate(getState()) && userName && repoName)) {
     return;
   }
   dispatch(RequestIssues());
@@ -110,9 +100,7 @@ export const fetchIssue = ({ userName, repoName, issueNumber }) => async dispatc
   }
 };
 
-// todo: issuesCount make as a number!
 export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => async dispatch => {
-  // todo: юзание .trim() - это логика redux thunk?
   const url = api.getIssuesUrl(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber);
   try {
     const data = await makeRequest(url);

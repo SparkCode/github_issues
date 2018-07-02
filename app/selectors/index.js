@@ -6,8 +6,10 @@ export const selectIssues = createSelector(state => state.getIn(['home', 'issues
 
 export const selectIssuesData = createSelector(state => state.getIn(['home', 'issues', 'data']), value => value.toJS());
 
+export const selectDidIssuesInvalidate = state => state.getIn(['home', 'issues', 'didInvalidate']);
+
 export const selectIsNoIssuesReceived = createSelector(
-  state => state.getIn(['home', 'issues', 'didInvalidate']),
+  selectDidIssuesInvalidate,
   state => state.getIn(['home', 'issues', 'isFetching']),
   state => state.getIn(['home', 'issues', 'data']),
   (didInvalidate, isFetching, data) => !didInvalidate && !isFetching && data.size === 0,

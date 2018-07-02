@@ -46,21 +46,20 @@ describe('<Autocomplete/>', () => {
 
   it('should call onValueChange & onOptionSelected with value arg when option is selected by keyboard', () => {
     const {
-      wrapper,
       input,
       props: { onValueChange, onOptionSelected, options },
     } = setup();
 
     input.props().inputRef({ blur: sinon.spy() });
-    wrapper.simulate('keydown', {
+    input.simulate('keydown', {
       keyCode: KeyCodes.bottom,
       preventDefault: sinon.spy(),
     });
-    wrapper.simulate('keydown', {
+    input.simulate('keydown', {
       keyCode: KeyCodes.bottom,
       preventDefault: sinon.spy(),
     });
-    wrapper.simulate('keydown', {
+    input.simulate('keydown', {
       keyCode: KeyCodes.enter,
       preventDefault: sinon.spy(),
     });
@@ -80,7 +79,6 @@ describe('<Autocomplete/>', () => {
     } = setup();
     optionsList.props().onOptionHover(2);
     input.props().onBlur();
-
     expect(
       onValueChange.calledOnce &&
         onOptionSelected.calledOnce &&
