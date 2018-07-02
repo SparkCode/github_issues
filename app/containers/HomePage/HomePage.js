@@ -5,7 +5,7 @@ import block from 'bem-cn';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import queryString from 'query-string';
-import reducer from 'mainReducers';
+import reducer from 'reducers/index';
 import { selectDefaultIssuesCountOption, selectIssuesCountOptions } from 'selectors/index';
 import IssuesListPage from 'containers/IssuesList';
 import IssueDetailPage from 'containers/IssueDetail';
