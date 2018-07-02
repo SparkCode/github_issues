@@ -9,6 +9,10 @@ import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
 
+const reduxModule = require('redux');
+// eslint-disable-next-line no-underscore-dangle
+reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/INIT';
+
 const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(initialState = {}, history) {
