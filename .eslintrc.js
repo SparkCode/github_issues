@@ -5,7 +5,7 @@ const prettierOptions = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
 module.exports = {
   parser: 'babel-eslint',
   extends: ['airbnb', 'prettier', 'prettier/react'],
-  plugins: ['prettier', 'redux-saga', 'react', 'jsx-a11y'],
+  plugins: ['prettier', 'react', 'jsx-a11y'],
   env: {
     browser: true,
     node: true,
@@ -60,8 +60,6 @@ module.exports = {
     'react/require-extension': 0,
     'react/self-closing-comp': 0,
     'react/sort-comp': 0,
-    'redux-saga/no-yield-in-race': 2,
-    'redux-saga/yield-effects': 2,
     'require-yield': 0,
   },
   settings: {
