@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import { KeyCodes } from 'utils';
 import classnames from 'classnames';
-import Input from './../Input';
+import Input from 'components/Input';
 import './Autocomplete.scss';
 import OptionsList from './OptionsList';
 

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import classnames from 'classnames';
 import { debounce } from 'lodash';
-import Input from '../Input';
-import Button from '../Button';
-import AutoComplete from '../Autocomplete';
-import Select from '../Select';
+import Input from 'components/Input';
+import Button from 'components/Button';
+import AutoComplete from 'components/Autocomplete';
+import Select from 'components/Select';
 import './SearchIssues.scss';
 
 class SearchIssues extends PureComponent {
@@ -30,19 +30,15 @@ class SearchIssues extends PureComponent {
 
   debouncedSearchReposByUserName = debounce(this.searchReposByUserName, 500);
 
-  onValueChange = (propertyName, value) => {
-    this.setState({ [propertyName]: value });
-  };
+  onValueChange = (propertyName, value) => this.setState({ [propertyName]: value });
 
-  onUserNameChange = value => this.onValueChange('userName', value);
+  onChange = (value, name) => this.onValueChange(name, value);
 
   onRepoNameChange = value => {
     this.onValueChange('repoName', value);
     const { userName } = this.state;
     this.debouncedSearchReposByUserName(userName, value);
   };
-
-  onIssueCountChange = value => this.onValueChange('issuesCount', value);
 
   onRepoSelected = repoName => {
     const { onSearch } = this.props;
@@ -70,14 +66,16 @@ class SearchIssues extends PureComponent {
       <form className={classnames(b(), className)} onSubmit={this.onSubmit}>
         <Input
           value={userName}
+          name="userName"
           className={b('user-name')()}
-          onValueChange={this.onUserNameChange}
+          onValueChange={this.onChange}
           placeholder="User name"
           onBlur={this.onUserNameFieldBlur}
           required
         />
         <AutoComplete
           className={b('repo-name')()}
+          name="repoName"
           value={repoName}
           options={userRepositories}
           onValueChange={this.onRepoNameChange}
@@ -87,9 +85,10 @@ class SearchIssues extends PureComponent {
         />
         <Select
           className={b('select')()}
-          value={issuesCount.toString()}
+          name="issuesCount"
+          value={issuesCount}
           options={issuesCountOptions}
-          onValueChange={this.onIssueCountChange}
+          onValueChange={this.onChange}
         />
         <Button className={b('submit')()} type="submit">
           Search

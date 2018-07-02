@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import { formatDate } from 'utils';
+import Link from 'components/Link';
 import './Issue.scss';
-import Link from '../Link';
 
 class Issue extends PureComponent {
   onTitleClick = () => {

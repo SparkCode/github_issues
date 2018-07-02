@@ -5,12 +5,20 @@ import classnames from 'classnames';
 import './Input.scss';
 
 class Input extends PureComponent {
-  onChange = ({ target: { value } }) => this.props.onValueChange(value);
+  onChange = ({ target: { value, name } }) => this.props.onValueChange(value, name);
 
   render() {
     const { className, inputRef, onValueChange, ...props } = this.props;
     const b = block('input');
-    return <input {...props} className={classnames(className, b())} ref={inputRef} onChange={this.onChange} />;
+    return (
+      <input
+        className={classnames(className, b())}
+        ref={inputRef}
+        onChange={this.onChange}
+        autoComplete="nope"
+        {...props}
+      />
+    );
   }
 }
 

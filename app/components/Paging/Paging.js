@@ -5,7 +5,7 @@ import './Paging.scss';
 import PageButton from './PageButton';
 
 class Paging extends PureComponent {
-  getButtonsConfigure(pagesNumber, currentPage, start, finish, className) {
+  getButtonsProps(pagesNumber, currentPage, start, finish, className) {
     const configures = [];
     if (start > 1) {
       configures.push({ name: '1', value: 1, key: '1' });
@@ -40,14 +40,14 @@ class Paging extends PureComponent {
     const b = block('paging');
     const startVisiblePage = Math.max(currentPage - maxVisiblePagesFromEachSide, 1);
     const finishVisiblePage = Math.min(currentPage + maxVisiblePagesFromEachSide, pagesNumber);
-    const buttonsConfigure = this.getButtonsConfigure(
+    const buttonsProps = this.getButtonsProps(
       pagesNumber,
       currentPage,
       startVisiblePage,
       finishVisiblePage,
       b('page-link')(),
     );
-    const buttons = buttonsConfigure.map(c => <PageButton goToNewPage={goToNewPage} {...c} />);
+    const buttons = buttonsProps.map(c => <PageButton goToNewPage={goToNewPage} {...c} />);
     return <div className={b()}>{buttons}</div>;
   }
 }

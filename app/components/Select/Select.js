@@ -6,16 +6,16 @@ import './Select.scss';
 
 class Select extends PureComponent {
   onChange = e => {
-    const { value } = e.target;
-    this.props.onValueChange(value);
+    const { value, name } = e.target;
+    this.props.onValueChange(value, name);
   };
 
   render() {
-    const { className, options, value } = this.props;
+    const { className, options, value, onValueChange, ...props } = this.props;
     const b = block('select');
 
     return (
-      <select className={classnames(className, b())} value={value} onChange={this.onChange}>
+      <select className={classnames(className, b())} value={value} onChange={this.onChange} {...props}>
         {options.map(option => (
           <option className={b('option')()} key={option}>
             {option}

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate } from 'utils';
+import Markdown from 'components/Markdown';
+import Link from 'components/Link';
 import block from 'bem-cn';
 import './IssueDetail.scss';
-import Markdown from '../Markdown';
-import Link from '../Link';
 
 class IssueDetail extends PureComponent {
   render() {
