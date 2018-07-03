@@ -5,6 +5,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const InlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -42,7 +43,10 @@ module.exports = require('./webpack.base.babel')({
         minifyJS: true,
         minifyCSS: true,
         minifyURLs: true,
+        // Inline all files which names start with “runtime~” and end with “.js”.
+        // That’s the default naming of runtime chunks
       },
+      inlineSource: 'runtime~.+\\.js',
       inject: true,
     }),
 
@@ -91,6 +95,8 @@ module.exports = require('./webpack.base.babel')({
     }),
 
     new BundleAnalyzerPlugin(),
+    // This plugin enables the “inlineSource” option
+    new InlineSourcePlugin(),
   ],
 
   performance: {
