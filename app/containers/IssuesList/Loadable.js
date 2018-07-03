@@ -4,6 +4,6 @@
 import Loadable from 'react-loadable';
 
 export default Loadable({
-  loader: () => import('./index'),
+  loader: () => import('./index' /* webpackChunkName: "issues-list" */),
   loading: () => null,
 });

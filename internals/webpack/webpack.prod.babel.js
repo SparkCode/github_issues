@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const InlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
 module.exports = require('./webpack.base.babel')({
@@ -94,7 +93,6 @@ module.exports = require('./webpack.base.babel')({
       hashDigestLength: 20,
     }),
 
-    new BundleAnalyzerPlugin(),
     // This plugin enables the “inlineSource” option
     new InlineSourcePlugin(),
   ],
