@@ -6,10 +6,12 @@ import thunk from 'redux-thunk';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createReducer from './reducers';
-
 const reduxModule = require('redux');
-// eslint-disable-next-line no-underscore-dangle
-reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/INIT';
+
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line no-underscore-dangle
+  reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/INIT';
+}
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
