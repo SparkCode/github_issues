@@ -1,4 +1,4 @@
-import { searchIssues } from 'actionCreators';
+import { IssuesSearch } from 'actionCreators';
 import { connect } from 'react-redux';
 import Paging from 'components/Paging';
 import { selectIssuesPagesCount } from 'selectors/index';
@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, { repoName, userName, issuesCount }) => ({
   goToNewPage: pageNumber => {
-    dispatch(searchIssues({ repoName, userName, issuesCount, pageNumber }));
+    dispatch(IssuesSearch({ repoName, userName, issuesCount, pageNumber }));
   },
 });
 

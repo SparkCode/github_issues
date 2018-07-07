@@ -1,5 +1,5 @@
 export {
-  searchIssues,
+  IssuesSearch,
   fetchIssuesIfNeeded,
   fetchIssues,
   loadUserRepositories,

@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 import { componentSetup } from 'utils/ComponentTest';
-import SearchIssues from './SearchIssues';
+import IssuesSearch from './IssuesSearch';
 
-describe('<SearchIssues/>', () => {
+describe('<IssuesSearch/>', () => {
   const defaultProps = {
     issuesCountOptions: ['10', '20', '30'],
     userRepositories: ['firstRepo', 'secondRepo'],
@@ -14,7 +14,7 @@ describe('<SearchIssues/>', () => {
   });
 
   const setup = propsOverrides => {
-    const { wrapper, props } = componentSetup(SearchIssues, defaultProps, propsOverrides);
+    const { wrapper, props } = componentSetup(IssuesSearch, defaultProps, propsOverrides);
 
     return {
       props,

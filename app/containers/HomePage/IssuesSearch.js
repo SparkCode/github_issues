@@ -1,7 +1,7 @@
-import SearchIssues from 'components/SearchIssues';
+import IssuesSearch from 'components/IssuesSearch';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { searchIssues, loadUserRepositories } from 'actionCreators';
+import { IssuesSearch as IssuesSearchAction, loadUserRepositories } from 'actionCreators';
 import { selectUserRepositories, selectIssuesCountOptions } from 'selectors/index';
 
 const mapStateToProps = state => ({
@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onSearch: (userName, repoName, issuesCount) => {
     dispatch(
-      searchIssues({
+      IssuesSearchAction({
         userName,
         repoName,
         issuesCount,
@@ -26,4 +26,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchIssues);
+)(IssuesSearch);

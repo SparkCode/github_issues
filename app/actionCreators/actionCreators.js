@@ -33,7 +33,7 @@ const RequestIssues = () => ({
   type: constants.REQUEST_ISSUES,
 });
 
-export const searchIssues = ({ userName, repoName, issuesCount, pageNumber }) => dispatch => {
+export const IssuesSearch = ({ userName, repoName, issuesCount, pageNumber }) => dispatch => {
   dispatch(push(`/${userName}/${repoName}/issues?issuesCount=${issuesCount}&pageNumber=${pageNumber}`));
   dispatch(invalidateIssues());
 };

@@ -11,7 +11,7 @@ import IssuesListPage from 'containers/IssuesList/Loadable';
 import IssueDetailPage from 'containers/IssueDetail/Loadable';
 import { mapProps, compose } from 'recompose';
 import './HomePage.scss';
-import SearchIssues from './SearchIssues';
+import IssuesSearch from './IssuesSearch';
 import StatusIssuesBar from './StatusIssuesBar';
 
 class HomePage extends PureComponent {
@@ -20,7 +20,7 @@ class HomePage extends PureComponent {
     const { issuesCount, userName, repoName } = this.props;
     return (
       <div className={b()}>
-        <SearchIssues
+        <IssuesSearch
           className={b('search')()}
           defaultUserName={userName}
           defaultRepoName={repoName}

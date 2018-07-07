@@ -7,9 +7,9 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 import AutoComplete from 'components/Autocomplete';
 import Select from 'components/Select';
-import './SearchIssues.scss';
+import './IssuesSearch.scss';
 
-class SearchIssues extends PureComponent {
+class IssuesSearch extends PureComponent {
   constructor(props) {
     super(props);
     const { defaultUserName, defaultRepoName, defaultIssuesCount } = this.props;
@@ -98,7 +98,7 @@ class SearchIssues extends PureComponent {
   }
 }
 
-SearchIssues.propTypes = {
+IssuesSearch.propTypes = {
   defaultUserName: PropTypes.string,
   defaultRepoName: PropTypes.string,
   defaultIssuesCount: PropTypes.string,
@@ -108,10 +108,10 @@ SearchIssues.propTypes = {
   searchReposByUserName: PropTypes.func.isRequired,
   userRepositories: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
-SearchIssues.defaultProps = {
+IssuesSearch.defaultProps = {
   defaultRepoName: '',
   defaultUserName: '',
   defaultIssuesCount: '',
 };
 
-export default SearchIssues;
+export default IssuesSearch;
