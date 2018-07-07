@@ -24,7 +24,8 @@ describe('<Input/>', () => {
   it('should call onValueChange callback when input value is changed', () => {
     const { wrapper, props } = setup();
     const newValue = 'Billy';
-    wrapper.simulate('change', { target: { value: newValue } });
-    expect(props.onValueChange.calledOnce && props.onValueChange.calledWithExactly(newValue)).toBeTruthy();
+    const name = 'inputName';
+    wrapper.simulate('change', { target: { value: newValue, name } });
+    expect(props.onValueChange.calledOnce && props.onValueChange.calledWithExactly(newValue, name)).toBeTruthy();
   });
 });
