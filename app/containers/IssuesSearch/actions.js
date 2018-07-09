@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux';
-import * as api from 'utils/GitHubApi';
+import { getUserReposUrl } from 'utils/GitHubApi';
 import { makeRequest } from 'utils/network/index';
 import * as constants from './constants';
 
@@ -12,7 +12,7 @@ const ReceiveUserRepos = repos => ({
 });
 
 export const loadUserRepositories = (userName, searchString = '') => async dispatch => {
-  const url = api.getUserReposUrl(userName.trim(), searchString.trim());
+  const url = getUserReposUrl(userName.trim(), searchString.trim());
   const data = await makeRequest(url);
   const repos = await data.items.map(repo => repo.name);
   return dispatch(ReceiveUserRepos(repos));

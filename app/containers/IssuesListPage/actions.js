@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux';
 import { makeRequest, NetworkError, UnsuccessfulRequestError } from 'utils/network/index';
 import { NO_INTERNET_CONNECTION_MESSAGE, SOMETHING_WENT_WRONG_MESSAGE } from 'utils/network/constants'; // todo: duplication import with above
-import * as api from 'utils/GitHubApi';
+import { getIssuesUrl, getIssuesPagesCountUrl } from 'utils/GitHubApi';
 import { selectDidIssuesInvalidate } from './selectors';
 import * as constants from './constants';
 
@@ -77,7 +77,7 @@ export const onFetchIssuesError = (dispatch, e, notBeFoundMessage = '') => {
 };
 
 export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => async dispatch => {
-  const url = api.getIssuesUrl(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber);
+  const url = getIssuesUrl(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber);
   try {
     const data = await makeRequest(url);
     const issues = data.map(mapGithubIssueToLocalIssue);
@@ -88,7 +88,7 @@ export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => 
 };
 
 export const fetchIssuesPagesCount = ({ userName, repoName, issuesCount }) => async dispatch => {
-  const url = api.getIssuesPagesCountUrl(userName.trim(), repoName.trim());
+  const url = getIssuesPagesCountUrl(userName.trim(), repoName.trim());
   const data = await makeRequest(url);
   const overallIssues = data.open_issues_count;
   const issuesPagesCount = Math.ceil(overallIssues / issuesCount);

@@ -5,7 +5,7 @@ import {
   ReceiveIssues,
   onFetchIssuesError,
 } from 'containers/IssuesListPage/actions'; // todo: it's temporary solution, make some own boilerplate
-import * as api from 'utils/GitHubApi'; // todo: is it OK to import like this?
+import { getIssueUrl } from 'utils/GitHubApi';
 import { makeRequest } from 'utils/network/index';
 import { ISSUE_NOT_BE_FOUND_MESSAGE } from './constants';
 
@@ -18,7 +18,7 @@ export const fetchIssueIfNeeded = ({ userName, repoName, issueNumber }) => (disp
 };
 
 export const fetchIssue = ({ userName, repoName, issueNumber }) => async dispatch => {
-  const url = api.getIssueUrl(userName.trim(), repoName.trim(), issueNumber);
+  const url = getIssueUrl(userName.trim(), repoName.trim(), issueNumber);
   try {
     const data = await makeRequest(url);
     const issue = mapGithubIssueToLocalIssue(data);
