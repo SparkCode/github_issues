@@ -163,36 +163,7 @@
       "enzyme-to-json/serializer"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "build/vendors~main.*.chunk.js",
-      "maxSize": "110 kB"
-    },
-    {
-      "path": "build/vendors~home-page.*.chunk.js",
-      "maxSize": "20 kB"
-    },
-    {
-      "path": "build/main.*.chunk.js",
-      "maxSize": "7 kB"
-    },
-    {
-      "path": "build/home-page.*.chunk.js",
-      "maxSize": "10 kB"
-    },
-    {
-      "path": "build/issues-list.*.chunk.js",
-      "maxSize": "8 kB"
-    },
-    {
-      "path": "build/issue-detail.*.chunk.js",
-      "maxSize": "10 kB"
-    },
-    {
-      "path": "build/not-found-page.*.chunk.js",
-      "maxSize": "1 kB"
-    }
-  ],
+  "bundlesize": [],
   "dependencies": {
     "babel-polyfill": "6.26.0",
     "bem-cn": "^2.1.3",

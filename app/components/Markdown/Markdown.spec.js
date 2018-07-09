@@ -1,4 +1,4 @@
-import { componentSetup } from 'utils/ComponentTest';
+import { componentSetup } from 'utils/componentTestingSetup';
 import Markdown from './Markdown';
 
 describe('<Markdown/>', () => {

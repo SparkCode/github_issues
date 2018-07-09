@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { componentSetup } from 'utils/ComponentTest';
+import { componentSetup } from 'utils/componentTestingSetup';
 import KeyCodes from 'utils/keyCodes';
 import Autocomplete from './Autocomplete';
 import OptionsList from './OptionsList';

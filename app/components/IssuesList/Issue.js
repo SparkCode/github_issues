@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import { formatDate } from 'utils';
+import formatDate from 'utils/formatDate';
 import Link from 'components/Link';
 import './Issue.scss';
 

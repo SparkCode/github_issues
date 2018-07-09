@@ -1,4 +1,4 @@
-import { componentSetup } from 'utils/ComponentTest';
+import { componentSetup } from 'utils/componentTestingSetup';
 import IssueDetail from './IssueDetail';
 
 describe('<IssueDetail/>', () => {

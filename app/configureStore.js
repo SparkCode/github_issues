@@ -37,7 +37,6 @@ export default function configureStore(initialState = {}, history) {
 
   // Extensions
   store.injectedReducers = {}; // Reducer registry
-  store.injectedSagas = {}; // Saga registry
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

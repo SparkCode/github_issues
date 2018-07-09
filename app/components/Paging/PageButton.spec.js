@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { componentSetup } from 'utils/ComponentTest';
+import { componentSetup } from 'utils/componentTestingSetup';
 import PageButton from './PageButton';
 
 describe('<PageButton/>', () => {

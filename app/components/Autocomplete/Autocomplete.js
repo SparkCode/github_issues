@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
-import { KeyCodes } from 'utils';
+import KeyCodes from 'utils/keyCodes';
 import classnames from 'classnames';
 import Input from 'components/Input';
 import './Autocomplete.scss';

@@ -13,16 +13,19 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-
 import HomePage from 'containers/HomePage/Loadable';
+import IssuesListPage from 'containers/IssuesListPage/Loadable';
+import IssueDetailPage from 'containers/IssueDetailPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import './App.scss';
 
 export default function App() {
   return (
-    <div>
+    <div className="app">
       <Switch>
-        <Route path="/:userName/:repoName/issues" component={HomePage} />
-        <Route path="/" component={HomePage} />
+        <Route exact path="/" component={HomePage} />
+        <Route exact path="/:userName/:repoName/issues" component={IssuesListPage} />
+        <Route exact path="/:userName/:repoName/issues/:issueNumber" component={IssueDetailPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

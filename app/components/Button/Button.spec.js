@@ -1,4 +1,4 @@
-import { componentSetup } from 'utils/ComponentTest';
+import { componentSetup } from 'utils/componentTestingSetup';
 import Button from './Button';
 
 describe('<Button/>', () => {

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from 'utils';
+import formatDate from 'utils/formatDate';
 import Markdown from 'components/Markdown';
 import Link from 'components/Link';
 import block from 'bem-cn';

@@ -1,6 +1,7 @@
+// todo: should be no here
 import { connect } from 'react-redux';
 import StatusIssuesBar from 'components/StatusIssuesBar';
-import { selectIssues, selectIsNoIssuesReceived } from 'selectors/index';
+import { selectIssues, selectIsNoIssuesReceived } from 'containers/IssuesListPage/selectors';
 
 const mapStateToProps = state => {
   const { isFetching, isRequestFailed, errorMessage } = selectIssues(state);
