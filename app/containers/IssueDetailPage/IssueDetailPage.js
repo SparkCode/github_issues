@@ -9,6 +9,7 @@ import IssuesSearch from 'containers/IssuesSearch';
 import reducer from 'containers/IssuesListPage/reducer'; // todo: it's temporary solution, make some own boilerplate
 import injectReducer from 'utils/injectReducer';
 import { invalidateIssues } from 'containers/IssuesListPage/actions'; // todo: it's temporary solution, make some own boilerplate
+import StatusIssuesBar from 'containers/StatusIssuesBar';
 import { fetchIssueIfNeeded as fetchIssueIfNeededAction } from './actions';
 import IssueDetail from './IssueDetail';
 
@@ -35,6 +36,7 @@ class IssueDetailPage extends PureComponent {
           defaultIssuesCount={issuesCount}
           onSearch={onIssuesSearch}
         />
+        <StatusIssuesBar />
         {issueBeLoaded && <IssueDetail issueNumber={issueNumber} />}
       </div>
     );

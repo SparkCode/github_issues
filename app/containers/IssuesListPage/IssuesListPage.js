@@ -7,6 +7,7 @@ import { compose } from 'redux';
 import IssuesSearch from 'containers/IssuesSearch';
 import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
+import StatusIssuesBar from 'containers/StatusIssuesBar';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
 import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator, invalidateIssues } from './actions';
 import reducer from './reducer';
@@ -36,6 +37,7 @@ class IssuesListPage extends PureComponent {
           defaultIssuesCount={issuesCount}
           onSearch={onIssuesSearch}
         />
+        <StatusIssuesBar />
         <IssuesList repoName={repoName} userName={userName} issuesCount={issuesCount} />
         {shouldShowPaging && (
           <Paging repoName={repoName} userName={userName} currentPage={pageNumber} issuesCount={issuesCount} />
