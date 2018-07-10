@@ -56,7 +56,7 @@ IssuesListPage.propTypes = {
   pageNumber: PropTypes.number,
 };
 
-const withReducer = injectReducer({ key: 'home', reducer }); // todo: need to be refactor
+const withReducer = injectReducer({ key: 'issuesListPage', reducer }); // todo: need to be refactor
 
 const withConnect = connect(
   state => ({

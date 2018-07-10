@@ -1,15 +1,15 @@
 import { createSelector } from 'reselect';
 
-export const selectIssues = createSelector(state => state.get('home'), value => value.toJS());
+export const selectIssues = createSelector(state => state.get('issuesListPage'), value => value.toJS());
 
-export const selectIssuesData = createSelector(state => state.getIn(['home', 'data']), value => value.toJS());
+export const selectIssuesData = createSelector(state => state.getIn(['issuesListPage', 'data']), value => value.toJS());
 
-export const selectDidIssuesInvalidate = state => state.getIn(['home', 'didInvalidate']);
+export const selectDidIssuesInvalidate = state => state.getIn(['issuesListPage', 'didInvalidate']);
 
 export const selectIsNoIssuesReceived = createSelector(
   selectDidIssuesInvalidate,
-  state => state.getIn(['home', 'isFetching']),
-  state => state.getIn(['home', 'data']),
+  state => state.getIn(['issuesListPage', 'isFetching']),
+  state => state.getIn(['issuesListPage', 'data']),
   (didInvalidate, isFetching, data) => !didInvalidate && !isFetching && data.size === 0,
 );
 
@@ -19,6 +19,6 @@ export const selectIsIssuesSuccessfullyBeLoaded = createSelector(
 );
 
 export const selectIssuesPagesCount = createSelector(
-  state => state.getIn(['home', 'issuesPagesCount']),
+  state => state.getIn(['issuesListPage', 'issuesPagesCount']),
   value => value,
 );

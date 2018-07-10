@@ -41,7 +41,7 @@ class IssueDetailPage extends PureComponent {
   }
 }
 
-const withReducer = injectReducer({ key: 'home', reducer }); // todo: need to be refactor
+const withReducer = injectReducer({ key: 'issueDetailPage', reducer }); // todo: need to be refactor
 
 IssueDetailPage.propTypes = {
   fetchIssueIfNeeded: PropTypes.func.isRequired,
