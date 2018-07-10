@@ -1,4 +1,4 @@
-export const mapGithubIssueToLocalIssue = data => ({
+export default data => ({
   id: data.id,
   number: data.number,
   title: data.title,

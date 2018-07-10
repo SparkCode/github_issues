@@ -2,10 +2,8 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import nock from 'nock';
 import * as api from 'utils/GitHubApi';
-import { mapGithubIssueToLocalIssue } from 'containers/IssuesListPage/actions'; // todo: it's temporary solution, make some own boilerplate
-import { RECEIVE_ISSUES, RECEIVE_ISSUES_ERROR } from 'containers/IssuesListPage/constants'; // todo: it's temporary solution, make some own boilerplate
+import mapGithubIssueToLocalIssue from 'containers/IssuesListPage/utils/mapGithubIssueToLocalIssue';
 import { fetchIssue } from '../actions';
-
 import * as constants from '../constants';
 
 describe('async actions', () => {
@@ -41,8 +39,8 @@ describe('async actions', () => {
       const store = mockStore({});
       const expectedActions = [
         {
-          type: RECEIVE_ISSUES,
-          issues: [mapGithubIssueToLocalIssue(body)],
+          type: constants.RECEIVE_ISSUE,
+          issue: mapGithubIssueToLocalIssue(body),
         },
       ];
 
@@ -64,7 +62,7 @@ describe('async actions', () => {
       const store = mockStore({});
       const expectedActions = [
         {
-          type: RECEIVE_ISSUES_ERROR,
+          type: constants.RECEIVE_ISSUE_ERROR,
           errorMessage: constants.ISSUE_NOT_BE_FOUND_MESSAGE,
         },
       ];

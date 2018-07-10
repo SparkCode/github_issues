@@ -1,10 +1,10 @@
 import { push } from 'react-router-redux';
-import { makeRequest, NetworkError, UnsuccessfulRequestError } from 'utils/network/index';
-import { NO_INTERNET_CONNECTION_MESSAGE } from 'utils/network/constants'; // todo: duplication import with above
+import { makeRequest, mapErrorCauseToMessage, mapErrorToCauseEnum } from 'utils/network/index';
 import { getIssuesUrl, getIssuesPagesCountUrl } from 'utils/GitHubApi';
+import { RESOURCE_NOT_BE_FOUND } from 'utils/network/constants';
 import { selectDidIssuesInvalidate } from './selectors';
 import * as constants from './constants';
-import { mapGithubIssueToLocalIssue } from './utils/mapGithubIssueToLocalIssue';
+import mapGithubIssueToLocalIssue from './utils/mapGithubIssueToLocalIssue';
 
 export const invalidateIssues = () => ({
   type: constants.INVALIDATE_ISSUES,
@@ -53,18 +53,10 @@ export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => 
     const issues = data.map(mapGithubIssueToLocalIssue);
     return dispatch(ReceiveIssues(issues));
   } catch (e) {
-    /* eslint-disable no-nested-ternary  */
-    // todo: code duplication
-    const message =
-      e instanceof NetworkError
-        ? NO_INTERNET_CONNECTION_MESSAGE
-        : e instanceof UnsuccessfulRequestError
-          ? e.response.status === 404
-            ? constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE
-            : constants.SOMETHING_WENT_WRONG_MESSAGE
-          : undefined;
-    /* eslint-enable no-nested-ternary  */
-    if (!message) return Promise.reject(e);
+    const cause = mapErrorToCauseEnum(e);
+    const message = mapErrorCauseToMessage(cause, {
+      [RESOURCE_NOT_BE_FOUND]: constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE,
+    });
     return dispatch(ReceiveIssuesError(message));
   }
 };
