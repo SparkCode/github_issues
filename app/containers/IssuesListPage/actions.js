@@ -1,9 +1,10 @@
 import { push } from 'react-router-redux';
 import { makeRequest, NetworkError, UnsuccessfulRequestError } from 'utils/network/index';
-import { NO_INTERNET_CONNECTION_MESSAGE, SOMETHING_WENT_WRONG_MESSAGE } from 'utils/network/constants'; // todo: duplication import with above
+import { NO_INTERNET_CONNECTION_MESSAGE } from 'utils/network/constants'; // todo: duplication import with above
 import { getIssuesUrl, getIssuesPagesCountUrl } from 'utils/GitHubApi';
 import { selectDidIssuesInvalidate } from './selectors';
 import * as constants from './constants';
+import { mapGithubIssueToLocalIssue } from './utils/mapGithubIssueToLocalIssue';
 
 export const invalidateIssues = () => ({
   type: constants.INVALIDATE_ISSUES,
@@ -45,37 +46,6 @@ export const fetchIssuesIfNeeded = ({ userName, repoName, ...props }) => (dispat
   dispatch(fetchIssuesPagesCount({ userName, repoName, ...props }));
 };
 
-export const mapGithubIssueToLocalIssue = data => ({
-  id: data.id,
-  number: data.number,
-  title: data.title,
-  createdAt: data.created_at,
-  body: data.body,
-  issueUrl: data.html_url,
-  repositoryUrl: data.repository_url,
-  state: data.state,
-  userLogin: data.user.login,
-  userUrl: data.user.html_url,
-  userAvatarUrl: `${data.user.avatar_url}`,
-});
-
-export const onFetchIssuesError = (dispatch, e, notBeFoundMessage = '') => {
-  /* eslint-disable no-nested-ternary  */
-  const message =
-    e instanceof NetworkError
-      ? NO_INTERNET_CONNECTION_MESSAGE
-      : e instanceof UnsuccessfulRequestError
-        ? e.response.status
-          ? notBeFoundMessage
-          : SOMETHING_WENT_WRONG_MESSAGE // todo: AAAAAAAAAA
-        : undefined;
-  /* eslint-enable no-nested-ternary  */
-  if (!message) {
-    return Promise.reject(e);
-  }
-  return dispatch(ReceiveIssuesError(message));
-};
-
 export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => async dispatch => {
   const url = getIssuesUrl(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber);
   try {
@@ -83,7 +53,19 @@ export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => 
     const issues = data.map(mapGithubIssueToLocalIssue);
     return dispatch(ReceiveIssues(issues));
   } catch (e) {
-    return onFetchIssuesError(dispatch, e, constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE);
+    /* eslint-disable no-nested-ternary  */
+    // todo: code duplication
+    const message =
+      e instanceof NetworkError
+        ? NO_INTERNET_CONNECTION_MESSAGE
+        : e instanceof UnsuccessfulRequestError
+          ? e.response.status === 404
+            ? constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE
+            : constants.SOMETHING_WENT_WRONG_MESSAGE
+          : undefined;
+    /* eslint-enable no-nested-ternary  */
+    if (!message) return Promise.reject(e);
+    return dispatch(ReceiveIssuesError(message));
   }
 };
 

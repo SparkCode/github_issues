@@ -13,11 +13,6 @@ export const selectIsNoIssuesReceived = createSelector(
   (didInvalidate, isFetching, data) => !didInvalidate && !isFetching && data.size === 0,
 );
 
-export const selectIsIssuesSuccessfullyBeLoaded = createSelector(
-  selectIssues,
-  ({ didInvalidate, isFetching, isRequestFailed }) => !didInvalidate && !isFetching && !isRequestFailed,
-);
-
 export const selectIssuesPagesCount = createSelector(
   state => state.getIn(['issuesListPage', 'issuesPagesCount']),
   value => value,

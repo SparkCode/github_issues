@@ -2,25 +2,20 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import { connect } from 'react-redux';
-import { selectIsIssuesSuccessfullyBeLoaded } from 'containers/IssuesListPage/selectors'; // todo: it's temporary solution, make some own boilerplate
 import { compose, withProps } from 'recompose';
 import withRouteParams from 'containers/App/withRouteParams';
 import IssuesSearch from 'containers/IssuesSearch';
-import reducer from 'containers/IssuesListPage/reducer'; // todo: it's temporary solution, make some own boilerplate
 import injectReducer from 'utils/injectReducer';
-import { invalidateIssues } from 'containers/IssuesListPage/actions'; // todo: it's temporary solution, make some own boilerplate
-import StatusIssuesBar from 'containers/StatusIssuesBar';
+import { invalidateIssues } from 'containers/IssuesListPage/actions'; // todo: looks no good
+import reducer from './reducer';
+import StatusIssuesBar from './StatusIssuesBar';
+import { selectIsIssueSuccessfullyBeLoaded } from './selectors';
 import './IssueDetailPage.scss';
 import { fetchIssueIfNeeded as fetchIssueIfNeededAction } from './actions';
 import IssueDetail from './IssueDetail';
 
 class IssueDetailPage extends PureComponent {
   componentDidMount() {
-    const { fetchIssueIfNeeded } = this.props;
-    fetchIssueIfNeeded();
-  }
-
-  componentDidUpdate() {
     const { fetchIssueIfNeeded } = this.props;
     fetchIssueIfNeeded();
   }
@@ -44,7 +39,7 @@ class IssueDetailPage extends PureComponent {
   }
 }
 
-const withReducer = injectReducer({ key: 'issueDetailPage', reducer }); // todo: need to be refactor
+const withReducer = injectReducer({ key: 'issueDetailPage', reducer });
 
 IssueDetailPage.propTypes = {
   fetchIssueIfNeeded: PropTypes.func.isRequired,
@@ -58,7 +53,7 @@ IssueDetailPage.propTypes = {
 IssueDetailPage.defaultProps = {};
 
 const mapStateToProps = state => ({
-  issueBeLoaded: selectIsIssuesSuccessfullyBeLoaded(state),
+  issueBeLoaded: selectIsIssueSuccessfullyBeLoaded(state),
 });
 
 const mapDispatchToProps = (dispatch, { userName, repoName, issueNumber }) => ({
