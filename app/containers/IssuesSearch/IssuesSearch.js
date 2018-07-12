@@ -27,14 +27,13 @@ const mapDispatchToProps = (dispatch, { onSearch }) => ({
   searchReposByUserName: bindActionCreators(loadUserRepositories, dispatch),
 });
 
-const withValidIssuesCount = compose(
+export const withValidIssuesCount = compose(
   connect(state => ({
     issuesCountOptions: selectIssuesCountOptions(state),
     defaultIssuesCountOption: selectDefaultIssuesCountOption(state),
   })),
   mapProps(({ issuesCountOptions, defaultIssuesCount, defaultIssuesCountOption, ...props }) => ({
-    defaultIssuesCount:
-      issuesCountOptions.indexOf(defaultIssuesCount) !== -1 ? defaultIssuesCount : defaultIssuesCountOption,
+    issuesCount: issuesCountOptions.indexOf(defaultIssuesCount) !== -1 ? defaultIssuesCount : defaultIssuesCountOption,
     ...props,
   })),
 );
@@ -47,6 +46,7 @@ export default compose(
   }),
   withReducer,
   withValidIssuesCount,
+  mapProps(({ issuesCount, ...props }) => ({ ...props, defaultIssuesCount: issuesCount })),
   connect(
     mapStateToProps,
     mapDispatchToProps,

@@ -23,9 +23,16 @@ export default function App() {
   return (
     <div className="app">
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/:userName/:repoName/issues" component={IssuesListPage} />
-        <Route exact path="/:userName/:repoName/issues/:issueNumber" component={IssueDetailPage} />
+        <Route
+          exact
+          path="/"
+          render={({ match, location }) => (
+            <HomePage match={match} location={location}>
+              <Route exact path="/:userName/:repoName/issues" component={IssuesListPage} />
+              <Route exact path="/:userName/:repoName/issues/:issueNumber" component={IssueDetailPage} />
+            </HomePage>
+          )}
+        />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

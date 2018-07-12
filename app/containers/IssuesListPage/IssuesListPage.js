@@ -14,6 +14,7 @@ import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator, invalidateIssu
 import reducer from './reducer';
 import IssuesList from './IssuesList';
 import Paging from './Paging';
+import { withValidIssuesCount } from '../IssuesSearch/IssuesSearch';
 
 class IssuesListPage extends PureComponent {
   componentDidMount() {
@@ -90,6 +91,7 @@ const withIssuesListProps = withProps(({ issuesPagesCount, issues, pageNumber })
 export default compose(
   withReducer,
   withRouteParams,
+  withValidIssuesCount,
   withConnect,
   withIssuesListProps,
 )(IssuesListPage);
