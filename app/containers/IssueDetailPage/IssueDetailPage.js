@@ -4,9 +4,7 @@ import block from 'bem-cn';
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
 import withRouteParams from 'containers/App/withRouteParams';
-import IssuesSearch from 'containers/IssuesSearch';
 import injectReducer from 'utils/injectReducer';
-import { invalidateIssues } from 'containers/IssuesListPage/actions'; // todo: looks no good
 import reducer from './reducer';
 import StatusIssuesBar from './StatusIssuesBar';
 import { selectIsIssueSuccessfullyBeLoaded } from './selectors';
@@ -21,17 +19,10 @@ class IssueDetailPage extends PureComponent {
   }
 
   render() {
-    const { issueBeLoaded, issueNumber, userName, repoName, issuesCount, onIssuesSearch } = this.props;
+    const { issueBeLoaded, issueNumber } = this.props;
     const b = block('issue-detail-page');
     return (
       <div className={b()}>
-        <IssuesSearch
-          className={b('search')()}
-          defaultUserName={userName}
-          defaultRepoName={repoName}
-          defaultIssuesCount={issuesCount}
-          onSearch={onIssuesSearch}
-        />
         <StatusIssuesBar className={b('status')()} />
         {issueBeLoaded && <IssueDetail issueNumber={issueNumber} />}
       </div>
@@ -43,12 +34,8 @@ const withReducer = injectReducer({ key: 'issueDetailPage', reducer });
 
 IssueDetailPage.propTypes = {
   fetchIssueIfNeeded: PropTypes.func.isRequired,
-  onIssuesSearch: PropTypes.func.isRequired,
   issueNumber: PropTypes.number,
   issueBeLoaded: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired,
-  repoName: PropTypes.string.isRequired,
-  issuesCount: PropTypes.string,
 };
 IssueDetailPage.defaultProps = {};
 
@@ -58,7 +45,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, { userName, repoName, issueNumber }) => ({
   fetchIssueIfNeeded: () => dispatch(fetchIssueIfNeededAction({ userName, repoName, issueNumber })),
-  onIssuesSearch: () => dispatch(invalidateIssues()),
+  // onIssuesSearch: () => dispatch(invalidateIssues()), TODO:
 });
 
 const withIssueNumber = withProps(({ match: { params: { issueNumber } } }) => ({

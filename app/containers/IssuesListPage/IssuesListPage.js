@@ -4,13 +4,12 @@ import block from 'bem-cn';
 import PropTypes from 'prop-types';
 import { withProps } from 'recompose';
 import { compose } from 'redux';
-import IssuesSearch from 'containers/IssuesSearch';
 import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesListPage.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
-import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator, invalidateIssues } from './actions';
+import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator } from './actions';
 import reducer from './reducer';
 import IssuesList from './IssuesList';
 import Paging from './Paging';
@@ -28,17 +27,10 @@ class IssuesListPage extends PureComponent {
   }
 
   render() {
-    const { issuesCount, pageNumber, shouldShowPaging, repoName, userName, onIssuesSearch } = this.props;
+    const { issuesCount, pageNumber, shouldShowPaging, repoName, userName } = this.props;
     const b = block('issues-list-page');
     return (
       <div className={b()}>
-        <IssuesSearch
-          className={b('search')()}
-          defaultUserName={userName}
-          defaultRepoName={repoName}
-          defaultIssuesCount={issuesCount}
-          onSearch={onIssuesSearch}
-        />
         <StatusIssuesBar className={b('status')()} />
         <IssuesList repoName={repoName} userName={userName} issuesCount={issuesCount} />
         {shouldShowPaging && (
@@ -49,10 +41,8 @@ class IssuesListPage extends PureComponent {
   }
 }
 
-// todo: seems issuesCount need to be validated
 IssuesListPage.propTypes = {
   fetchIssuesIfNeeded: PropTypes.func.isRequired,
-  onIssuesSearch: PropTypes.func.isRequired,
   shouldShowPaging: PropTypes.bool.isRequired,
   issuesCount: PropTypes.string.isRequired,
   repoName: PropTypes.string,
@@ -70,7 +60,7 @@ const withConnect = connect(
   (dispatch, { userName, repoName, issuesCount, pageNumber }) => ({
     fetchIssuesIfNeeded: () =>
       dispatch(fetchIssuesIfNeededActionCreator({ userName, repoName, issuesCount, pageNumber })),
-    onIssuesSearch: () => dispatch(invalidateIssues()),
+    // onIssuesSearch: () => dispatch(invalidateIssues()), TODO:
   }),
 );
 
