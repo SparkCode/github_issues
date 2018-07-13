@@ -23,30 +23,15 @@ export default function App() {
   return (
     <div className="app">
       <Switch>
-        <Route path="/" exact render={({ match, location }) => <HomePage match={match} location={location} />} />
         <Route
-          path="/:userName/:repoName/issues"
           exact
-          render={({ match, location }) => {
-            IssuesListPage.preload();
-            return (
-              <HomePage match={match} location={location}>
-                <IssuesListPage match={match} location={location} />
-              </HomePage>
-            );
-          }}
-        />
-        <Route
-          path="/:userName/:repoName/issues/:issueNumber"
-          exact
-          render={({ match, location }) => {
-            IssueDetailPage.preload();
-            return (
-              <HomePage match={match} location={location}>
-                <IssueDetailPage match={match} location={location} />
-              </HomePage>
-            );
-          }}
+          path="/"
+          render={({ match, location }) => (
+            <HomePage match={match} location={location}>
+              <Route exact path="/:userName/:repoName/issues" component={IssuesListPage} />
+              <Route exact path="/:userName/:repoName/issues/:issueNumber" component={IssueDetailPage} />
+            </HomePage>
+          )}
         />
         <Route component={NotFoundPage} />
       </Switch>
