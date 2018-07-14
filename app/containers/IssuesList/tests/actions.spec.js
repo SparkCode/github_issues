@@ -18,7 +18,7 @@ describe('async actions', () => {
     it('should dispatch RECEIVE_ISSUES_PAGES_COUNT action, when issues pages count be received', () => {
       const userName = 'userName';
       const repoName = 'repoName';
-      const issuesCount = '10';
+      const issuesCountOnPage = '10';
       const body = { open_issues_count: 100 };
 
       nock(api.hostname)
@@ -28,7 +28,7 @@ describe('async actions', () => {
       const store = mockStore({});
       const expectedActions = [{ type: constants.RECEIVE_ISSUES_PAGES_COUNT, issuesPagesCount: 10 }];
 
-      return store.dispatch(fetchIssuesPagesCount({ userName, repoName, issuesCount })).then(() => {
+      return store.dispatch(fetchIssuesPagesCount({ userName, repoName, issuesCountOnPage })).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
       });
@@ -37,7 +37,7 @@ describe('async actions', () => {
     it('should dispatch no actions, when request not be successful', () => {
       const userName = 'userName';
       const repoName = 'repoName';
-      const issuesCount = '10';
+      const issuesCountOnPage = '10';
 
       nock(api.hostname)
         .get(api.withAccessToken(api.getReposInformationPath(userName, repoName)))
@@ -47,7 +47,7 @@ describe('async actions', () => {
       const store = mockStore(initState);
 
       return store
-        .dispatch(fetchIssuesPagesCount({ userName, repoName, issuesCount }))
+        .dispatch(fetchIssuesPagesCount({ userName, repoName, issuesCountOnPage }))
         .catch(() => Promise.resolve())
         .then(() => {
           const actions = store.getActions();
@@ -60,7 +60,7 @@ describe('async actions', () => {
     it('should dispatch RECEIVE_ISSUES action, when issues be received', () => {
       const userName = 'userName';
       const repoName = 'repoName';
-      const issuesCount = '10';
+      const issuesCountOnPage = '10';
       const pageNumber = '1';
 
       const body = [
@@ -78,7 +78,7 @@ describe('async actions', () => {
       ];
 
       nock(api.hostname)
-        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCount, pageNumber)))
+        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCountOnPage, pageNumber)))
         .reply(200, body);
 
       const store = mockStore({});
@@ -94,7 +94,7 @@ describe('async actions', () => {
           fetchIssues({
             userName,
             repoName,
-            issuesCount,
+            issuesCountOnPage,
             pageNumber,
           }),
         )
@@ -107,11 +107,11 @@ describe('async actions', () => {
     it('should dispatch RECEIVE_ISSUES_ERROR action, when request not be successful', () => {
       const userName = 'userName';
       const repoName = 'repoName';
-      const issuesCount = '10';
+      const issuesCountOnPage = '10';
       const pageNumber = '1';
 
       nock(api.hostname)
-        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCount, pageNumber)))
+        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCountOnPage, pageNumber)))
         .reply(404);
 
       const store = mockStore({});
@@ -127,7 +127,7 @@ describe('async actions', () => {
           fetchIssues({
             userName,
             repoName,
-            issuesCount,
+            issuesCountOnPage,
             pageNumber,
           }),
         )

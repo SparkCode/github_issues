@@ -1,5 +1,5 @@
 import { getIssueUrl } from 'utils/GitHubApi';
-import mapGithubIssueToLocalIssue from 'containers/IssuesListPage/utils/mapGithubIssueToLocalIssue';
+import mapGithubIssueToLocalIssue from 'containers/IssuesList/utils/mapGithubIssueToLocalIssue';
 import { makeRequest, mapErrorCauseToMessage, mapErrorToCauseEnum } from 'utils/network/index';
 import { RESOURCE_NOT_BE_FOUND } from 'utils/network/constants';
 import { selectIssueFromIssuesListPage } from './selectors';

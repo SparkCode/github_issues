@@ -5,12 +5,12 @@ export const selectUserRepositories = createSelector(
   value => value.toJS(),
 );
 
-export const selectIssuesCountOptions = createSelector(
-  state => state.getIn(['issuesSearch', 'issuesCountOptions']),
+export const selectIssuesCountOnPageOptions = createSelector(
+  state => state.getIn(['issuesSearch', 'issuesCountOnPageOptions']),
   value => value.toJS(),
 );
 
-export const selectDefaultIssuesCountOption = createSelector(
-  state => state.getIn(['issuesSearch', 'defaultIssuesCountOption']),
+export const selectDefaultIssuesCountOnPageOption = createSelector(
+  state => state.getIn(['issuesSearch', 'defaultIssuesCountOnPageOption']),
   value => value,
 );

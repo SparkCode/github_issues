@@ -4,17 +4,16 @@ import block from 'bem-cn';
 import PropTypes from 'prop-types';
 import { withProps } from 'recompose';
 import { compose } from 'redux';
-import IssuesSearch from 'containers/IssuesSearch';
 import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
+import IssuesList from 'components/IssuesList';
 import StatusIssuesBar from './StatusIssuesBar';
-import './IssuesListPage.scss';
+import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
-import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator, invalidateIssues } from './actions';
+import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator, goToIssue } from './actions';
 import reducer from './reducer';
-import IssuesList from './IssuesList';
 import Paging from './Paging';
-import { withValidIssuesCount } from '../IssuesSearch/IssuesSearch';
+import { withValidIssuesCountOnPage } from '../IssuesSearch/IssuesSearch';
 
 class IssuesListPage extends PureComponent {
   componentDidMount() {
@@ -28,49 +27,56 @@ class IssuesListPage extends PureComponent {
   }
 
   render() {
-    const { issuesCount, pageNumber, shouldShowPaging, repoName, userName, onIssuesSearch } = this.props;
+    const {
+      issuesCountOnPage,
+      pageNumber,
+      shouldShowPaging,
+      repoName,
+      userName,
+      issues,
+      onIssueTitleClick,
+    } = this.props;
     const b = block('issues-list-page');
     return (
       <div className={b()}>
-        <IssuesSearch
-          className={b('search')()}
-          defaultUserName={userName}
-          defaultRepoName={repoName}
-          defaultIssuesCount={issuesCount}
-          onSearch={onIssuesSearch}
-        />
         <StatusIssuesBar className={b('status')()} />
-        <IssuesList repoName={repoName} userName={userName} issuesCount={issuesCount} />
+        <IssuesList repoName={repoName} userName={userName} issues={issues} onIssueTitleClick={onIssueTitleClick} />
         {shouldShowPaging && (
-          <Paging repoName={repoName} userName={userName} currentPage={pageNumber} issuesCount={issuesCount} />
+          <Paging
+            repoName={repoName}
+            userName={userName}
+            currentPage={pageNumber}
+            issuesCountOnPage={issuesCountOnPage}
+          />
         )}
       </div>
     );
   }
 }
 
-// todo: seems issuesCount need to be validated
+// todo: seems issuesCountOnPage need to be validated
 IssuesListPage.propTypes = {
   fetchIssuesIfNeeded: PropTypes.func.isRequired,
-  onIssuesSearch: PropTypes.func.isRequired,
   shouldShowPaging: PropTypes.bool.isRequired,
-  issuesCount: PropTypes.string.isRequired,
+  issuesCountOnPage: PropTypes.string.isRequired,
+  issues: PropTypes.array.isRequired,
+  onIssueTitleClick: PropTypes.func.isRequired,
   repoName: PropTypes.string,
   userName: PropTypes.string,
   pageNumber: PropTypes.number,
 };
 
-const withReducer = injectReducer({ key: 'issuesListPage', reducer }); // todo: need to be refactor
+const withReducer = injectReducer({ key: 'issuesListPage', reducer });
 
 const withConnect = connect(
   state => ({
     issuesPagesCount: selectIssuesPagesCount(state),
     issues: selectIssuesData(state),
   }),
-  (dispatch, { userName, repoName, issuesCount, pageNumber }) => ({
+  (dispatch, { userName, repoName, issuesCountOnPage, pageNumber }) => ({
     fetchIssuesIfNeeded: () =>
-      dispatch(fetchIssuesIfNeededActionCreator({ userName, repoName, issuesCount, pageNumber })),
-    onIssuesSearch: () => dispatch(invalidateIssues()),
+      dispatch(fetchIssuesIfNeededActionCreator({ userName, repoName, issuesCountOnPage, pageNumber })),
+    onIssueTitleClick: number => dispatch(goToIssue({ number, userName, repoName, issuesCountOnPage })),
   }),
 );
 
@@ -91,7 +97,7 @@ const withIssuesListProps = withProps(({ issuesPagesCount, issues, pageNumber })
 export default compose(
   withReducer,
   withRouteParams,
-  withValidIssuesCount,
+  withValidIssuesCountOnPage,
   withConnect,
   withIssuesListProps,
 )(IssuesListPage);

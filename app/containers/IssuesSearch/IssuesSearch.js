@@ -3,37 +3,42 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { compose, mapProps, defaultProps } from 'recompose';
 import injectReducer from 'utils/injectReducer';
+import withRouteParams from 'containers/App/withRouteParams';
 import { IssuesSearch as IssuesSearchAction, loadUserRepositories } from './actions';
-import { selectUserRepositories, selectIssuesCountOptions, selectDefaultIssuesCountOption } from './selectors';
+import {
+  selectUserRepositories,
+  selectIssuesCountOnPageOptions,
+  selectDefaultIssuesCountOnPageOption,
+} from './selectors';
 import reducer from './reducer';
 
 const mapStateToProps = state => ({
-  issuesCountOptions: selectIssuesCountOptions(state),
+  issuesCountOnPageOptions: selectIssuesCountOnPageOptions(state),
   userRepositories: selectUserRepositories(state),
 });
 
-const mapDispatchToProps = (dispatch, { onSearch }) => ({
-  onSearch: (userName, repoName, issuesCount) => {
+const mapDispatchToProps = dispatch => ({
+  onSearch: (userName, repoName, issuesCountOnPage) => {
     dispatch(
       IssuesSearchAction({
         userName,
         repoName,
-        issuesCount,
+        issuesCountOnPage,
         pageNumber: 1,
       }),
     );
-    onSearch();
   },
   searchReposByUserName: bindActionCreators(loadUserRepositories, dispatch),
 });
 
-export const withValidIssuesCount = compose(
+export const withValidIssuesCountOnPage = compose(
   connect(state => ({
-    issuesCountOptions: selectIssuesCountOptions(state),
-    defaultIssuesCountOption: selectDefaultIssuesCountOption(state),
+    issuesCountOnPageOptions: selectIssuesCountOnPageOptions(state),
+    defaultIssuesCountOnPageOption: selectDefaultIssuesCountOnPageOption(state),
   })),
-  mapProps(({ issuesCountOptions, defaultIssuesCount, defaultIssuesCountOption, ...props }) => ({
-    issuesCount: issuesCountOptions.indexOf(defaultIssuesCount) !== -1 ? defaultIssuesCount : defaultIssuesCountOption,
+  mapProps(({ issuesCountOnPageOptions, issuesCountOnPage, defaultIssuesCountOnPageOption, ...props }) => ({
+    issuesCountOnPage:
+      issuesCountOnPageOptions.indexOf(issuesCountOnPage) !== -1 ? issuesCountOnPage : defaultIssuesCountOnPageOption,
     ...props,
   })),
 );
@@ -43,10 +48,17 @@ const withReducer = injectReducer({ key: 'issuesSearch', reducer });
 export default compose(
   defaultProps({
     onSearch: () => {},
+    className: 'issues-search__search',
   }),
+  withRouteParams,
   withReducer,
-  withValidIssuesCount,
-  mapProps(({ issuesCount, ...props }) => ({ ...props, defaultIssuesCount: issuesCount })),
+  withValidIssuesCountOnPage,
+  mapProps(({ issuesCountOnPage, userName, repoName, ...props }) => ({
+    ...props,
+    defaultIssuesCountOnPage: issuesCountOnPage,
+    defaultUserName: userName,
+    defaultRepoName: repoName,
+  })),
   connect(
     mapStateToProps,
     mapDispatchToProps,

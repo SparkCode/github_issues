@@ -7,9 +7,9 @@ const mapStateToProps = state => ({
   pagesNumber: selectIssuesPagesCount(state),
 });
 
-const mapDispatchToProps = (dispatch, { repoName, userName, issuesCount }) => ({
+const mapDispatchToProps = (dispatch, { repoName, userName, issuesCountOnPage }) => ({
   goToNewPage: pageNumber => {
-    dispatch(IssuesSearch({ repoName, userName, issuesCount, pageNumber }));
+    dispatch(IssuesSearch({ repoName, userName, issuesCountOnPage, pageNumber }));
   },
 });
 

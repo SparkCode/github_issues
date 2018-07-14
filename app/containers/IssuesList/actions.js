@@ -29,13 +29,15 @@ export const RequestIssues = () => ({
   type: constants.REQUEST_ISSUES,
 });
 
-export const IssuesSearch = ({ userName, repoName, issuesCount, pageNumber }) => dispatch => {
-  dispatch(push(`/${userName}/${repoName}/issues?issuesCount=${issuesCount}&pageNumber=${pageNumber}`));
+export const IssuesSearch = ({ userName, repoName, issuesCountOnPage, pageNumber }) => dispatch => {
+  dispatch(
+    push(`/github-issues/${userName}/${repoName}?issuesCountOnPage=${issuesCountOnPage}&pageNumber=${pageNumber}`),
+  );
   dispatch(invalidateIssues());
 };
 
-export const goToIssue = ({ number, userName, repoName, issuesCount }) => dispatch =>
-  dispatch(push(`/${userName}/${repoName}/issues/${number}?issuesCount=${issuesCount}`));
+export const goToIssue = ({ number, userName, repoName, issuesCountOnPage }) => dispatch =>
+  dispatch(push(`/github-issues/${userName}/${repoName}/${number}?issuesCountOnPage=${issuesCountOnPage}`));
 
 export const fetchIssuesIfNeeded = ({ userName, repoName, ...props }) => (dispatch, getState) => {
   if (!(selectDidIssuesInvalidate(getState()) && userName && repoName)) {
@@ -46,8 +48,8 @@ export const fetchIssuesIfNeeded = ({ userName, repoName, ...props }) => (dispat
   dispatch(fetchIssuesPagesCount({ userName, repoName, ...props }));
 };
 
-export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => async dispatch => {
-  const url = getIssuesUrl(userName.trim(), repoName.trim(), issuesCount.trim(), pageNumber);
+export const fetchIssues = ({ userName, repoName, issuesCountOnPage, pageNumber }) => async dispatch => {
+  const url = getIssuesUrl(userName.trim(), repoName.trim(), issuesCountOnPage.trim(), pageNumber);
   try {
     const data = await makeRequest(url);
     const issues = data.map(mapGithubIssueToLocalIssue);
@@ -61,10 +63,10 @@ export const fetchIssues = ({ userName, repoName, issuesCount, pageNumber }) => 
   }
 };
 
-export const fetchIssuesPagesCount = ({ userName, repoName, issuesCount }) => async dispatch => {
+export const fetchIssuesPagesCount = ({ userName, repoName, issuesCountOnPage }) => async dispatch => {
   const url = getIssuesPagesCountUrl(userName.trim(), repoName.trim());
   const data = await makeRequest(url);
   const overallIssues = data.open_issues_count;
-  const issuesPagesCount = Math.ceil(overallIssues / issuesCount);
+  const issuesPagesCount = Math.ceil(overallIssues / issuesCountOnPage);
   return dispatch(ReceiveIssuesPagesCount(issuesPagesCount));
 };

@@ -12,11 +12,11 @@ import './IssuesSearch.scss';
 class IssuesSearch extends PureComponent {
   constructor(props) {
     super(props);
-    const { defaultUserName, defaultRepoName, defaultIssuesCount } = this.props;
+    const { defaultUserName, defaultRepoName, defaultIssuesCountOnPage } = this.props;
     this.state = {
       userName: defaultUserName,
       repoName: defaultRepoName,
-      issuesCount: defaultIssuesCount,
+      issuesCountOnPage: defaultIssuesCountOnPage,
     };
   }
 
@@ -42,15 +42,15 @@ class IssuesSearch extends PureComponent {
 
   onRepoSelected = repoName => {
     const { onSearch } = this.props;
-    const { userName, issuesCount } = this.state;
-    onSearch(userName, repoName, issuesCount);
+    const { userName, issuesCountOnPage } = this.state;
+    onSearch(userName, repoName, issuesCountOnPage);
   };
 
   onSubmit = e => {
     e.preventDefault();
     const { onSearch } = this.props;
-    const { userName, repoName, issuesCount } = this.state;
-    onSearch(userName, repoName, issuesCount);
+    const { userName, repoName, issuesCountOnPage } = this.state;
+    onSearch(userName, repoName, issuesCountOnPage);
   };
 
   onUserNameFieldBlur = () => {
@@ -60,8 +60,8 @@ class IssuesSearch extends PureComponent {
 
   render() {
     const b = block('search');
-    const { userName, repoName, issuesCount } = this.state;
-    const { className, issuesCountOptions, userRepositories } = this.props;
+    const { userName, repoName, issuesCountOnPage } = this.state;
+    const { className, issuesCountOnPageOptions, userRepositories } = this.props;
     return (
       <form className={classnames(b(), className)} onSubmit={this.onSubmit}>
         <Input
@@ -85,9 +85,9 @@ class IssuesSearch extends PureComponent {
         />
         <Select
           className={b('select')()}
-          name="issuesCount"
-          value={issuesCount}
-          options={issuesCountOptions}
+          name="issuesCountOnPage"
+          value={issuesCountOnPage}
+          options={issuesCountOnPageOptions}
           onValueChange={this.onChange}
         />
         <Button className={b('submit')()} type="submit">
@@ -101,17 +101,17 @@ class IssuesSearch extends PureComponent {
 IssuesSearch.propTypes = {
   defaultUserName: PropTypes.string,
   defaultRepoName: PropTypes.string,
-  defaultIssuesCount: PropTypes.string,
+  defaultIssuesCountOnPage: PropTypes.string,
   className: PropTypes.string,
   onSearch: PropTypes.func.isRequired,
-  issuesCountOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  issuesCountOnPageOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   searchReposByUserName: PropTypes.func.isRequired,
   userRepositories: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 IssuesSearch.defaultProps = {
   defaultRepoName: '',
   defaultUserName: '',
-  defaultIssuesCount: '',
+  defaultIssuesCountOnPage: '',
 };
 
 export default IssuesSearch;

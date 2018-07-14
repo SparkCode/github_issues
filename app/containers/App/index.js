@@ -12,10 +12,8 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import HomePage from 'containers/HomePage/Loadable';
-import IssuesListPage from 'containers/IssuesListPage/Loadable';
-import IssueDetailPage from 'containers/IssueDetailPage/Loadable';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import GithubIssuesPage from 'containers/GithubIssuesPage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import './App.scss';
 
@@ -23,16 +21,8 @@ export default function App() {
   return (
     <div className="app">
       <Switch>
-        <Route
-          exact
-          path="/"
-          render={({ match, location }) => (
-            <HomePage match={match} location={location}>
-              <Route exact path="/:userName/:repoName/issues" component={IssuesListPage} />
-              <Route exact path="/:userName/:repoName/issues/:issueNumber" component={IssueDetailPage} />
-            </HomePage>
-          )}
-        />
+        <Redirect from="/" exact to="/github-issues" />
+        <Route path="/github-issues" component={GithubIssuesPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import * as constants from 'containers/IssuesListPage/constants';
+import * as constants from 'containers/IssuesList/constants';
 import reducer from '../reducer';
 
 describe('Issue', () => {

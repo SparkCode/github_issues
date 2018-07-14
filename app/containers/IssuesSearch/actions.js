@@ -1,10 +1,16 @@
 import { push } from 'react-router-redux';
 import { getUserReposUrl } from 'utils/GitHubApi';
 import { makeRequest } from 'utils/network/index';
+import { invalidateIssues } from 'containers/IssuesList/actions';
 import * as constants from './constants';
 
-export const IssuesSearch = ({ userName, repoName, issuesCount, pageNumber }) => dispatch =>
-  dispatch(push(`/${userName}/${repoName}/issues?issuesCount=${issuesCount}&pageNumber=${pageNumber}`));
+export const IssuesSearch = ({ userName, repoName, issuesCountOnPage, pageNumber }) => dispatch => {
+  dispatch(
+    push(`/github-issues/${userName}/${repoName}?issuesCountOnPage=${issuesCountOnPage}&pageNumber=${pageNumber}`),
+  );
+  // todo: looks like no good solution
+  dispatch(invalidateIssues());
+};
 
 const ReceiveUserRepos = repos => ({
   type: constants.RECEIVE_USER_REPOSITORIES,

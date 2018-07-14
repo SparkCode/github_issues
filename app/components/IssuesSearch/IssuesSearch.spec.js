@@ -4,7 +4,7 @@ import IssuesSearch from './IssuesSearch';
 
 describe('<IssuesSearch/>', () => {
   const defaultProps = {
-    issuesCountOptions: ['10', '20', '30'],
+    issuesCountOnPageOptions: ['10', '20', '30'],
     userRepositories: ['firstRepo', 'secondRepo'],
   };
 
@@ -39,12 +39,13 @@ describe('<IssuesSearch/>', () => {
     const state = {
       userName: 'name',
       repoName: 'repo',
-      issuesCount: '10',
+      issuesCountOnPage: '10',
     };
     wrapper.setState(state);
     wrapper.simulate('submit', { preventDefault: sinon.spy() });
     expect(
-      props.onSearch.calledOnce && props.onSearch.calledWithExactly(state.userName, state.repoName, state.issuesCount),
+      props.onSearch.calledOnce &&
+        props.onSearch.calledWithExactly(state.userName, state.repoName, state.issuesCountOnPage),
     ).toBeTruthy();
   });
 
@@ -53,13 +54,14 @@ describe('<IssuesSearch/>', () => {
     const state = {
       userName: 'name',
       repoName: 'repo',
-      issuesCount: '10',
+      issuesCountOnPage: '10',
     };
     wrapper.setState(state);
     const selectedRepo = 'newRepo';
     repoName.props().onOptionSelected(selectedRepo);
     expect(
-      props.onSearch.calledOnce && props.onSearch.calledWithExactly(state.userName, selectedRepo, state.issuesCount),
+      props.onSearch.calledOnce &&
+        props.onSearch.calledWithExactly(state.userName, selectedRepo, state.issuesCountOnPage),
     ).toBeTruthy();
   });
 

@@ -2,10 +2,10 @@ import { githubAccessToken } from '../../appConfig.json';
 
 export const hostname = `https://api.github.com`;
 
-export const getIssuesPath = (userName, repoName, issuesCount, pageNumber) => ({
+export const getIssuesPath = (userName, repoName, issuesCountOnPage, pageNumber) => ({
   path: `/repos/${userName}/${repoName}/issues`,
   queryParams: {
-    per_page: issuesCount,
+    per_page: issuesCountOnPage,
     page: pageNumber,
   },
 });
@@ -39,8 +39,8 @@ const constructUrl = path => hostname + withAccessToken(path);
 export const getIssueUrl = (userName, repoName, issueNumber) =>
   `${constructUrl(getIssuePath(userName, repoName, issueNumber))}`;
 
-export const getIssuesUrl = (userName, repoName, issuesCount, pageNumber) =>
-  `${constructUrl(getIssuesPath(userName, repoName, issuesCount, pageNumber))}`;
+export const getIssuesUrl = (userName, repoName, issuesCountOnPage, pageNumber) =>
+  `${constructUrl(getIssuesPath(userName, repoName, issuesCountOnPage, pageNumber))}`;
 
 export const getIssuesPagesCountUrl = (userName, repoName) =>
   `${constructUrl(getReposInformationPath(userName, repoName))}`;
