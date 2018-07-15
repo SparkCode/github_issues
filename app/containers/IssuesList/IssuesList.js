@@ -7,12 +7,15 @@ import { compose } from 'redux';
 import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
 import IssuesList from 'components/IssuesList';
+import Paging from 'components/Paging';
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
-import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator, goToIssue } from './actions';
+import {
+  fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator,
+  invalidateIssues as invalidateIssuesAction,
+} from './actions';
 import reducer from './reducer';
-import Paging from './Paging';
 import { withValidIssuesCountOnPage } from '../IssuesSearch/IssuesSearch';
 import { makeIssuesListUrl, makeIssueUrl } from './navigation';
 
@@ -29,7 +32,6 @@ class IssuesListPage extends PureComponent {
 
   render() {
     const {
-      issuesCountOnPage,
       pageNumber,
       shouldShowPaging,
       repoName,
@@ -37,6 +39,8 @@ class IssuesListPage extends PureComponent {
       issues,
       onIssueTitleClick,
       makeIssueUrlByNumber,
+      goToNewPage,
+      issuesPagesCount,
       makePageUrlByNumber,
     } = this.props;
     const b = block('issues-list-page');
@@ -52,10 +56,9 @@ class IssuesListPage extends PureComponent {
         />
         {shouldShowPaging && (
           <Paging
-            repoName={repoName}
-            userName={userName}
             currentPage={pageNumber}
-            issuesCountOnPage={issuesCountOnPage}
+            goToNewPage={goToNewPage}
+            pagesNumber={issuesPagesCount}
             makePageUrlByNumber={makePageUrlByNumber}
           />
         )}
@@ -68,11 +71,12 @@ class IssuesListPage extends PureComponent {
 IssuesListPage.propTypes = {
   fetchIssuesIfNeeded: PropTypes.func.isRequired,
   shouldShowPaging: PropTypes.bool.isRequired,
-  issuesCountOnPage: PropTypes.string.isRequired,
   issues: PropTypes.array.isRequired,
   onIssueTitleClick: PropTypes.func.isRequired,
   makeIssueUrlByNumber: PropTypes.func.isRequired,
+  goToNewPage: PropTypes.func.isRequired,
   makePageUrlByNumber: PropTypes.func.isRequired,
+  issuesPagesCount: PropTypes.number,
   repoName: PropTypes.string,
   userName: PropTypes.string,
   pageNumber: PropTypes.number,
@@ -88,7 +92,7 @@ const withConnect = connect(
   (dispatch, { userName, repoName, issuesCountOnPage, pageNumber }) => ({
     fetchIssuesIfNeeded: () =>
       dispatch(fetchIssuesIfNeededActionCreator({ userName, repoName, issuesCountOnPage, pageNumber })),
-    onIssueTitleClick: number => dispatch(goToIssue({ number, userName, repoName, issuesCountOnPage })),
+    invalidateIssues: () => dispatch(invalidateIssuesAction()),
   }),
 );
 
@@ -117,5 +121,13 @@ export default compose(
       makeIssueUrl(userName, repoName, number, issuesCountOnPage),
     makePageUrlByNumber: ({ userName, repoName, issuesCountOnPage }) => pageNumber =>
       makeIssuesListUrl(userName, repoName, issuesCountOnPage, pageNumber),
+  }),
+  withHandlers({
+    onIssueTitleClick: ({ history, makeIssueUrlByNumber }) => number => history.push(makeIssueUrlByNumber(number)),
+    goToNewPage: ({ history, invalidateIssues, makePageUrlByNumber }) => pageNumber => {
+      const url = makePageUrlByNumber(pageNumber);
+      history.push(url);
+      invalidateIssues();
+    },
   }),
 )(IssuesListPage);
