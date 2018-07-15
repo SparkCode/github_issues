@@ -13,7 +13,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import 'sanitize.css/sanitize.css'; // todo: зачем?
+import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
