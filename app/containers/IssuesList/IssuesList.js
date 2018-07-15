@@ -8,6 +8,7 @@ import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
 import IssuesList from 'components/IssuesList';
 import Paging from 'components/Paging';
+import { makeIssuesListUrl, makeIssueUrl } from 'containers/GithubIssuesPage/navigation';
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
@@ -17,9 +18,8 @@ import {
 } from './actions';
 import reducer from './reducer';
 import { withValidIssuesCountOnPage } from '../IssuesSearch/IssuesSearch';
-import { makeIssuesListUrl, makeIssueUrl } from './navigation';
 
-class IssuesListPage extends PureComponent {
+class IssuesListContainer extends PureComponent {
   componentDidMount() {
     const { fetchIssuesIfNeeded } = this.props;
     fetchIssuesIfNeeded();
@@ -68,7 +68,7 @@ class IssuesListPage extends PureComponent {
 }
 
 // todo: seems issuesCountOnPage need to be validated
-IssuesListPage.propTypes = {
+IssuesListContainer.propTypes = {
   fetchIssuesIfNeeded: PropTypes.func.isRequired,
   shouldShowPaging: PropTypes.bool.isRequired,
   issues: PropTypes.array.isRequired,
@@ -123,11 +123,13 @@ export default compose(
       makeIssuesListUrl(userName, repoName, issuesCountOnPage, pageNumber),
   }),
   withHandlers({
-    onIssueTitleClick: ({ history, makeIssueUrlByNumber }) => number => history.push(makeIssueUrlByNumber(number)),
+    onIssueTitleClick: ({ history, makeIssueUrlByNumber }) => number => {
+      history.push(makeIssueUrlByNumber(number));
+    },
     goToNewPage: ({ history, invalidateIssues, makePageUrlByNumber }) => pageNumber => {
       const url = makePageUrlByNumber(pageNumber);
       history.push(url);
       invalidateIssues();
     },
   }),
-)(IssuesListPage);
+)(IssuesListContainer);

@@ -18,9 +18,13 @@ class Link extends PureComponent {
 
 Link.propTypes = {
   href: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.any,
+};
+
+Link.defaultProps = {
+  onClick: () => {},
 };
 
 export default Link;

@@ -1,10 +1,12 @@
 import IssuesSearch from 'components/IssuesSearch';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { compose, mapProps, defaultProps } from 'recompose';
+import { compose, mapProps, defaultProps, withHandlers } from 'recompose';
 import injectReducer from 'utils/injectReducer';
 import withRouteParams from 'containers/App/withRouteParams';
-import { IssuesSearch as IssuesSearchAction, loadUserRepositories } from './actions';
+import { invalidateIssues as invalidateIssuesAction } from 'containers/IssuesList/actions';
+import { makeIssuesListUrl } from 'containers/GithubIssuesPage/navigation';
+import { loadUserRepositories } from './actions';
 import {
   selectUserRepositories,
   selectIssuesCountOnPageOptions,
@@ -18,16 +20,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSearch: (userName, repoName, issuesCountOnPage) => {
-    dispatch(
-      IssuesSearchAction({
-        userName,
-        repoName,
-        issuesCountOnPage,
-        pageNumber: 1,
-      }),
-    );
-  },
+  invalidateIssues: () => dispatch(invalidateIssuesAction()),
   searchReposByUserName: bindActionCreators(loadUserRepositories, dispatch),
 });
 
@@ -53,14 +46,21 @@ export default compose(
   withRouteParams,
   withReducer,
   withValidIssuesCountOnPage,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withHandlers({
+    onSearch: ({ history, invalidateIssues }) => (userName, repoName, issuesCountOnPage) => {
+      const url = makeIssuesListUrl(userName, repoName, issuesCountOnPage, 1);
+      history.push(url);
+      invalidateIssues();
+    },
+  }),
   mapProps(({ issuesCountOnPage, userName, repoName, ...props }) => ({
     ...props,
     defaultIssuesCountOnPage: issuesCountOnPage,
     defaultUserName: userName,
     defaultRepoName: repoName,
   })),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
 )(IssuesSearch);

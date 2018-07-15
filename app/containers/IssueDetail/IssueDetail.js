@@ -12,7 +12,7 @@ import { selectIsIssueSuccessfullyBeLoaded, selectIssue } from './selectors';
 import './IssueDetail.scss';
 import { fetchIssueIfNeeded as fetchIssueIfNeededAction } from './actions';
 
-class IssueDetailPage extends PureComponent {
+class IssueDetailContainer extends PureComponent {
   componentDidMount() {
     const { fetchIssueIfNeeded } = this.props;
     fetchIssueIfNeeded();
@@ -32,12 +32,11 @@ class IssueDetailPage extends PureComponent {
 
 const withReducer = injectReducer({ key: 'issueDetailPage', reducer });
 
-IssueDetailPage.propTypes = {
+IssueDetailContainer.propTypes = {
   fetchIssueIfNeeded: PropTypes.func.isRequired,
-  issue: PropTypes.object.isRequired,
   issueBeLoaded: PropTypes.bool.isRequired,
+  issue: PropTypes.object,
 };
-IssueDetailPage.defaultProps = {};
 
 const mapStateToProps = (state, { issueNumber }) => ({
   issueBeLoaded: selectIsIssueSuccessfullyBeLoaded(state),
@@ -62,4 +61,4 @@ export default compose(
   withRouteParams,
   withIssueNumber,
   withConnect,
-)(IssueDetailPage);
+)(IssueDetailContainer);
