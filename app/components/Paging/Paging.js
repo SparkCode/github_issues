@@ -14,7 +14,7 @@ class Paging extends PureComponent {
     }
 
     if (start > 2) {
-      configures.push({ name: '...', key: 'unshown-right' }); // не a а span
+      configures.push({ name: '...', key: 'unshown-right' });
     }
 
     for (let i = start; i <= finish; i += 1) {

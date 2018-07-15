@@ -12,19 +12,16 @@ class PageButton extends PureComponent {
   };
 
   render() {
-    const { className, name, active, disabled, goToNewPage, ...props } = this.props;
+    const { className, name, active, disabled, href, goToNewPage, ...props } = this.props;
     const b = block('page-button')({ active });
     return active || disabled ? (
       <span className={classnames(className, b())} {...props}>
         {name}
       </span>
     ) : (
-      // TODO: fix it later:
-      /* eslint-disable jsx-a11y/click-events-have-key-events, import/extensions, jsx-a11y/no-static-element-interactions  */
-      <a className={classnames(className, b())} onClick={this.onClick} {...props}>
+      <a className={classnames(className, b())} onClick={this.onClick} href={href} {...props}>
         {name}
       </a>
-      /* eslint-enable jsx-a11y/click-events-have-key-events, import/extensions, jsx-a11y/no-static-element-interactions  */
     );
   }
 }
@@ -35,6 +32,7 @@ PageButton.propTypes = {
   className: PropTypes.string,
   active: PropTypes.bool,
   disabled: PropTypes.bool,
+  href: PropTypes.string,
   value(props, propName, componentName) {
     if (props.disabled || props[propName]) {
       return;

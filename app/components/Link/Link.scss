@@ -1,7 +1,9 @@
+@import "stylesheets/abstracts/variables";
+
 .link {
   cursor: pointer;
   &:hover, &:link, &:visited, &:active {
-    color: #24292e;
+    color: $shark;
     text-decoration: none;
   }
 

@@ -9,6 +9,8 @@ import injectReducer from 'utils/injectReducer';
 import IssuesList from 'components/IssuesList';
 import Paging from 'components/Paging';
 import { makeIssuesListUrl, makeIssueUrl } from 'containers/GithubIssuesPage/navigation';
+// todo: looks like default values need to store no here
+import { withValidIssuesCountOnPage } from 'containers/IssuesSearch/IssuesSearch';
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
@@ -17,8 +19,6 @@ import {
   invalidateIssues as invalidateIssuesAction,
 } from './actions';
 import reducer from './reducer';
-// todo: looks like default values need to store no here
-import { withValidIssuesCountOnPage } from '../IssuesSearch/IssuesSearch';
 
 class IssuesListContainer extends PureComponent {
   componentDidMount() {
