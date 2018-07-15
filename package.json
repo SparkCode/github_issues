@@ -65,12 +65,20 @@
     "plugins": [
       "styled-components",
       [
-        "lodash",
+        "transform-imports",
         {
-          "id": [
-            "lodash",
-            "recompose"
-          ]
+          "react-router-dom": {
+            "transform": "react-router-dom/es/${member}",
+            "preventFullImport": true
+          },
+          "recompose": {
+            "transform": "recompose/${member}",
+            "preventFullImport": true
+          },
+          "lodash": {
+            "transform": "lodash/${member}",
+            "preventFullImport": true
+          }
         }
       ]
     ],
@@ -211,11 +219,11 @@
     "babel-eslint": "8.2.3",
     "babel-loader": "7.1.4",
     "babel-plugin-dynamic-import-node": "1.2.0",
-    "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-react-intl": "2.4.0",
     "babel-plugin-react-transform": "3.0.0",
     "babel-plugin-styled-components": "1.5.1",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
+    "babel-plugin-transform-imports": "^1.5.0",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-inline-elements": "6.22.0",
     "babel-plugin-transform-react-jsx-source": "6.22.0",
