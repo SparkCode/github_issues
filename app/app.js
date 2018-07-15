@@ -12,8 +12,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
-import createHistory from 'history/createBrowserHistory';
+import { BrowserRouter as Router } from 'react-router-dom';
 import 'sanitize.css/sanitize.css'; // todo: зачем?
 
 // Import root app
@@ -30,16 +29,15 @@ import configureStore from './configureStore';
 
 // Create redux store with history
 const initialState = {};
-const history = createHistory();
-const store = configureStore(initialState, history);
+const store = configureStore(initialState);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = () => {
   ReactDOM.render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <Router>
         <App />
-      </ConnectedRouter>
+      </Router>
     </Provider>,
     MOUNT_NODE,
   );

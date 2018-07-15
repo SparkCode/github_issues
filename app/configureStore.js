@@ -4,7 +4,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { fromJS } from 'immutable';
-import { routerMiddleware } from 'react-router-redux';
 import createReducer from './reducers';
 const reduxModule = require('redux');
 
@@ -13,11 +12,8 @@ if (process.env.NODE_ENV !== 'production') {
   reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/INIT';
 }
 
-export default function configureStore(initialState = {}, history) {
-  // Create the store with two middlewares
-  // 1. thunk middleware: Makes thunk work
-  // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [thunk, routerMiddleware(history)];
+export default function configureStore(initialState = {}) {
+  const middlewares = [thunk];
 
   const enhancers = [applyMiddleware(...middlewares)];
 
@@ -25,11 +21,7 @@ export default function configureStore(initialState = {}, history) {
   /* eslint-disable no-underscore-dangle, indent */
   const composeEnhancers =
     process.env.NODE_ENV !== 'production' && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-          // TODO Try to remove when `react-router-redux` is out of beta, LOCATION_CHANGE should not be fired more than once after hot reloading
-          // Prevent recomputing reducers for `replaceReducer`
-          shouldHotReload: false,
-        })
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
       : compose;
   /* eslint-enable */
 
