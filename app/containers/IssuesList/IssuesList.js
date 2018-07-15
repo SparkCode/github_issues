@@ -106,7 +106,7 @@ const withIssuesListProps = withProps(({ issuesPagesCount, issues, pageNumber })
       parsedPageNumber <= issuesPagesCount
         ? parsedPageNumber
         : 1,
-    shouldShowPaging: Number.isInteger(issuesPagesCount) && issuesPagesCount > 1 && issues.length > 1,
+    shouldShowPaging: Number.isInteger(issuesPagesCount) && issuesPagesCount > 1 && issues.length > 0,
   };
 });
 
