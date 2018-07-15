@@ -6,10 +6,10 @@ import './Link.scss';
 
 class Link extends PureComponent {
   render() {
-    const { className, children, ...props } = this.props;
+    const { className, children, href, onClick, ...props } = this.props;
     const b = block('link');
     return (
-      <a className={classnames(className, b())} {...props}>
+      <a className={classnames(className, b())} href={href} onClick={onClick} {...props}>
         {children}
       </a>
     );
@@ -17,6 +17,8 @@ class Link extends PureComponent {
 }
 
 Link.propTypes = {
+  href: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   children: PropTypes.any,
 };

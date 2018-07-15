@@ -1,5 +1,9 @@
 @import "stylesheets/abstracts/variables";
 
+a.page-button:hover {
+  background-color: #e1e4e8;
+}
+
 .page-button {
   font-size: 14px;
   padding: 6px 12px;
@@ -7,29 +11,15 @@
   color: $blue;
   border: 1px solid $athens-gray;
   margin-left: -1px;
-  font-weight: 300;
-  cursor: pointer;
-
-  &[disabled] {
-    cursor: default;
-  }
-
-  &:focus {
-    outline: 0;
-  }
-
-  &:last-child {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
-
-  &:first-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-  }
+  font-weight: 600;
+  text-decoration: none;
 
   &_active {
     background-color: $blue;
     color: #fff;
+    &:hover, &:link, &:visited, &:active {
+      background-color: $blue;
+      color: #fff;
+    }
   }
 }

@@ -5,18 +5,26 @@ import block from 'bem-cn';
 import './PageButton.scss';
 
 class PageButton extends PureComponent {
-  onClick = () => {
+  onClick = e => {
     const { goToNewPage, value } = this.props;
+    e.preventDefault();
     goToNewPage(value);
   };
 
   render() {
-    const { className, name, active, goToNewPage, ...props } = this.props;
+    const { className, name, active, disabled, goToNewPage, ...props } = this.props;
     const b = block('page-button')({ active });
-    return (
-      <button className={classnames(className, b())} onClick={this.onClick} {...props}>
+    return active || disabled ? (
+      <span className={classnames(className, b())} {...props}>
         {name}
-      </button>
+      </span>
+    ) : (
+      // TODO: fix it later:
+      /* eslint-disable jsx-a11y/click-events-have-key-events, import/extensions, jsx-a11y/no-static-element-interactions  */
+      <a className={classnames(className, b())} onClick={this.onClick} {...props}>
+        {name}
+      </a>
+      /* eslint-enable jsx-a11y/click-events-have-key-events, import/extensions, jsx-a11y/no-static-element-interactions  */
     );
   }
 }

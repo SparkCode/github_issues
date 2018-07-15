@@ -5,6 +5,7 @@ import { RESOURCE_NOT_BE_FOUND } from 'utils/network/constants';
 import { selectDidIssuesInvalidate } from './selectors';
 import * as constants from './constants';
 import mapGithubIssueToLocalIssue from './utils/mapGithubIssueToLocalIssue';
+import { makeIssuesListUrl, makeIssueUrl } from './navigation';
 
 export const invalidateIssues = () => ({
   type: constants.INVALIDATE_ISSUES,
@@ -30,14 +31,12 @@ export const RequestIssues = () => ({
 });
 
 export const IssuesSearch = ({ userName, repoName, issuesCountOnPage, pageNumber }) => dispatch => {
-  dispatch(
-    push(`/github-issues/${userName}/${repoName}?issuesCountOnPage=${issuesCountOnPage}&pageNumber=${pageNumber}`),
-  );
+  dispatch(push(makeIssuesListUrl(userName, repoName, issuesCountOnPage, pageNumber)));
   dispatch(invalidateIssues());
 };
 
 export const goToIssue = ({ number, userName, repoName, issuesCountOnPage }) => dispatch =>
-  dispatch(push(`/github-issues/${userName}/${repoName}/${number}?issuesCountOnPage=${issuesCountOnPage}`));
+  dispatch(push(makeIssueUrl(number, userName, repoName, issuesCountOnPage)));
 
 export const fetchIssuesIfNeeded = ({ userName, repoName, ...props }) => (dispatch, getState) => {
   if (!(selectDidIssuesInvalidate(getState()) && userName && repoName)) {

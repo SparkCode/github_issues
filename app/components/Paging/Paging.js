@@ -4,12 +4,17 @@ import block from 'bem-cn';
 import './Paging.scss';
 import PageButton from './PageButton';
 
+// todo: no looks great for mobile users
 class Paging extends PureComponent {
-  getButtonsProps(pagesNumber, currentPage, start, finish, className) {
+  getButtonsProps(pagesNumber, currentPage, start, finish, className, makePageUrlByNumber) {
     const configures = [];
+
     if (start > 1) {
-      configures.push({ name: '1', value: 1, key: '1' });
-      configures.push({ name: '...', key: 'unshown-right' });
+      configures.push({ name: '1', value: 1, key: '1', href: makePageUrlByNumber(pagesNumber) });
+    }
+
+    if (start > 2) {
+      configures.push({ name: '...', key: 'unshown-right' }); // не a а span
     }
 
     for (let i = start; i <= finish; i += 1) {
@@ -18,6 +23,7 @@ class Paging extends PureComponent {
         active: i === currentPage,
         key: i.toString(),
         value: i,
+        href: makePageUrlByNumber(i),
       });
     }
 
@@ -27,6 +33,7 @@ class Paging extends PureComponent {
         name: pagesNumber.toString(),
         value: pagesNumber,
         key: pagesNumber.toString(),
+        href: makePageUrlByNumber(pagesNumber),
       });
     }
 
@@ -36,7 +43,7 @@ class Paging extends PureComponent {
   }
 
   render() {
-    const { pagesNumber, currentPage, goToNewPage, maxVisiblePagesFromEachSide = 2 } = this.props;
+    const { pagesNumber, currentPage, goToNewPage, maxVisiblePagesFromEachSide = 2, makePageUrlByNumber } = this.props;
     const b = block('paging');
     const startVisiblePage = Math.max(currentPage - maxVisiblePagesFromEachSide, 1);
     const finishVisiblePage = Math.min(currentPage + maxVisiblePagesFromEachSide, pagesNumber);
@@ -46,6 +53,7 @@ class Paging extends PureComponent {
       startVisiblePage,
       finishVisiblePage,
       b('page-link')(),
+      makePageUrlByNumber,
     );
     const buttons = buttonsProps.map(c => <PageButton goToNewPage={goToNewPage} {...c} />);
     return <div className={b()}>{buttons}</div>;
@@ -56,6 +64,7 @@ Paging.propTypes = {
   goToNewPage: PropTypes.func.isRequired,
   pagesNumber: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
+  makePageUrlByNumber: PropTypes.func.isRequired,
   maxVisiblePagesFromEachSide: PropTypes.number,
 };
 Paging.defaultProps = {};

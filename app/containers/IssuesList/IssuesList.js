@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import block from 'bem-cn';
 import PropTypes from 'prop-types';
-import { withProps } from 'recompose';
+import { withHandlers, withProps } from 'recompose';
 import { compose } from 'redux';
 import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
@@ -14,6 +14,7 @@ import { fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator, goToIssue } fr
 import reducer from './reducer';
 import Paging from './Paging';
 import { withValidIssuesCountOnPage } from '../IssuesSearch/IssuesSearch';
+import { makeIssuesListUrl, makeIssueUrl } from './navigation';
 
 class IssuesListPage extends PureComponent {
   componentDidMount() {
@@ -35,18 +36,27 @@ class IssuesListPage extends PureComponent {
       userName,
       issues,
       onIssueTitleClick,
+      makeIssueUrlByNumber,
+      makePageUrlByNumber,
     } = this.props;
     const b = block('issues-list-page');
     return (
       <div className={b()}>
         <StatusIssuesBar className={b('status')()} />
-        <IssuesList repoName={repoName} userName={userName} issues={issues} onIssueTitleClick={onIssueTitleClick} />
+        <IssuesList
+          repoName={repoName}
+          userName={userName}
+          issues={issues}
+          onIssueTitleClick={onIssueTitleClick}
+          makeIssueUrlByNumber={makeIssueUrlByNumber}
+        />
         {shouldShowPaging && (
           <Paging
             repoName={repoName}
             userName={userName}
             currentPage={pageNumber}
             issuesCountOnPage={issuesCountOnPage}
+            makePageUrlByNumber={makePageUrlByNumber}
           />
         )}
       </div>
@@ -61,6 +71,8 @@ IssuesListPage.propTypes = {
   issuesCountOnPage: PropTypes.string.isRequired,
   issues: PropTypes.array.isRequired,
   onIssueTitleClick: PropTypes.func.isRequired,
+  makeIssueUrlByNumber: PropTypes.func.isRequired,
+  makePageUrlByNumber: PropTypes.func.isRequired,
   repoName: PropTypes.string,
   userName: PropTypes.string,
   pageNumber: PropTypes.number,
@@ -100,4 +112,10 @@ export default compose(
   withValidIssuesCountOnPage,
   withConnect,
   withIssuesListProps,
+  withHandlers({
+    makeIssueUrlByNumber: ({ userName, repoName, issuesCountOnPage }) => number =>
+      makeIssueUrl(userName, repoName, number, issuesCountOnPage),
+    makePageUrlByNumber: ({ userName, repoName, issuesCountOnPage }) => pageNumber =>
+      makeIssuesListUrl(userName, repoName, issuesCountOnPage, pageNumber),
+  }),
 )(IssuesListPage);
