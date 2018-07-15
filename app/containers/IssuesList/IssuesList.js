@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import block from 'bem-cn';
 import PropTypes from 'prop-types';
-import { withHandlers, withProps } from 'recompose';
+import { lifecycle, withHandlers, withProps } from 'recompose';
 import { compose } from 'redux';
 import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
@@ -17,6 +17,7 @@ import {
   invalidateIssues as invalidateIssuesAction,
 } from './actions';
 import reducer from './reducer';
+// todo: looks like default values need to store no here
 import { withValidIssuesCountOnPage } from '../IssuesSearch/IssuesSearch';
 
 class IssuesListContainer extends PureComponent {
@@ -82,7 +83,7 @@ IssuesListContainer.propTypes = {
   pageNumber: PropTypes.number,
 };
 
-const withReducer = injectReducer({ key: 'issuesListPage', reducer });
+const withReducer = injectReducer({ key: 'issuesList', reducer });
 
 const withConnect = connect(
   state => ({
@@ -130,6 +131,13 @@ export default compose(
       const url = makePageUrlByNumber(pageNumber);
       history.push(url);
       invalidateIssues();
+    },
+  }),
+  lifecycle({
+    componentDidUpdate(prevProps) {
+      if (this.props.location !== prevProps.location) {
+        this.props.invalidateIssues();
+      }
     },
   }),
 )(IssuesListContainer);

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { compose, mapProps, defaultProps, withHandlers } from 'recompose';
 import injectReducer from 'utils/injectReducer';
 import withRouteParams from 'containers/App/withRouteParams';
-import { invalidateIssues as invalidateIssuesAction } from 'containers/IssuesList/actions';
 import { makeIssuesListUrl } from 'containers/GithubIssuesPage/navigation';
 import { loadUserRepositories } from './actions';
 import {
@@ -20,7 +19,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  invalidateIssues: () => dispatch(invalidateIssuesAction()),
   searchReposByUserName: bindActionCreators(loadUserRepositories, dispatch),
 });
 
@@ -51,10 +49,9 @@ export default compose(
     mapDispatchToProps,
   ),
   withHandlers({
-    onSearch: ({ history, invalidateIssues }) => (userName, repoName, issuesCountOnPage) => {
+    onSearch: ({ history }) => (userName, repoName, issuesCountOnPage) => {
       const url = makeIssuesListUrl(userName, repoName, issuesCountOnPage, 1);
       history.push(url);
-      invalidateIssues();
     },
   }),
   mapProps(({ issuesCountOnPage, userName, repoName, ...props }) => ({

@@ -30,7 +30,7 @@ class IssueDetailContainer extends PureComponent {
   }
 }
 
-const withReducer = injectReducer({ key: 'issueDetailPage', reducer });
+const withReducer = injectReducer({ key: 'issueDetail', reducer });
 
 IssueDetailContainer.propTypes = {
   fetchIssueIfNeeded: PropTypes.func.isRequired,
