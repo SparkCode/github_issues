@@ -88,8 +88,7 @@
         {
           "modules": false,
           "useBuiltIns": true,
-          "esmodules": true,
-          "targets": {
+            "targets": {
             "browsers": [
               ">0.25%",
               "not ie 11",
