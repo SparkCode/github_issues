@@ -88,7 +88,7 @@
         {
           "modules": false,
           "useBuiltIns": true,
-            "targets": {
+          "targets": {
             "browsers": [
               ">0.25%",
               "not ie 11",
@@ -211,6 +211,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.51",
+    "@babel/core": "^7.0.0-beta.54",
     "@babel/preset-env": "^7.0.0-beta.51",
     "add-asset-html-webpack-plugin": "2.1.3",
     "babel-cli": "6.26.0",
