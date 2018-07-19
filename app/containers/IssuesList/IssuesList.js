@@ -8,9 +8,12 @@ import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
 import IssuesList from 'components/IssuesList';
 import Paging from 'components/Paging';
-import { makeIssuesListUrl, makeIssueUrl } from 'containers/GithubIssuesPage/navigation';
-// todo: looks like default values need to store no here
-import { withValidIssuesCountOnPage } from 'containers/IssuesSearch/IssuesSearch';
+import {
+  withDefaultValuesContext,
+  withValidIssuesCountOnPage,
+  makeIssuesListUrl,
+  makeIssueUrl,
+} from 'containers/GithubIssuesPage/';
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
@@ -114,6 +117,7 @@ const withIssuesListProps = withProps(({ issuesPagesCount, issues, pageNumber })
 export default compose(
   withReducer,
   withRouteParams,
+  withDefaultValuesContext,
   withValidIssuesCountOnPage,
   withConnect,
   withIssuesListProps,

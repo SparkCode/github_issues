@@ -3,8 +3,6 @@ import { RECEIVE_USER_REPOSITORIES } from './constants';
 
 export const defaultState = fromJS({
   repositories: [],
-  issuesCountOnPageOptions: ['10', '20', '30', '50', '100'],
-  defaultIssuesCountOnPageOption: '20',
 });
 
 const issuesSearchReducer = (state = defaultState, action) => {
