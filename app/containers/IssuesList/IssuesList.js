@@ -8,12 +8,9 @@ import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
 import IssuesList from 'components/IssuesList';
 import Paging from 'components/Paging';
-import {
-  withDefaultValuesContext,
-  withValidIssuesCountOnPage,
-  makeIssuesListUrl,
-  makeIssueUrl,
-} from 'containers/GithubIssuesPage/';
+import withDefaultValuesContext from 'containers/GithubIssuesPage/withDefaultValuesContext';
+import withValidIssuesCountOnPage from 'containers/GithubIssuesPage/withValidIssuesCountOnPage';
+import { makeIssuesListUrl, makeIssueUrl } from 'containers/GithubIssuesPage/navigation';
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';

@@ -4,10 +4,12 @@ import { bindActionCreators } from 'redux';
 import { compose, mapProps, defaultProps, withHandlers } from 'recompose';
 import injectReducer from 'utils/injectReducer';
 import withRouteParams from 'containers/App/withRouteParams';
-import { withDefaultValuesContext, withValidIssuesCountOnPage, makeIssuesListUrl } from 'containers/GithubIssuesPage';
+import withDefaultValuesContext from 'containers/GithubIssuesPage/withDefaultValuesContext';
+import withValidIssuesCountOnPage from 'containers/GithubIssuesPage/withValidIssuesCountOnPage';
 import { loadUserRepositories } from './actions';
 import { selectUserRepositories } from './selectors';
 import reducer from './reducer';
+import { makeIssuesListUrl } from '../GithubIssuesPage/navigation';
 
 const mapStateToProps = state => ({
   userRepositories: selectUserRepositories(state),
