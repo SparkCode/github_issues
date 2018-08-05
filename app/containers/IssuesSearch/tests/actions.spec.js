@@ -19,7 +19,7 @@ describe('async actions', () => {
       const repos = ['project1', 'project2', 'project3'];
       const body = { items: repos.map(name => ({ name })) };
       nock(api.hostname)
-        .get(api.withAccessToken(api.getUserReposPath(userName, '')))
+        .get(api.makePathString(api.getUserReposPath(userName, '')))
         .reply(200, body);
 
       const expectedAction = [{ type: constants.RECEIVE_USER_REPOSITORIES, repos }];
@@ -35,7 +35,7 @@ describe('async actions', () => {
     it('should dispatch no actions, when request not be successful', () => {
       const userName = 'userName';
       nock(api.hostname)
-        .get(api.withAccessToken(api.getUserReposPath(userName, '')))
+        .get(api.makePathString(api.getUserReposPath(userName, '')))
         .reply(404);
 
       const initState = {};

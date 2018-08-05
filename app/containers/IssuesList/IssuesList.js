@@ -111,6 +111,10 @@ const withIssuesListProps = withProps(({ issuesPagesCount, issues, pageNumber })
   };
 });
 
+const withInternalIssueUrl = withProps(({ issues, makeIssueUrlByNumber }) => ({
+  issues: issues.map(({ number, ...props }) => ({ number, internalUrl: makeIssueUrlByNumber(number), ...props })),
+}));
+
 export default compose(
   withReducer,
   withRouteParams,
@@ -124,6 +128,7 @@ export default compose(
     makePageUrlByNumber: ({ userName, repoName, issuesCountOnPage }) => pageNumber =>
       makeIssuesListUrl(userName, repoName, issuesCountOnPage, pageNumber),
   }),
+  withInternalIssueUrl,
   withHandlers({
     onIssueTitleClick: ({ history, makeIssueUrlByNumber }) => number => {
       history.push(makeIssueUrlByNumber(number));

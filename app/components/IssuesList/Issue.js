@@ -13,12 +13,12 @@ class Issue extends PureComponent {
   };
 
   render() {
-    const { number, title, createdAt, url } = this.props;
+    const { number, title, createdAt, internalUrl } = this.props;
     const b = block('issues-list-element');
     const date = formatDate(createdAt);
     return (
       <li className={b()}>
-        <Link className={b('title')()} onClick={this.onTitleClick} href={url}>
+        <Link className={b('title')()} onClick={this.onTitleClick} href={internalUrl}>
           {title}
         </Link>
         <div className={b('body')()}>
@@ -35,7 +35,7 @@ Issue.propTypes = {
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   onTitleClick: PropTypes.func.isRequired,
-  url: PropTypes.string.isRequired,
+  internalUrl: PropTypes.string.isRequired,
 };
 Issue.defaultProps = {};
 

@@ -23,7 +23,7 @@ export const getIssuePath = (userName, repoName, issueNumber) => ({
   path: `/repos/${userName}/${repoName}/issues/${issueNumber}`,
 });
 
-const makePathString = ({ queryParams, path }) =>
+export const makePathString = ({ queryParams = {}, path }) =>
   path +
   Object.keys(queryParams).reduce((acc, curr) => `${acc}${acc.length ? '&' : '?'}${curr}=${queryParams[curr]}`, '');
 

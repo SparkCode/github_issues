@@ -22,7 +22,7 @@ describe('async actions', () => {
       const body = { open_issues_count: 100 };
 
       nock(api.hostname)
-        .get(api.withAccessToken(api.getReposInformationPath(userName, repoName)))
+        .get(api.makePathString(api.getReposInformationPath(userName, repoName)))
         .reply(200, body);
 
       const store = mockStore({});
@@ -40,7 +40,7 @@ describe('async actions', () => {
       const issuesCountOnPage = '10';
 
       nock(api.hostname)
-        .get(api.withAccessToken(api.getReposInformationPath(userName, repoName)))
+        .get(api.makePathString(api.getReposInformationPath(userName, repoName)))
         .reply(404);
 
       const initState = {};
@@ -76,9 +76,8 @@ describe('async actions', () => {
           user: { html_url: 'html_url', avatar_url: 'avatar_url' },
         },
       ];
-
       nock(api.hostname)
-        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCountOnPage, pageNumber)))
+        .get(api.makePathString(api.getIssuesPath(userName, repoName, issuesCountOnPage, pageNumber)))
         .reply(200, body);
 
       const store = mockStore({});
@@ -111,7 +110,7 @@ describe('async actions', () => {
       const pageNumber = '1';
 
       nock(api.hostname)
-        .get(api.withAccessToken(api.getIssuesPath(userName, repoName, issuesCountOnPage, pageNumber)))
+        .get(api.makePathString(api.getIssuesPath(userName, repoName, issuesCountOnPage, pageNumber)))
         .reply(404);
 
       const store = mockStore({});

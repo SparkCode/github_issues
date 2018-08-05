@@ -25,7 +25,7 @@ describe('<PageButton/>', () => {
 
   it('should call goToNewPage callback with value arg when button be clicked', () => {
     const { props, wrapper } = setup();
-    wrapper.simulate('click');
+    wrapper.simulate('click', { preventDefault() {} });
     expect(props.goToNewPage.calledOnce && props.goToNewPage.calledWithExactly(props.value)).toBeTruthy();
   });
 });

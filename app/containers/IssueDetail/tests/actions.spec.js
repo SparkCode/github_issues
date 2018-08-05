@@ -33,7 +33,7 @@ describe('async actions', () => {
       };
 
       nock(api.hostname)
-        .get(api.withAccessToken(api.getIssuePath(userName, repoName, issueNumber)))
+        .get(api.makePathString(api.getIssuePath(userName, repoName, issueNumber)))
         .reply(200, body);
 
       const store = mockStore({});
@@ -56,7 +56,7 @@ describe('async actions', () => {
       const issueNumber = '1';
 
       nock(api.hostname)
-        .get(api.withAccessToken(api.getIssuePath(userName, repoName, issueNumber)))
+        .get(api.makePathString(api.getIssuePath(userName, repoName, issueNumber)))
         .reply(404);
 
       const store = mockStore({});

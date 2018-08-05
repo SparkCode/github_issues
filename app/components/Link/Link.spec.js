@@ -2,7 +2,9 @@ import { componentSetup } from 'utils/componentTestingSetup';
 import Link from './Link';
 
 describe('<Link/>', () => {
-  const defaultProps = {};
+  const defaultProps = {
+    href: 'https://github.com/react-boilerplate/react-boilerplate/issues/2304',
+  };
   const setup = propsOverrides => componentSetup(Link, defaultProps, propsOverrides);
 
   it('should render without crashing', () => {

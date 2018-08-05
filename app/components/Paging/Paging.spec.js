@@ -11,6 +11,7 @@ describe('<Paging/>', () => {
 
   beforeEach(() => {
     defaultProps.goToNewPage = sinon.spy();
+    defaultProps.makePageUrlByNumber = sinon.spy();
   });
 
   const setup = propsOverrides => componentSetup(Paging, defaultProps, propsOverrides);
