@@ -1,5 +1,3 @@
-import { githubAccessToken } from '../../appConfig.json';
-
 export const hostname = `https://api.github.com`;
 
 export const getIssuesPath = (userName, repoName, issuesCountOnPage, pageNumber) => ({
@@ -25,16 +23,21 @@ export const getIssuePath = (userName, repoName, issueNumber) => ({
   path: `/repos/${userName}/${repoName}/issues/${issueNumber}`,
 });
 
-export const withAccessToken = ({ path, queryParams: pathQueryParams = {} }) => {
-  const queryParams = { access_token: githubAccessToken, ...pathQueryParams };
-  const queryString = Object.keys(queryParams).reduce(
-    (acc, curr) => `${acc}${acc.length ? '&' : '?'}${curr}=${queryParams[curr]}`,
-    '',
-  );
-  return path + queryString;
-};
+const makePathString = ({ queryParams, path }) =>
+  path +
+  Object.keys(queryParams).reduce((acc, curr) => `${acc}${acc.length ? '&' : '?'}${curr}=${queryParams[curr]}`, '');
 
-const constructUrl = path => hostname + withAccessToken(path);
+export const withAccessToken = ({ queryParams, path }, accessToken) => ({
+  queryParams: {
+    access_token: accessToken,
+    ...queryParams,
+  },
+  path,
+});
+
+const constructUrl = path =>
+  // eslint-disable-next-line no-undef
+  hostname + makePathString(GITHUB_ACCESS_TOKEN ? withAccessToken(path, GITHUB_ACCESS_TOKEN) : path);
 
 export const getIssueUrl = (userName, repoName, issueNumber) =>
   `${constructUrl(getIssuePath(userName, repoName, issueNumber))}`;

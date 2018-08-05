@@ -13,6 +13,17 @@ const logger = require('../../server/logger');
 const pkg = require(path.resolve(process.cwd(), 'package.json'));
 const { dllPlugin } = pkg;
 
+let appConfig = null;
+try {
+  appConfig = JSON.parse(fs.readFileSync('./appConfig.json', 'utf8'));
+} catch (err) {
+  if (err.code === 'ENOENT') {
+    console.warn('appConfig file not be found!');
+  } else {
+    throw err;
+  }
+}
+
 const plugins = [
   new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
   new HtmlWebpackPlugin({
@@ -22,6 +33,9 @@ const plugins = [
   new CircularDependencyPlugin({
     exclude: /a\.js|node_modules/, // exclude node_modules
     failOnError: false, // show a warning when there is a circular dependency
+  }),
+  new webpack.DefinePlugin({
+    GITHUB_ACCESS_TOKEN: JSON.stringify(appConfig ? appConfig.githubAccessToken : null),
   }),
 ];
 
@@ -45,7 +59,6 @@ module.exports = require('./webpack.base.babel')({
     'webpack-hot-middleware/client?reload=true',
     path.join(process.cwd(), 'app/app.js'), // Start with js/app.js
   ],
-
   // Don't use hashes in dev mode for better performance
   output: {
     filename: '[name].js',
