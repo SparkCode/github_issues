@@ -5,6 +5,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const InlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const webpack = require('webpack');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -29,6 +30,9 @@ module.exports = require('./webpack.base.babel')({
 
   plugins: [
     // Minify and optimize the index.html
+    new webpack.DefinePlugin({
+      GITHUB_ACCESS_TOKEN: JSON.stringify(null),
+    }),
     new HtmlWebpackPlugin({
       template: 'app/index.html',
       minify: {
