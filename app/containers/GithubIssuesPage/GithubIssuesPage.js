@@ -6,11 +6,11 @@ import IssueDetail from 'containers/IssueDetail/Loadable';
 import DefaultValuesContext from './DefaultValuesContext';
 
 const preconnectToGithub = () => {
-  const head = document.getElementsByTagName('head')[0];
   const preconnectLink = document.createElement('link');
   preconnectLink.rel = 'preconnect';
   preconnectLink.href = 'https://api.github.com';
-  head.appendChild(preconnectLink);
+  preconnectLink.crossOrigin = 'anonymous';
+  document.head.appendChild(preconnectLink);
 };
 
 export default () => {
