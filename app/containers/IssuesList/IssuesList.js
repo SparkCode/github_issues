@@ -14,23 +14,10 @@ import { makeIssuesListUrl, makeIssueUrl } from 'containers/GithubIssuesPage/nav
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
-import {
-  fetchIssuesIfNeeded as fetchIssuesIfNeededActionCreator,
-  invalidateIssues as invalidateIssuesAction,
-} from './actions';
+import { loadIssuesListData as loadIssuesListDataActionCreator } from './actions';
 import reducer from './reducer';
 
 class IssuesListContainer extends PureComponent {
-  componentDidMount() {
-    const { fetchIssuesIfNeeded } = this.props;
-    fetchIssuesIfNeeded();
-  }
-
-  componentDidUpdate() {
-    const { fetchIssuesIfNeeded } = this.props;
-    fetchIssuesIfNeeded();
-  }
-
   render() {
     const {
       pageNumber,
@@ -68,9 +55,7 @@ class IssuesListContainer extends PureComponent {
   }
 }
 
-// todo: seems issuesCountOnPage need to be validated
 IssuesListContainer.propTypes = {
-  fetchIssuesIfNeeded: PropTypes.func.isRequired,
   shouldShowPaging: PropTypes.bool.isRequired,
   issues: PropTypes.array.isRequired,
   onIssueTitleClick: PropTypes.func.isRequired,
@@ -91,9 +76,8 @@ const withConnect = connect(
     issues: selectIssuesData(state),
   }),
   (dispatch, { userName, repoName, issuesCountOnPage, pageNumber }) => ({
-    fetchIssuesIfNeeded: () =>
-      dispatch(fetchIssuesIfNeededActionCreator({ userName, repoName, issuesCountOnPage, pageNumber })),
-    invalidateIssues: () => dispatch(invalidateIssuesAction()),
+    loadIssuesListData: () =>
+      dispatch(loadIssuesListDataActionCreator({ userName, repoName, issuesCountOnPage, pageNumber })),
   }),
 );
 
@@ -140,9 +124,12 @@ export default compose(
     },
   }),
   lifecycle({
+    componentDidMount() {
+      this.props.loadIssuesListData();
+    },
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
-        this.props.invalidateIssues();
+        this.props.loadIssuesListData();
       }
     },
   }),

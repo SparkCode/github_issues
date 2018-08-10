@@ -1,7 +1,6 @@
 import { makeRequest, mapErrorCauseToMessage, mapErrorToCauseEnum } from 'utils/network/index';
 import { getIssuesUrl, getIssuesPagesCountUrl } from 'utils/GitHubApi';
 import { RESOURCE_NOT_BE_FOUND } from 'utils/network/constants';
-import { selectDidIssuesInvalidate } from './selectors';
 import * as constants from './constants';
 import mapGithubIssueToLocalIssue from './utils/mapGithubIssueToLocalIssue';
 
@@ -28,10 +27,8 @@ export const RequestIssues = () => ({
   type: constants.REQUEST_ISSUES,
 });
 
-export const fetchIssuesIfNeeded = ({ userName, repoName, ...props }) => (dispatch, getState) => {
-  if (!(selectDidIssuesInvalidate(getState()) && userName && repoName)) {
-    return;
-  }
+export const loadIssuesListData = ({ userName, repoName, ...props }) => dispatch => {
+  dispatch(invalidateIssues());
   dispatch(RequestIssues());
   dispatch(fetchIssues({ userName, repoName, ...props }));
   dispatch(fetchIssuesPagesCount({ userName, repoName, ...props }));

@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import * as constants from './constants';
 
 const defaultIssuesState = fromJS({
-  didInvalidate: true,
+  didInvalidate: false,
   isFetching: false,
   isRequestFailed: false,
   errorMessage: '',
