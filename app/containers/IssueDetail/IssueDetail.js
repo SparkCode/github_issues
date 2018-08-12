@@ -24,16 +24,16 @@ class IssueDetailContainer extends PureComponent {
     const b = block('issue-detail-page');
     return (
       <Fragment>
-        issueBeLoaded && (
-        <Helmet>
-          <meta
-            name="Description"
-            content={`The description of the "${issue.title}" issue created by ${
-              issue.userLogin
-            } in the ${repoName} Github repository. The repository is owned by ${userName}`}
-          />
-        </Helmet>
-        )
+        {issueBeLoaded && (
+          <Helmet>
+            <meta
+              name="Description"
+              content={`The description of the "${issue.title}" issue created by ${
+                issue.userLogin
+              } in the ${repoName} Github repository. The repository is owned by ${userName}`}
+            />
+          </Helmet>
+        )}
         <div className={b()}>
           <StatusIssuesBar className={b('status')()} />
           {issueBeLoaded && <IssueDetail {...issue} />}
