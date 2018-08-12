@@ -10,7 +10,7 @@ after_success: 'npm run coveralls'
 
 cache:
   directories:
-    - node_modules
+    - "$HOME/.npm"
 
 deploy:
   provider: azure_web_apps
