@@ -22,10 +22,10 @@ export default () => {
         defaultIssuesCountOnPageOption: '20',
       }}
     >
-      <Route key="empty-search" exact path="/github-issues" component={IssuesSearch} />
-      <Route key="search" path="/github-issues/:userName/:repoName" component={IssuesSearch} />
-      <Route key="issues" exact path="/github-issues/:userName/:repoName" component={IssuesList} />
-      <Route key="issue" exact path="/github-issues/:userName/:repoName/:issueNumber" component={IssueDetail} />
+      <Route key="empty-search" exact path="/" component={IssuesSearch} />
+      <Route key="search" path="/:userName/:repoName" component={IssuesSearch} />
+      <Route key="issues" exact path="/:userName/:repoName" component={IssuesList} />
+      <Route key="issue" exact path="/:userName/:repoName/:issueNumber" component={IssueDetail} />
     </DefaultValuesContext.Provider>
   );
 };

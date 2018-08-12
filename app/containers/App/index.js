@@ -12,7 +12,7 @@
  */
 
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import GithubIssuesPage from 'containers/GithubIssuesPage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import './App.scss';
@@ -21,8 +21,7 @@ export default function App() {
   return (
     <div className="app">
       <Switch>
-        <Redirect from="/" exact to="/github-issues" />
-        <Route path="/github-issues" component={GithubIssuesPage} />
+        <Route path="/" component={GithubIssuesPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>
