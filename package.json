@@ -72,6 +72,10 @@
             "transform": "react-router-dom/es/${member}",
             "preventFullImport": true
           },
+          "react-helmet": {
+            "transform": "react-helmet/es/${member}",
+            "preventFullImport": true
+          },
           "recompose": {
             "transform": "recompose/${member}",
             "preventFullImport": true
@@ -198,7 +202,7 @@
     "query-string": "^6.1.0",
     "react": "16.4.1",
     "react-dom": "16.4.1",
-    "react-helmet": "5.2.0",
+    "react-helmet": "^5.2.0",
     "react-intl": "2.4.0",
     "react-loadable": "5.4.0",
     "react-redux": "5.0.7",
@@ -277,6 +281,7 @@
     "react-test-renderer": "16.4.1",
     "redux-mock-store": "^1.5.3",
     "rimraf": "2.6.2",
+    "robotstxt-webpack-plugin": "^4.0.1",
     "sass-loader": "^7.0.3",
     "shelljs": "0.8.2",
     "sinon": "^6.0.1",

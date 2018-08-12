@@ -11,6 +11,7 @@ import Paging from 'components/Paging';
 import withDefaultValuesContext from 'containers/GithubIssuesPage/withDefaultValuesContext';
 import withValidIssuesCountOnPage from 'containers/GithubIssuesPage/withValidIssuesCountOnPage';
 import { makeIssuesListUrl, makeIssueUrl } from 'containers/GithubIssuesPage/navigation';
+import { Helmet } from 'react-helmet';
 import StatusIssuesBar from './StatusIssuesBar';
 import './IssuesList.scss';
 import { selectIssuesData, selectIssuesPagesCount } from './selectors';
@@ -32,8 +33,14 @@ class IssuesListContainer extends PureComponent {
       makePageUrlByNumber,
     } = this.props;
     const b = block('issues-list-page');
-    return (
-      <div className={b()}>
+    return [
+      <Helmet key="header">
+        <meta
+          name="Description"
+          content={`Issues from the ${repoName} Github repository. The repository is owned by ${userName}`}
+        />
+      </Helmet>,
+      <div className={b()} key="body">
         <StatusIssuesBar className={b('status')()} />
         <IssuesList
           repoName={repoName}
@@ -50,8 +57,8 @@ class IssuesListContainer extends PureComponent {
             makePageUrlByNumber={makePageUrlByNumber}
           />
         )}
-      </div>
-    );
+      </div>,
+    ];
   }
 }
 

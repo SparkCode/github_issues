@@ -5,6 +5,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const InlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const RobotstxtPlugin = require('robotstxt-webpack-plugin').default;
 const webpack = require('webpack');
 
 module.exports = require('./webpack.base.babel')({
@@ -99,6 +100,14 @@ module.exports = require('./webpack.base.babel')({
 
     // This plugin enables the “inlineSource” option
     new InlineSourcePlugin(),
+    new RobotstxtPlugin({
+      policy: [
+        {
+          userAgent: '*',
+          disallow: '',
+        },
+      ],
+    }),
   ],
 
   performance: {

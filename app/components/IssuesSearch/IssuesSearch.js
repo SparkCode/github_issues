@@ -70,6 +70,7 @@ class IssuesSearch extends PureComponent {
           className={b('user-name')()}
           onValueChange={this.onChange}
           placeholder="User name"
+          aria-label="User name"
           onBlur={this.onUserNameFieldBlur}
           required
         />
@@ -81,11 +82,13 @@ class IssuesSearch extends PureComponent {
           onValueChange={this.onRepoNameChange}
           onOptionSelected={this.onRepoSelected}
           placeholder="Repository name"
+          aria-label="Repository name"
           required
         />
         <Select
           className={b('select')()}
           name="issuesCountOnPage"
+          aria-label="Issues count on page"
           value={issuesCountOnPage}
           options={issuesCountOnPageOptions}
           onValueChange={this.onChange}

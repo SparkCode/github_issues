@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { compose, withProps } from 'recompose';
 import withRouteParams from 'containers/App/withRouteParams';
 import injectReducer from 'utils/injectReducer';
@@ -19,14 +20,24 @@ class IssueDetailContainer extends PureComponent {
   }
 
   render() {
-    const { issueBeLoaded, issue } = this.props;
+    const { issueBeLoaded, issue = {}, repoName, userName } = this.props;
     const b = block('issue-detail-page');
-    return (
-      <div className={b()}>
+    return [
+      issueBeLoaded && (
+        <Helmet key="header">
+          <meta
+            name="Description"
+            content={`The description of the "${issue.title}" issue created by ${
+              issue.userLogin
+            } in the ${repoName} Github repository. The repository is owned by ${userName}`}
+          />
+        </Helmet>
+      ),
+      <div className={b()} key="body">
         <StatusIssuesBar className={b('status')()} />
         {issueBeLoaded && <IssueDetail {...issue} />}
-      </div>
-    );
+      </div>,
+    ];
   }
 }
 
@@ -36,6 +47,8 @@ IssueDetailContainer.propTypes = {
   fetchIssueIfNeeded: PropTypes.func.isRequired,
   issueBeLoaded: PropTypes.bool.isRequired,
   issue: PropTypes.object,
+  repoName: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state, { issueNumber }) => ({

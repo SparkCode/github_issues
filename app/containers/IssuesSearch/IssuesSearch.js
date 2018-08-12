@@ -1,5 +1,7 @@
 import IssuesSearch from 'components/IssuesSearch';
+import React from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { bindActionCreators } from 'redux';
 import { compose, mapProps, defaultProps, withHandlers } from 'recompose';
 import injectReducer from 'utils/injectReducer';
@@ -10,6 +12,13 @@ import { loadUserRepositories } from './actions';
 import { selectUserRepositories } from './selectors';
 import reducer from './reducer';
 import { makeIssuesListUrl } from '../GithubIssuesPage/navigation';
+
+const IssueSearchContainer = props => [
+  <Helmet key="header">
+    <meta name="Description" content="Searching by Github Issues" />
+  </Helmet>,
+  <IssuesSearch key="body" {...props} />,
+];
 
 const mapStateToProps = state => ({
   userRepositories: selectUserRepositories(state),
@@ -46,4 +55,4 @@ export default compose(
     defaultUserName: userName,
     defaultRepoName: repoName,
   })),
-)(IssuesSearch);
+)(IssueSearchContainer);
