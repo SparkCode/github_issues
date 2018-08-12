@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import * as constants from './constants';
 
-const defaultIssuesState = fromJS({
+export const defaultIssuesState = fromJS({
   didInvalidate: false,
   isFetching: false,
   isRequestFailed: false,

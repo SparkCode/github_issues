@@ -1,17 +1,8 @@
 import { fromJS } from 'immutable';
 import * as constants from 'containers/IssuesList/constants';
-import reducer from '../reducer';
+import reducer, { defaultIssuesState as initState } from '../reducer';
 
-describe('Issue', () => {
-  const initState = fromJS({
-    didInvalidate: true,
-    isFetching: false,
-    isRequestFailed: false,
-    errorMessage: '',
-    data: [],
-    issuesPagesCount: null,
-  });
-
+describe('IssuesList', () => {
   it('should return the init state', () => {
     expect(reducer(undefined, {})).toEqual(initState);
   });
@@ -21,8 +12,8 @@ describe('Issue', () => {
   });
 
   it('should handle INVALIDATE_ISSUES action', () => {
-    const originalState = initState.set('didInvalidate', false).set('data', fromJS([{ id: 1 }, { id: 2 }, { id: 5 }]));
-    const expectedState = initState;
+    const originalState = initState.set('data', fromJS([{ id: 1 }, { id: 2 }, { id: 5 }]));
+    const expectedState = initState.set('didInvalidate', true);
     expect(reducer(originalState, { type: constants.INVALIDATE_ISSUES })).toEqual(fromJS(expectedState));
   });
 
