@@ -20,7 +20,7 @@ class IssueDetailContainer extends PureComponent {
   }
 
   render() {
-    const { issueBeLoaded, issue = {}, repoName, userName } = this.props;
+    const { issueBeLoaded, issue, repoName, userName } = this.props;
     const b = block('issue-detail-page');
     return (
       <Fragment>
