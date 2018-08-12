@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import block from 'bem-cn';
 import { connect } from 'react-redux';
@@ -22,9 +22,10 @@ class IssueDetailContainer extends PureComponent {
   render() {
     const { issueBeLoaded, issue = {}, repoName, userName } = this.props;
     const b = block('issue-detail-page');
-    return [
-      issueBeLoaded && (
-        <Helmet key="header">
+    return (
+      <Fragment>
+        issueBeLoaded && (
+        <Helmet>
           <meta
             name="Description"
             content={`The description of the "${issue.title}" issue created by ${
@@ -32,12 +33,13 @@ class IssueDetailContainer extends PureComponent {
             } in the ${repoName} Github repository. The repository is owned by ${userName}`}
           />
         </Helmet>
-      ),
-      <div className={b()} key="body">
-        <StatusIssuesBar className={b('status')()} />
-        {issueBeLoaded && <IssueDetail {...issue} />}
-      </div>,
-    ];
+        )
+        <div className={b()}>
+          <StatusIssuesBar className={b('status')()} />
+          {issueBeLoaded && <IssueDetail {...issue} />}
+        </div>
+      </Fragment>
+    );
   }
 }
 

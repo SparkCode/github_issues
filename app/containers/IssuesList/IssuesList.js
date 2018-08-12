@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import block from 'bem-cn';
 import PropTypes from 'prop-types';
 import { lifecycle, withHandlers, withProps } from 'recompose';
@@ -33,32 +33,34 @@ class IssuesListContainer extends PureComponent {
       makePageUrlByNumber,
     } = this.props;
     const b = block('issues-list-page');
-    return [
-      <Helmet key="header">
-        <meta
-          name="Description"
-          content={`Issues from the ${repoName} Github repository. The repository is owned by ${userName}`}
-        />
-      </Helmet>,
-      <div className={b()} key="body">
-        <StatusIssuesBar className={b('status')()} />
-        <IssuesList
-          repoName={repoName}
-          userName={userName}
-          issues={issues}
-          onIssueTitleClick={onIssueTitleClick}
-          makeIssueUrlByNumber={makeIssueUrlByNumber}
-        />
-        {shouldShowPaging && (
-          <Paging
-            currentPage={pageNumber}
-            goToNewPage={goToNewPage}
-            pagesNumber={issuesPagesCount}
-            makePageUrlByNumber={makePageUrlByNumber}
+    return (
+      <Fragment>
+        <Helmet>
+          <meta
+            name="Description"
+            content={`Issues from the ${repoName} Github repository. The repository is owned by ${userName}`}
           />
-        )}
-      </div>,
-    ];
+        </Helmet>
+        <div className={b()}>
+          <StatusIssuesBar className={b('status')()} />
+          <IssuesList
+            repoName={repoName}
+            userName={userName}
+            issues={issues}
+            onIssueTitleClick={onIssueTitleClick}
+            makeIssueUrlByNumber={makeIssueUrlByNumber}
+          />
+          {shouldShowPaging && (
+            <Paging
+              currentPage={pageNumber}
+              goToNewPage={goToNewPage}
+              pagesNumber={issuesPagesCount}
+              makePageUrlByNumber={makePageUrlByNumber}
+            />
+          )}
+        </div>
+      </Fragment>
+    );
   }
 }
 

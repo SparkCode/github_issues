@@ -1,5 +1,5 @@
 import IssuesSearch from 'components/IssuesSearch';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { bindActionCreators } from 'redux';
@@ -13,12 +13,14 @@ import { selectUserRepositories } from './selectors';
 import reducer from './reducer';
 import { makeIssuesListUrl } from '../GithubIssuesPage/navigation';
 
-const IssueSearchContainer = props => [
-  <Helmet key="header">
-    <meta name="Description" content="Searching by Github Issues" />
-  </Helmet>,
-  <IssuesSearch key="body" {...props} />,
-];
+const IssueSearchContainer = props => (
+  <Fragment>
+    <Helmet>
+      <meta name="Description" content="Searching by Github Issues" />
+    </Helmet>
+    <IssuesSearch {...props} />
+  </Fragment>
+);
 
 const mapStateToProps = state => ({
   userRepositories: selectUserRepositories(state),
