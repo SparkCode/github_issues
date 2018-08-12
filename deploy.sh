@@ -106,7 +106,7 @@ selectNodeVersion
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
   cd "$DEPLOYMENT_SOURCE"
   eval $NPM_CMD install
-  eval $NPM_CMD build
+  eval $NPM_CMD run build
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
 fi
