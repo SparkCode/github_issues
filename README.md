@@ -1,4 +1,4 @@
-# Github Issues Showcase Project
+# Github Issues Showcase Project &middot; [![Build Status](https://travis-ci.org/SparkCode/github_issues.svg?branch=master)](https://travis-ci.org/SparkCode/github_issues)
 It's an SPA for viewing issues from the selected repository on Github.
 ## Fulfilled requirements: 
 1. Searching issues by user and repository name. The input field for repository name should have autocomplete. Each issue should display with number, name and open date. Need an opportunity to share a search result page.
