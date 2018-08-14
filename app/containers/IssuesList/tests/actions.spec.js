@@ -2,8 +2,8 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import nock from 'nock';
 import * as api from 'utils/GitHubApi';
+import mapGithubIssueToLocalIssue from 'containers/GithubIssuesPage/mapGithubIssueToLocalIssue';
 import { fetchIssues, fetchIssuesPagesCount } from '../actions';
-import mapGithubIssueToLocalIssue from '../utils/mapGithubIssueToLocalIssue';
 import * as constants from '../constants';
 
 describe('async actions', () => {

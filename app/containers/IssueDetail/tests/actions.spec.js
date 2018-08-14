@@ -2,7 +2,7 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import nock from 'nock';
 import * as api from 'utils/GitHubApi';
-import mapGithubIssueToLocalIssue from 'containers/IssuesList/utils/mapGithubIssueToLocalIssue';
+import mapGithubIssueToLocalIssue from 'containers/GithubIssuesPage/mapGithubIssueToLocalIssue';
 import { fetchIssue } from '../actions';
 import * as constants from '../constants';
 

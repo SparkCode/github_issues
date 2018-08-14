@@ -1,35 +1,35 @@
 import { makeRequest, mapErrorCauseToMessage, mapErrorToCauseEnum } from 'utils/network/index';
 import { getIssuesUrl, getIssuesPagesCountUrl } from 'utils/GitHubApi';
 import { RESOURCE_NOT_BE_FOUND } from 'utils/network/constants';
+import mapGithubIssueToLocalIssue from 'containers/GithubIssuesPage/mapGithubIssueToLocalIssue';
 import * as constants from './constants';
-import mapGithubIssueToLocalIssue from './utils/mapGithubIssueToLocalIssue';
 
 export const invalidateIssues = () => ({
   type: constants.INVALIDATE_ISSUES,
 });
 
-export const ReceiveIssues = issues => ({
+export const receiveIssues = issues => ({
   type: constants.RECEIVE_ISSUES,
   issues,
 });
 
-const ReceiveIssuesError = errorMessage => ({
+const receiveIssuesError = errorMessage => ({
   type: constants.RECEIVE_ISSUES_ERROR,
   errorMessage,
 });
 
-const ReceiveIssuesPagesCount = issuesPagesCount => ({
+const receiveIssuesPagesCount = issuesPagesCount => ({
   type: constants.RECEIVE_ISSUES_PAGES_COUNT,
   issuesPagesCount,
 });
 
-export const RequestIssues = () => ({
+export const requestIssues = () => ({
   type: constants.REQUEST_ISSUES,
 });
 
 export const loadIssuesListData = ({ userName, repoName, ...props }) => dispatch => {
   dispatch(invalidateIssues());
-  dispatch(RequestIssues());
+  dispatch(requestIssues());
   dispatch(fetchIssues({ userName, repoName, ...props }));
   dispatch(fetchIssuesPagesCount({ userName, repoName, ...props }));
 };
@@ -39,13 +39,13 @@ export const fetchIssues = ({ userName, repoName, issuesCountOnPage, pageNumber 
   try {
     const data = await makeRequest(url);
     const issues = data.map(mapGithubIssueToLocalIssue);
-    return dispatch(ReceiveIssues(issues));
+    return dispatch(receiveIssues(issues));
   } catch (e) {
     const cause = mapErrorToCauseEnum(e);
     const message = mapErrorCauseToMessage(cause, {
       [RESOURCE_NOT_BE_FOUND]: constants.USER_OR_REPOSITORY_NOT_BE_FOUND_MESSAGE,
     });
-    return dispatch(ReceiveIssuesError(message));
+    return dispatch(receiveIssuesError(message));
   }
 };
 
@@ -54,5 +54,5 @@ export const fetchIssuesPagesCount = ({ userName, repoName, issuesCountOnPage })
   const data = await makeRequest(url);
   const overallIssues = data.open_issues_count;
   const issuesPagesCount = Math.ceil(overallIssues / issuesCountOnPage);
-  return dispatch(ReceiveIssuesPagesCount(issuesPagesCount));
+  return dispatch(receiveIssuesPagesCount(issuesPagesCount));
 };

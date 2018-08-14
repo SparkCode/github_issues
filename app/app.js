@@ -19,10 +19,9 @@ import 'sanitize.css/sanitize.css';
 import App from 'containers/App';
 import './stylesheets/main.scss';
 
-// Load the favicon and the .htaccess file
+// Load the favicon
 /* eslint-disable import/no-unresolved, import/extensions, import/first  */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
-import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions, import/first  */
 
 import configureStore from './configureStore';

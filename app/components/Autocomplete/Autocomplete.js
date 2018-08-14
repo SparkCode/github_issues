@@ -7,8 +7,10 @@ import Input from 'components/Input';
 import './Autocomplete.scss';
 import OptionsList from './OptionsList';
 
+const NOTHING_SELECTED = -1;
+
 class AutoComplete extends PureComponent {
-  defaultState = { focusedOptionIndex: -1, isInputHasFocus: false };
+  defaultState = { focusedOptionIndex: NOTHING_SELECTED, isInputHasFocus: false };
 
   constructor(props) {
     super(props);
@@ -40,13 +42,13 @@ class AutoComplete extends PureComponent {
   };
 
   onOptionsListHoverOut = () => {
-    this.setState({ focusedOptionIndex: -1, isControlledByMouse: false });
+    this.setState({ focusedOptionIndex: NOTHING_SELECTED, isControlledByMouse: false });
   };
 
   focusNextOption = (step, focusedOptionIndex, optionsCount) => {
     let newIndex = focusedOptionIndex + step;
     if (newIndex >= optionsCount) {
-      newIndex = -1;
+      newIndex = NOTHING_SELECTED;
     } else if (newIndex < -1) {
       newIndex = optionsCount - 1;
     }
@@ -58,7 +60,7 @@ class AutoComplete extends PureComponent {
     switch (e.keyCode) {
       case KeyCodes.enter: {
         const { focusedOptionIndex } = this.state;
-        if (focusedOptionIndex !== -1) {
+        if (focusedOptionIndex !== NOTHING_SELECTED) {
           const { options } = this.props;
           this.onOptionSelect(options[focusedOptionIndex]);
           this.inputElement.blur();
@@ -70,7 +72,7 @@ class AutoComplete extends PureComponent {
         e.preventDefault();
         this.setState((prevState, props) => {
           const { focusedOptionIndex } = prevState;
-          return this.focusNextOption(-1, focusedOptionIndex, props.options.length);
+          return this.focusNextOption(NOTHING_SELECTED, focusedOptionIndex, props.options.length);
         });
         break;
       }
@@ -90,7 +92,7 @@ class AutoComplete extends PureComponent {
 
   onInputValueChange = value => {
     const { onValueChange } = this.props;
-    this.setState({ focusedOptionIndex: -1 });
+    this.setState({ focusedOptionIndex: NOTHING_SELECTED });
     onValueChange(value);
   };
 
