@@ -10,15 +10,7 @@ class Input extends PureComponent {
   render() {
     const { className, inputRef, onValueChange, ...props } = this.props;
     const b = block('input');
-    return (
-      <input
-        className={classnames(className, b())}
-        ref={inputRef}
-        onChange={this.onChange}
-        autoComplete="nope"
-        {...props}
-      />
-    );
+    return <input className={classnames(className, b())} ref={inputRef} onChange={this.onChange} {...props} />;
   }
 }
 

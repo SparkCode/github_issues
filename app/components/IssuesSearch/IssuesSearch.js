@@ -77,6 +77,7 @@ class IssuesSearch extends PureComponent {
         <AutoComplete
           className={b('repo-name')()}
           name="repoName"
+          autoComplete="off"
           value={repoName}
           options={userRepositories}
           onValueChange={this.onRepoNameChange}
