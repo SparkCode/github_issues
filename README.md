@@ -25,4 +25,4 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 ### `npm run analyze`
 
-Builds the app for production to the `build` folder, generates a set of stats showing bundle in stats.json and load Webpack Bundle Analyzer page that show a visualization of the contents of all bundles.
+Builds the app for production to the `build` folder, generates a set of stats showing bundle in `stats.json` and loads Webpack Bundle Analyzer page that shows a visualization of the contents of all bundles.
