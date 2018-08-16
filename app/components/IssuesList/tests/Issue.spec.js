@@ -21,7 +21,7 @@ describe('<Issue/>', () => {
     return {
       wrapper,
       props,
-      title: wrapper.find('.issues-list-element__title'),
+      link: wrapper.find('.issues-list-element__link'),
     };
   };
 
@@ -29,9 +29,9 @@ describe('<Issue/>', () => {
     setup();
   });
 
-  it('should call onTitleClick callback with issue id arg when click event fire for title element', () => {
-    const { title, props } = setup();
-    title.simulate('click', { preventDefault() {} });
+  it('should call onTitleClick callback with issue id arg when click event fire for link element', () => {
+    const { link, props } = setup();
+    link.simulate('click', { preventDefault() {} });
     expect(props.onTitleClick.calledOnce && props.onTitleClick.calledWithExactly(props.number)).toBeTruthy();
   });
 });
