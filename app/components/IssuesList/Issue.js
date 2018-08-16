@@ -18,13 +18,13 @@ class Issue extends PureComponent {
     const date = formatDate(createdAt);
     return (
       <li className={b()}>
-        <Link className={b('title')()} onClick={this.onTitleClick} href={internalUrl}>
-          {title}
+        <Link onClick={this.onTitleClick} href={internalUrl} className={b('link')()}>
+          <span className={b('title')()}>{title}</span>
+          <div className={b('body')()}>
+            <div className={b('number')()}>{`#${number}`}</div>
+            <div className={b('createdAt')()}>{`opened on ${date}`}</div>
+          </div>
         </Link>
-        <div className={b('body')()}>
-          <div className={b('number')()}>{`#${number}`}</div>
-          <div className={b('createdAt')()}>{`opened on ${date}`}</div>
-        </div>
       </li>
     );
   }

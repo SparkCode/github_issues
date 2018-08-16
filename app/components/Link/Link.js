@@ -9,7 +9,7 @@ class Link extends PureComponent {
     const { className, children, href, onClick, ...props } = this.props;
     const b = block('link');
     return (
-      <a className={classnames(className, b())} href={href} onClick={onClick} {...props}>
+      <a className={classnames(b(), className)} href={href} onClick={onClick} {...props}>
         {children}
       </a>
     );

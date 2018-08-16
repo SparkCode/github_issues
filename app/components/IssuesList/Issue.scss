@@ -1,9 +1,17 @@
 @import "stylesheets/abstracts/variables";
 
 .issues-list-element {
-  padding: 8px;
   list-style:none;
   border-top: 1px solid $athens-gray;
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 
   &:last-child {
     border-bottom: 1px solid $athens-gray;
@@ -16,6 +24,10 @@
   &__title {
     font-size: 16px;
     font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__body {
