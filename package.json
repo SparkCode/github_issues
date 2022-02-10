@@ -271,7 +271,7 @@
     "ngrok": "3.0.1",
     "nock": "^9.4.0",
     "node-plop": "0.15.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^7.0.0",
     "null-loader": "0.1.1",
     "offline-plugin": "5.0.5",
     "plop": "2.0.0",
